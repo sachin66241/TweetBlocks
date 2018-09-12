@@ -8,8 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
     <script src="dist/scatter.min.js"></script> 
-    <script src="main1.js"></script>
-    <link rel="stylesheet" href="away.css">
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="profile.css">
     <title>Profile</title>   
 </head>
 <body>
@@ -24,7 +24,6 @@
     <p id="zon"></p>
     <p id="den"></p>
     <div id="myModal" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -131,7 +130,7 @@
                 accFollowers=[];                
                 while(foll<bal.rows[0].followers.length){
                     var acc = userslist.find(function(x){ return x.accName === bal.rows[0].followers[foll] });
-                    accFollowers.push(acc.userName.link('http://127.0.0.1:5500/away.html#' + acc.accName));
+                    accFollowers.push(acc.userName.link('http://127.0.0.1:5500/profile.html#' + acc.accName));
                     foll++
                 }
                 
@@ -139,7 +138,7 @@
                 accFollowing=[];                    
                 while(follo<bal.rows[0].following.length){
                     var acc = userslist.find(function(x){ return x.accName === bal.rows[0].following[follo] });
-                    accFollowing.push(acc.userName.link('http://127.0.0.1:5500/away.html#' + acc.accName));
+                    accFollowing.push(acc.userName.link('http://127.0.0.1:5500/profile.html#' + acc.accName));
                     follo++
                 }
 

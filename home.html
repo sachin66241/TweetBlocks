@@ -10,9 +10,9 @@
   <script src="dist/scatter.min.js"></script> 
   <!-- <script src="index.js"></script> -->
   <script src="autopredict.js"></script>
-  <script src="main1.js"></script>
+  <script src="main.js"></script>
   <title>Home</title>
-  <link rel="stylesheet" href="away.css">
+  <link rel="stylesheet" href="profile.css">
 </head>
 <body>
   <button onclick="signOut()">SIGN OUT</button>
@@ -141,11 +141,11 @@
 
     function searchUser() {
       var acc = allUsers.find(function(x){ return x.userName === $("#searchField").val() });
-      var url = 'http://127.0.0.1:5500/away.html#' + acc.accName;
+      var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;
     }
     function men(){
-      var url = 'http://127.0.0.1:5500/away.html#' + account.name;
+      var url = 'http://127.0.0.1:5500/profile.html#' + account.name;
       window.location.href = url;
 
     }

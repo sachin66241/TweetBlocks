@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
+    <script src="dist/scatter.min.js"></script> 
+    <title>Document</title>
+     <script src="main1.js"></script> 
+      <link rel="stylesheet" href="away.css">
+   
+
+     <button onclick="signOut()">SIGN OUT</button>
+    
+    <p id="san"></p>
+    <p id="dan"></p>
+    <p id="ran"></p>
+    <p id="man"></p>
+    <p id="jan"></p>
+    <button id="buttonFollowers1">Followers</button>
+    <button id="buttonFollowing1">Following</button>
+
+    <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <div id="rplContent">
+                  
+              </div>
+            </div>
+          
+    </div>
+<script>
+    var modal = document.getElementById('myModal');
+    // Get the button that opens the modal
+   var btn = document.getElementById("myBtn");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    // btn.onclick = function() {
+    //     modal.style.display = "block";
+    // }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+</head>
+<body>
+    <script>
+        connect().then(function(){
+    mainAcc=account.name;
+   // main();
+    getTable(account.name, "account").then(function(bal){
+       
+        
+     
+        $("#dan").text(bal.rows[0].userName);
+       
+
+        $("#ran").text("followers : " + bal.rows[0].followers.length);
+        $("#man").text("following : " + bal.rows[0].following.length);
+
+    })
+
+
+
+    
+    getTable(account.name, "account").then(function(bal){
+            var foll=0;
+                    accFollowers=[];                    
+                    while(foll<bal.rows[0].followers.length){
+                    //var countries = bal.rows[val].accName;
+                    accFollowers.push(bal.rows[0].followers[foll]);
+                    foll++
+                  //  console.log(accFollowers);
+                    }
+
+                    var follo=0;
+                    accFollowing=[];                    
+                    while(follo<bal.rows[0].following.length){
+                    //var countries = bal.rows[val].accName;
+                    accFollowing.push(bal.rows[0].following[follo]);
+                    follo++
+                    }
+                    if(accFollowers.length>0){
+                    document.getElementById('buttonFollowers1').setAttribute('onclick','followers()');
+                    }
+                    console.log(accFollowing);
+                    if(accFollowing.length>0){
+                    document.getElementById('buttonFollowing1').setAttribute('onclick','following()');
+                    }    
+        
+                })
+
+               
+                })
+
+
+
+ function following(){
+
+                
+                    var followDiv=document.createElement("div");
+                    document.getElementById("rplContent").innerHTML="";
+                    document.getElementById("rplContent").appendChild(followDiv);
+                    followDiv.innerHTML=accFollowing;
+                    // $('#rplContent').html(bal.rows[0].reply);
+                    modal.style.display = "block";
+
+
+
+}
+
+function followers(){
+
+                var followDiv=document.createElement("div");
+                document.getElementById("rplContent").innerHTML="";
+                document.getElementById("rplContent").appendChild(followDiv);
+                followDiv.innerHTML=accFollowers;
+                // $('#rplContent').html(bal.rows[0].reply);
+                modal.style.display = "block";
+                console.log(accFollowers);
+
+
+
+}
+    </script>
+    
+           
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script src="js/autocomplete.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
+    <script src="dist/scatter.min.js"></script> 
+    <!-- <script src="index.js"></script> -->
+    <script src="autopredict.js"></script>
+    <script src="main.js"></script>
+    <!-- <script src="away.js"></script> -->
+   
+    <title>Document</title>
+    
+    <button onclick="signOut()">SIGN OUT</button>
+    <form name="F3">
+            <h1>welcome </h1>
+            <h2 id="demo"></h2> 
+            <h2 id="demo1"></h2>  
+            <form autocomplete="off" action="/action_page.php"  >
+                <div class="autocomplete" style="width:300px;">
+                  <input id="myInput" type="text" name="myCountry" placeholder="username....">
+                </div>
+                <input type="button"  value="SUBMIT"  onclick="redirect()">
+               
+              </form>
+                  
+
+    
+
+
+            <!-- <input type="button" value="NEW TWEET" onclick="tweet"> -->
+            <a href="tweet.html"><input type="button" value="NEW TWEET"></a> 
+            <!-- <input type="button" value="TIMELINE" onclick="test()"> -->
+            <a href="accountinfo.html"><input type="button" value="ACCOUNT INFO"></a>
+            <a href="tweetbook.html"><input type="button" value="TWEET BOOK"></a>
+            
+         
+          </form> 
+
+
+</head>
+<body>
+    <script>
+      
+      var mainacc;
+      var bal;
+      var mainFollowing=[];
+      var dict = [];
+      var tweetIds=[];
+      
+
+      function redirect() {
+        console.log($("#myInput").val());
+       // console.log(mainacc);
+        alert("");
+        var accc = bal.rows.find(function(x){ return x.userName === $("#myInput").val() });
+        var url = 'http://127.0.0.1:5500/away.html#' + accc.accName;
+          window.location.href = url;
+        }
+
+       scatter.connect("TestPage").then(function(connected){
+       console.log('connected', connected);
+
+        network = {
+            protocol:'http', 
+            blockchain:'eos',
+            host:'52.199.125.75',
+            port:8888,
+            chainId:"038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca",
+        };
+        const requiredFields = {
+             personal:['firstname','lastname'],
+             accounts:[network]
+            
+        };
+    
+                scatter.getIdentity(requiredFields).then(function(id){
+                    const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
+                    console.log('acc', account);
+                    document.getElementById("demo").innerHTML = id.personal.firstname+" "+id.personal.lastname;
+                    document.getElementById("demo1").innerHTML = "account"+" : "+id.accounts[0].name;
+                   mainacc=account.name;
+                  
+                   
+
+    // /////////////////////////////////
+   
+
+              }).then(function(){
+                predictList();
+                publicList();
+             
+              }).catch(function(x){
+               
+               console.log('x', x);
+                });
+
+               
+
+               }).catch(function(x){
+                  console.log('x', x);
+               }); 
+                            
+             
+function predictList(){
+ var data = JSON.stringify({
+     "scope": "twitternew12",
+      "code": "twitternew12",
+     "table": "users",
+      "json": "true"
+    });
+
+          var xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
+        xhr.addEventListener("readystatechange", function () {
+                    if (this.readyState === this.DONE) {
+                    bal = JSON.parse(this.responseText);
+                    // console.log(bal);
+                    //  accc = bal.rows.find(function(x){ return x.userName === $("#myInput").val() });
+                    //  console.log()
+                  val=0;
+                  var countries=[];                    
+                  while(val<bal.rows.length){
+                    //var countries = bal.rows[val].accName;
+                    countries.push(bal.rows[val].userName)
+                    val++
+                  }
+
+              autocomplete(document.getElementById("myInput"), countries);
+            }
+
+            });
+xhr.open("POST", "http://52.199.125.75:8888/v1/chain/get_table_rows");
+xhr.send(data);
+}
+
+function publicList(){
+var data = JSON.stringify({
+        "scope": mainacc,
+        "code": "twitternew12",
+        "table": "account",
+        "limit": 50,
+        "json": "true"
+      });
+    
+    console.log(mainacc);
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    
+    xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === this.DONE) {
+            var run = JSON.parse(this.responseText);
+            
+         //   console.log(run.rows[0].following);
+
+              val=0;
+                  mainFollowing=[mainacc];                    
+                  while(val<run.rows[0].following.length){
+                    //var countries = bal.rows[val].accName;
+                    mainFollowing.push(run.rows[0].following[val]);
+                    val++
+                  }
+              
+                console.log(mainFollowing);
+                followingTweet(mainFollowing);   
+            
+            }
+
+           // console.log(mainFollowing);
+           
+      });
+
+       // console.log(mainFollowing);
+      
+      
+             
+      xhr.open("POST", "http://52.199.125.75:8888/v1/chain/get_table_rows");
+      xhr.send(data);
+
+ 
+    } 
+
+    function followingTweet(mainFollowing){
+
+      
+    for(var i=0;i<mainFollowing.length;i++){
+
+
+     var data = JSON.stringify({
+              "scope": mainFollowing[i],
+              "code": "twitternew12",
+              "table": "account",
+              "limit": 50,
+              "json": "true"
+            });
+          
+          
+          var xhr = new XMLHttpRequest();
+          xhr.withCredentials = false;
+          
+          xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                  var run = JSON.parse(this.responseText);
+                  val=0;                   
+                  while(val<run.rows[0].tweetId.length){
+                    //var countries = bal.rows[val].accName;
+                    tweetIds.push(run.rows[0].tweetId[val]);
+                   // console.log(tweetIds);
+                    val++
+                  }
+
+                  }
+
+
+            });
+
+            
+            
+            xhr.open("POST", "http://52.199.125.75:8888/v1/chain/get_table_rows");
+            xhr.send(data);
+            
+            
+
+            }
+
+            console.log(tweetIds);
+            console.log(tweetIds.length);
+            //tweeting(tweetIds);
+      
+          
+    }
+     
+    function tweeting(tweetI){
+
+       console.log(tweetI)
+
+     
+      for (var index = 0; index < 15; index++) {
+        console.log(tweetI[index]);
+
+      var data = JSON.stringify({
+              "scope": tweetI[index],
+              "code": "twitternew12",
+              "table": "tweettable",
+              "limit": 50,
+              "json": "true"
+            });
+          
+          
+          var xhr = new XMLHttpRequest();
+          xhr.withCredentials = false;
+          
+          xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                  var run = JSON.parse(this.responseText);
+                    console.log(run);
+                  //console.log(run.rows[0].accName + run.rows[0].msg);
+
+
+                  }
+            });
+            xhr.open("POST", "http://52.199.125.75:8888/v1/chain/get_table_rows");
+            xhr.send(data);
+            }
+
+}
+      
+
+    
+
+     
+    </script>
+</body>
+</html>

@@ -134,33 +134,6 @@
         });
       }).catch(function(x){});
     }
-
-   // var dict=[];
-   
-    function getTweet(tweetId){
-      getTable(tweetId,"tweettable").then(function(result){
-
-          dict.push({
-            key:   tweetId,
-            value: result.rows[0].timestamp
-        });
-        
-     // console.log(dict);
-        var tweet = result.rows[0];
-        var tweetDiv = document.createElement('div');
-        var msgDiv = document.createElement('div');
-        var likeBtn = document.createElement('button');
-        likeBtn.innerHTML = 'Like';
-        var n = tweet.accName + " -> " +tweet.msg;
-        msgDiv.innerHTML =n;
-        document.getElementById('allTweets').appendChild(tweetDiv);
-        tweetDiv.appendChild(msgDiv);
-        tweetDiv.appendChild(likeBtn);
-      });
-      console.log(dict);
-      console.log(dict.length);
-    }
-    
    
     function getAccount(accName){
       

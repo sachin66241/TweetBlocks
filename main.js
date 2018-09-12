@@ -30,7 +30,7 @@ async function getTable(scope,table){
 function signIn(){
     connect();
     scatter.getIdentity({accounts:[network]}).then(function(id){
-        location.replace("http://127.0.0.1:5500/home1.html");
+        location.replace("http://127.0.0.1:5500/home.html");
     }).catch(function(x){
     });
 }
@@ -38,7 +38,7 @@ function signIn(){
 function signOut(){
     scatter.forgetIdentity().then(() => {
         alert("Signed out!");
-        location.replace("http://127.0.0.1:5500/index1.html");
+        location.replace("http://127.0.0.1:5500/index.html");
     });
 }
 
@@ -173,7 +173,7 @@ function comment(tweetid){
               
                var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
 
-                iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/away.html#' + acc.accName).bold();
+                iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();
               
 
                 
@@ -228,7 +228,7 @@ function comment(tweetid){
              var accName=bal.rows[0].accName;
              var rply=bal.rows[0].reply;
              var acc = userslist.find(function(x){ return x.accName === accName });
-             var result=acc.userName.link('http://127.0.0.1:5500/away.html#' + acc.accName) +" : "+rply+"   "+time;
+             var result=acc.userName.link('http://127.0.0.1:5500/profile.html#' + acc.accName) +" : "+rply+"   "+time;
              
             
              var rplyDiv=document.createElement("div");

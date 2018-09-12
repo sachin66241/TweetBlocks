@@ -113,18 +113,19 @@ function comment(tweetid){
      
         getTable(tweetIndex[index], "tweettable").then(function(bal){
             
-      
+       
                 var iname = document.createElement('div');
                 var idiv1 = document.createElement('div');
                 var idiv2 = document.createElement('div');
                 var idiv3 = document.createElement('div');
-                
+                var delButton = document.createElement('button');
                 var input = document.createElement('textarea');
                 var button = document.createElement('button');
                 var replyButton = document.createElement('button');
                 var likeButton = document.createElement('button');
         
-                replyButton.innerHTML = "replies"
+                replyButton.innerHTML = "replies";
+                delButton.innerHTML = "delete";
                 button.innerHTML = "Comment";
                 replyButton.id = "button"+bal.rows[0].tweetId;
                 input.id='comment'+bal.rows[0].tweetId;
@@ -168,14 +169,14 @@ function comment(tweetid){
                 }
             
                button.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
+               delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
               
                var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
 
                 iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/away.html#' + acc.accName).bold();
-
               
 
-               
+                
                 idiv1.innerHTML = bal.rows[0].msg;
                 idiv2.innerHTML= convert(bal.rows[0].timestamp);
               
@@ -183,9 +184,13 @@ function comment(tweetid){
                 iDiv.appendChild(idiv1);
                 iDiv.appendChild(idiv2);
                 iDiv.appendChild(idiv3);
-                
-                
                 iDiv.appendChild(input);
+
+                if(account.name==bal.rows[0].accName)
+                {    
+                iDiv.appendChild(delButton);
+                }
+
                 iDiv.appendChild(button);
                 iDiv.appendChild(replyButton);
                 iDiv.appendChild(likeButton);
@@ -262,6 +267,21 @@ function unlike(twId){
             console.log('res', res);
            // likeButton.innerHTML="like";
            // main();
+        }).catch(function(err){
+            console.log('err', err);
+        });
+    });
+
+}
+
+function deleteTweet(twId){
+
+    eos.contract('twitternew12').then(contract => {
+
+        contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
+            console.log('res', res);
+           
+            main();
         }).catch(function(err){
             console.log('err', err);
         });

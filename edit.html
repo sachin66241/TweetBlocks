@@ -269,43 +269,13 @@
            formerResult();
         })
         function formerResult(){
-            getTable(account.name, "account").then(function(bal){
-
-                    document.forms["F2"]["userName"].placeholder=bal.rows[0].userName;
-                    myDate=convert(bal.rows[0].dob);
-                    dob=myDate.split(",");
-                    console.log(dob[0]);
-                    document.forms["F2"]["myDate"].value=convert(dob[0]);
-                    console.log(bal.rows[0].dob);
-                    console.log(bal);
-
-            });
-           
-
+          
 
         }
 
         function editPro(){
 
-
-                    var accName = account.name;
-                    var userName = document.forms["F2"]["userName"].value;
-                    var status = document.forms["F2"]["status"].value;
-                    var dob = document.forms["F2"]["myDate"].value;
-                    var ph = document.getElementById("stdCode").value+document.forms["F2"]["ph"].value;
-                    console.log(ph);
-                    var gen = document.getElementById("genSelect").value;
-
-
-                    eos.contract('slateme11222').then(contract => {
-                    contract.editprofile({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob,profilepic:"####",stat:status},options).then(function(res){
-                            console.log('res', res);
-                        }).catch(function(err){
-                            console.log('err', err);
-                        });
-                    });
-             
-         
+                   
         }
         
         

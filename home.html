@@ -96,14 +96,14 @@
       getTable(account.name, "account").then(function(res){
         $("#userName").text(res.rows[0].userName);
         main();
-        getTable("twitternew12", "users").then(function(res){
+        getTable("slateme11222", "users").then(function(res){
         for(var i = 0;i < res.rows.length;i++) {
         userslist.push(res.rows[i]);
     }
   });
       });
       
-      getTable("twitternew12", "users").then(function(res){
+      getTable("slateme11222", "users").then(function(res){
         for(var i = 0;i < res.rows.length;i++) {
            allUsers.push(res.rows[i]);
            users.push(res.rows[i].userName);
@@ -113,14 +113,14 @@
     });
 
     function getAccount(accName){
-      eos.getTableRows(true, "twitternew12", accName, "").then(function(res){
+      eos.getTableRows(true, "slateme11222", accName, "").then(function(res){
         console.log(res);
       });
     }
 
     function tweet(){
       scatter.getIdentity({accounts:[network]}).then(function(id){
-        eos.contract('twitternew12').then(contract => {
+        eos.contract('slateme11222').then(contract => {
           var tweetId = Math.floor((Math.random() * 100000) + 1);
           var accName = account.name;
           var msg = $("#tweetMsg").val();

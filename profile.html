@@ -16,7 +16,8 @@
     <button onclick="signOut()">SIGN OUT</button>
     <button id="buttonFollow"></button>
     <button id="buttonFollowers">Followers</button>
-    <button id="buttonFollowing">Following</button>    
+    <button id="buttonFollowing">Following</button> 
+    <button id="buttonEdit">Edit Profile</button>   
     <p id="don"></p>
     <h2 id="ron"></h2>
     <p id="mon"></p>
@@ -69,7 +70,7 @@
         var parameters = location.href.split("#")[1];
 
         connect().then(function(){
-            getTable("twitternew12", "users").then(function(res){
+            getTable("slateme11222", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
             }
@@ -78,7 +79,7 @@
         })
 
         function follow(){
-            eos.contract('twitternew12').then(contract => {
+            eos.contract('slateme11222').then(contract => {
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
                     console.log('res', res);
@@ -90,7 +91,7 @@
         }
 
         function unfollow(){
-            eos.contract('twitternew12').then(contract => {
+            eos.contract('slateme11222').then(contract => {
 
                 contract.unfollow({accName:account.name,unfollowing:parameters},options).then(function(res){
                     console.log('res', res);
@@ -117,6 +118,12 @@
                 followDiv.innerHTML=accFollowers;
                 modal.style.display = "block";
         }
+
+        function roller(){
+
+            window.location.replace("http://127.0.0.1:5500/edit.html");
+        
+        }
  
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -124,6 +131,16 @@
             var acc = userslist.find(function(x){ return x.accName === account.name });
             var mainAcc=acc.userName;
             getTable(parameters, "account").then(function(bal){
+                if(parameters==account.name){
+                    $("#buttonEdit").show();
+                    $("#buttonFollow").hide();
+                    document.getElementById('buttonEdit').setAttribute('onclick','roller()');
+                    
+                }
+                else{
+                    $("#buttonEdit").hide();
+                    $("#buttonFollow").show();
+                }
                 document.getElementById('buttonFollowers').innerHTML="Followers ("+bal.rows[0].followers.length+")"
                 document.getElementById('buttonFollowing').innerHTML="Following ("+bal.rows[0].following.length+")"
                 var foll=0;

@@ -23,7 +23,7 @@ async function connect() {
 }
 
 async function getTable(scope,table){
-    let result = await eos.getTableRows(true, "twitternew12", scope, table);
+    let result = await eos.getTableRows(true, "slateme11222", scope, table);
     return result;
   }
 
@@ -61,6 +61,11 @@ function convert(scribbletime){
     return gmt;
     
    }
+function convertDate(myDate){
+    
+   return(new Date(myDate).getTime()); 
+
+} 
 
 function comment(tweetid){
         var id = "#comment"+tweetid;
@@ -81,12 +86,13 @@ function comment(tweetid){
             const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
             console.log('acc', account);
 
-            eos.contract('twitternew12').then(contract => {
+            eos.contract('slateme11222').then(contract => {
              var replyId = Math.floor((Math.random() * 100000) + 1);
             
              var accName = id.accounts[0].name;
             // var msg = document.forms["F1"]["msg"].value;
 
+            console.log(Date.now());
              var timestamp =  Date.now();
              var tweetId = Number(tweetid);
              console.log(typeof reply);
@@ -246,7 +252,7 @@ function comment(tweetid){
   function like(twId){
 
 
-    eos.contract('twitternew12').then(contract => {
+    eos.contract('slateme11222').then(contract => {
 
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
@@ -261,7 +267,7 @@ function comment(tweetid){
 
 function unlike(twId){
 
-    eos.contract('twitternew12').then(contract => {
+    eos.contract('slateme11222').then(contract => {
 
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
@@ -276,7 +282,7 @@ function unlike(twId){
 
 function deleteTweet(twId){
 
-    eos.contract('twitternew12').then(contract => {
+    eos.contract('slateme11222').then(contract => {
 
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);

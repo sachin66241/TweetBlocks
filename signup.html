@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
+    <script src="dist/scatter.min.js"></script>
+    <!-- <script src="index.js"></script> -->
+    <!-- <script src="main.js"></script> -->
+    
+</head>
+<body>
+    <!-- <script>signIn();</script> -->
+     <form name="F2">
+        USERNAME:<br>
+        <input type="text" name="userName"><br>
+        <input type="button" value="Submit" onclick="signUp()">
+
+    </form>
+    <script>
+       
+       
+function signUp(){
+
+
+network = {
+    protocol:'http', 
+    blockchain:'eos',
+    host:'52.199.125.75',
+    port:8888,
+    chainId:"038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca",
+};
+const requiredFields = {
+    accounts:[network]
+};
+     
+
+
+     scatter.forgetIdentity().then(function(){ scatter.getIdentity({accounts:[network]}).then(function(id){
+            const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
+            const options = {
+             authorization: [ `${account.name}@${account.authority}`]
+              };
+
+    console.log(account);
+    console.log(options);          
+
+
+    var eos = scatter.eos(network, Eos, options);
+
+            eos.contract('twitternew12').then(contract => {
+             
+            
+             var accName = id.accounts[0].name;
+             var userName = document.forms["F2"]["userName"].value;
+
+            console.log(accName);
+             
+
+             contract.signup({accName,userName},options).then(function(res){
+                    console.log('res', res);
+                }).catch(function(err){
+                    console.log('err', err);
+                });
+            });
+
+        })
+    });
+
+}
+    
+    </script>
+
+
+    
+</body>
+</html>

@@ -19,7 +19,7 @@
        <br> USERNAME:<br>
         <input type="text" name="userName"><br>
         <br>DOB:<br>
-        <input type="date" id="myDate" ><br>
+        <input type="date" id="myDate"  value="2018-12-22"><br>
        <br> PHONE:<br>
         <input type="text" name="phone" id="ph"><br>
         <!-- <select name="countryCode" id=""></select> -->
@@ -294,8 +294,8 @@ const requiredFields = {
              var accName = account.name;
              var userName = document.forms["F2"]["userName"].value;
              var dob = convertDate(document.forms["F2"]["myDate"].value);
-             console.log(document.forms["F2"]["myDate"].value);
-             console.log(dob);
+            //  console.log(document.forms["F2"]["myDate"].value);
+            //  console.log(dob);
              var ph = document.getElementById("stdCode").value+document.forms["F2"]["ph"].value;
              console.log(ph);
              var gen = document.getElementById("genSelect").value;

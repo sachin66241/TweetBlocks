@@ -227,7 +227,7 @@
                     document.getElementById('buttonFollow').setAttribute('onclick','follow()');
                 }
                 $("#profilename").text(bal.rows[0].userName);
-                $("#proimg").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
+                $("#proimg").attr("src","http://192.168.2.96:5500/images/"+bal.rows[0].profilepic);
                 $("#status").text(bal.rows[0].stat);
                 length=bal.rows[0].tweetId.length;
                 var tweetCount=(bal.rows[0].tweetId.length);

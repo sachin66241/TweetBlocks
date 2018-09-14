@@ -6,11 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
+  <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
   <script src="dist/scatter.min.js"></script> 
   <!-- <script src="index.js"></script> -->
   <script src="autopredict.js"></script>
   <script src="main.js"></script>
     <title>Document</title>
+    <style>
+      article, aside, figure, footer, header, hgroup, 
+      menu, nav, section { display: block; }
+    </style>
 </head>
 <body>
         <body>
@@ -22,7 +29,8 @@
                     <br> STATUS:<br>
                     <input type="text" name="status"><br>
 
-
+                    <input type='file' onchange="readURL(this);" />
+                    <img id="blah" src="#" alt="your image" />
 
 
                     <br>DOB:<br>
@@ -269,7 +277,7 @@
            formerResult();
         })
 
-        var userName,dob,phoneNo,gender,status;
+        var userName,dob,phoneNo,gender,status, imageUrlbc,imageUrl;
         function formerResult(){
           getTable(account.name, "account").then(function(bal){
 
@@ -278,6 +286,7 @@
               phoneNo=bal.rows[0].phoneNo;
               gender=bal.rows[0].gender;
               status=bal.rows[0].stat;
+              imageUrlbc = bal.rows[0].profilepic;
               var Dob=dob[0].split("/");
               dob[1]=Dob[2]+"-"+Dob[1]+"-"+Dob[0];
               document.forms["F2"]["myDate"].value=dob[1];
@@ -305,13 +314,14 @@
           if(document.forms["F2"]["ph"].value!= ""){
            phoneNo=document.getElementById("stdCode").value+document.forms["F2"]["ph"].value;
           }
+          if(imageUrl != undefined) imageUrlbc = imageUrl; 
           
           gender=document.getElementById("genSelect").value;
           dob[0]=convertDate(dob[1]);
 
           eos.contract('slateme11222').then(contract => {
 
-             contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:"####",stat:status},options).then(function(res){
+             contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
                     console.log('res', res);
                 }).catch(function(err){
                     console.log('err', err);
@@ -322,10 +332,29 @@
           
                    
         }
+
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+                imageUrl = input.files[0].name;
+            }
+        }
+</script>
         
         
         
-        </script>        
+          
     
 </body>
 

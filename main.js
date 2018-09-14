@@ -42,9 +42,6 @@ function signOut(){
     });
 }
 
-
-
-
 function convert(scribbletime){
 
     scribblesec = scribbletime/1000;
@@ -61,6 +58,7 @@ function convert(scribbletime){
     return gmt;
     
    }
+
 function convertDate(myDate){
     
    return(new Date(myDate).getTime()); 
@@ -104,9 +102,7 @@ function comment(tweetid){
                     console.log('err', err);
                 });
             });
-
         })
-       
 }
 
   

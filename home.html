@@ -11,7 +11,7 @@
   <!-- <script src="index.js"></script> -->
   <script src="autopredict.js"></script>
   <script src="main.js"></script>
-  <title>Home dsf</title>
+  <title>Home</title>
   <link rel="stylesheet" href="profile.css">
 </head>
 <body>
@@ -104,10 +104,13 @@
     function tweet(){
       scatter.getIdentity({accounts:[network]}).then(function(id){
         eos.contract('slateme11222').then(contract => {
-          var tweetId = Math.floor((Math.random() * 100000) + 1);
+          // var tweetId = Math.floor((Math.random() * 100000) + 1);
           var accName = account.name;
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
+          var tohash = accName+timestamp+msg;
+          var tweetId = tohash.hashCode();
+
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             main();
@@ -180,6 +183,14 @@
       }
       tweets(dict);
     } 
+    String.prototype.hashCode = function() {
+        var hash = 0, i = 0, len = this.length;
+         while ( i < len ) {
+              hash  = ((hash << 5) - hash + this.charCodeAt(i++)) << 0;
+                            }
+          return hash;
+    };
+                          
   </script>
 </body>
 </html>

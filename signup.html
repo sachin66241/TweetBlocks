@@ -305,7 +305,8 @@ const requiredFields = {
              
 
              contract.signup({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob},options).then(function(res){
-                    console.log('res', res);
+                 window.location.replace("http://127.0.0.1:5500/home.html")
+                console.log('res', res);
                 }).catch(function(err){
                     console.log('err', err);
                 });

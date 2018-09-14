@@ -19,7 +19,7 @@ function tweets(tweetIndex){
       
               replyButton.innerHTML = "replies"
               button.innerHTML = "Comment";
-              replyButton.id = "button"+bal.rows[0].tweetId;
+              replyButton.id = "replybutton"
               input.id='comment'+bal.rows[0].tweetId;
               input.name = "post";
               input.maxLength = "100";
@@ -90,9 +90,11 @@ function replie(twId){
   getTable(twId, "tweettable").then(function(bal){
 
      for (let index = 0; index < bal.rows[0].replies.length; index++) {
+           
+      console.log(bal.rows[0].msg);
+      document.getElementById("tweetInrply").innerHTML=bal.rows[0].msg;
           reply(bal.rows[0].replies[index]);
-        //  console.log(bal);
-                
+         
       }
     });
   }
@@ -109,7 +111,7 @@ function reply(replyIndex){
            var rply=bal.rows[0].reply;
            var result=accName +" : "+rply+"   "+time;
             
-          
+           
            var rplyDiv=document.createElement("div");
            document.getElementById("rplContent").appendChild(rplyDiv);
            rplyDiv.innerHTML=result;

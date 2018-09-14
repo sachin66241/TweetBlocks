@@ -21,7 +21,7 @@
 </head>
 <body>
         <body>
-                <!-- <script>signIn();</script> -->
+            <button id="delete" onclick="deleteAcc()">Deactivate</button>
                  <form name="F2">
                    <br> USERNAME:<br>
                     <input type="text" name="userName"><br>
@@ -323,6 +323,7 @@
 
              contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
                     console.log('res', res);
+                    window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
                 }).catch(function(err){
                     console.log('err', err);
                 });
@@ -350,6 +351,42 @@
                 imageUrl = input.files[0].name;
             }
         }
+
+      function deleteAcc(){
+
+                var txt;
+            if (confirm("Are you Sure!")) {
+                
+                eos.contract('slateme11222').then(contract => {
+
+                contract.deleteacc({accName:account.name},options).then(function(res){
+                      console.log('res', res);
+                      scatter.forgetIdentity().then(() => {
+                            alert("Account De-Activated!");
+                            location.replace("http://127.0.0.1:5500/index.html");
+                        });
+                      
+                  }).catch(function(err){
+                      console.log('err', err);
+                  });
+                });
+               
+            } 
+            
+            else {
+               window.location.reload();
+
+            }
+   
+   
+        //document.getElementById("demo").innerHTML = txt;
+
+         
+
+
+
+      }
+
 </script>
         
         

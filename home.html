@@ -109,7 +109,10 @@
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
           var tohash = accName+timestamp+msg;
-          var tweetId = tohash.hashCode();
+          console.log("tohash:",tohash);
+          var tweetId = Math.abs(tohash.hashCode());
+          // var tweetid = Math.abs(tweetId);
+          console.log("tweetid:",tweetId);
 
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);

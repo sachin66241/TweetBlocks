@@ -127,19 +127,22 @@
         var parameters = location.href.split("#")[1];
 
         connect().then(function(){
-            getTable("slateme11222", "users").then(function(res){
+            getTable("slateme22333", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
+                signedacc.push(res.rows[i].accName);
             }
             main();
             });
         })
 
         function follow(){
-            eos.contract('slateme11222').then(contract => {
+            eos.contract('slateme22333').then(contract => {
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
                     console.log('res', res);
+                    document.getElementById("divisionId").innerHTML = ""
+
                     main();
                 }).catch(function(err){
                     console.log('err', err);
@@ -148,10 +151,12 @@
         }
 
         function unfollow(){
-            eos.contract('slateme11222').then(contract => {
+            eos.contract('slateme22333').then(contract => {
 
                 contract.unfollow({accName:account.name,unfollowing:parameters},options).then(function(res){
                     console.log('res', res);
+                    document.getElementById("divisionId").innerHTML = ""
+
                     main();
                 }).catch(function(err){
                     console.log('err', err);
@@ -190,6 +195,7 @@
             var acc = userslist.find(function(x){ return x.accName === account.name });
             var mainAcc=acc.userName;
             getTable(parameters, "account").then(function(bal){
+                console.log(bal);
                 if(parameters==account.name){
                     $("#buttonEdit").show();
                     $("#buttonFollow").hide();
@@ -200,8 +206,7 @@
                     $("#buttonEdit").hide();
                     $("#buttonFollow").show();
                 }
-                document.getElementById('buttonFollowers').innerHTML="Followers ("+bal.rows[0].followers.length+")"
-                document.getElementById('buttonFollowing').innerHTML="Following ("+bal.rows[0].following.length+")"
+                
                 var foll=0;
                 accFollowers=[];                
                 while(foll<bal.rows[0].followers.length){
@@ -213,10 +218,15 @@
                 var follo=0;
                 accFollowing=[];                    
                 while(follo<bal.rows[0].following.length){
+                    if(signedacc.includes(bal.rows[0].following[follo])){
                     var acc = userslist.find(function(x){ return x.accName === bal.rows[0].following[follo] });
                     accFollowing.push(acc.userName.link('http://127.0.0.1:5500/profile.html#' + acc.accName));
-                    follo++
+                    }
+                    follo++;
                 }
+
+                document.getElementById('buttonFollowers').innerHTML="Followers ("+accFollowers.length+")"
+                document.getElementById('buttonFollowing').innerHTML="Following ("+accFollowing.length+")"
 
                 if(accFollowers.length>0){
                     document.getElementById('buttonFollowers').setAttribute('onclick','followers()');
@@ -236,8 +246,9 @@
                     document.getElementById('buttonFollow').setAttribute('onclick','follow()');
                 }
                 $("#profilename").text(bal.rows[0].userName);
-                $("#proimg").attr("src","http://192.168.2.96:5500/images/"+bal.rows[0].profilepic);
+               // $("#proimg").attr("src","http://192.168.2.96:5500/images/"+bal.rows[0].profilepic);
                 $("#status").text(bal.rows[0].stat);
+                console.log(bal.rows[0].tweetId); 
                 length=bal.rows[0].tweetId.length;
                 var tweetCount=(bal.rows[0].tweetId.length);
                 if(tweetCount>0){

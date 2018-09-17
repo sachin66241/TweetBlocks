@@ -91,34 +91,36 @@ window.onclick = function(event) {
     "use strict";
 
     $("#searchField").val("");
-    var allUsers = [];
+    var userslist = [];
     var users = [];
+   
+
     connect().then(function(res){
       getTable(account.name, "account").then(function(res){
         $("#userName").text(res.rows[0].userName);
-        main();
-        getTable("slateme11222", "users").then(function(res){
+        getTable("slateme22333", "users").then(function(res){
           for(var i = 0;i < res.rows.length;i++) {
             userslist.push(res.rows[i]);
-            allUsers.push(res.rows[i]);
             users.push(res.rows[i].userName);
+            signedacc.push(res.rows[i].accName);
           }
         });
+        main();
       });
       autocomplete(document.getElementById("searchField"), users);
     });
 
     // function getAccount(accName){
-    //   eos.getTableRows(true, "slateme11222", accName, "").then(function(res){
+    //   eos.getTableRows(true, "slateme22333", accName, "").then(function(res){
     //     console.log(res);
     //   });
     // }
     
-    
+
     $("#myBtn").hide();
     function tweet(){
       scatter.getIdentity({accounts:[network]}).then(function(id){
-        eos.contract('slateme11222').then(contract => {
+        eos.contract('slateme22333').then(contract => {
           // var tweetId = Math.floor((Math.random() * 100000) + 1);
           var accName = account.name;
           var msg = $("#tweetMsg").val();
@@ -131,7 +133,11 @@ window.onclick = function(event) {
 
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
+            $("#tweetMsg").val("");
+            //document.getElementById("divisionId").innerHTML = ""
+            
             main();
+           
           }).catch(function(err){
             console.log('err', err);
           });
@@ -140,7 +146,7 @@ window.onclick = function(event) {
     }
 
     function searchUser() {
-      var acc = allUsers.find(function(x){ return x.userName === $("#searchField").val() });
+      var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;
     }
@@ -154,15 +160,23 @@ window.onclick = function(event) {
     var tweetIds=[];
 
     function main(){
-      getTable(account.name, "account").then(function(run){
-        mainFollowing=[account.name];                    
-        for(var val = 0;val<run.rows[0].following.length;val++){      
+      // console.log("Inside main");
+      // console.log(account.name);
+      mainFollowing=[account.name];
+      getTable(account.name, "account").then(function(run){                    
+        for(var val = 0;val<run.rows[0].following.length;val++){   
+          if(signedacc.includes(run.rows[0].following[val])){
           mainFollowing.push(run.rows[0].following[val]);
+          }
         }
+        
+       
+        
         followingTweet(mainFollowing).then(function(){
+          console.log(mainFollowing);
           sorting();
         }); 
-        console.log(mainFollowing);   
+         
       });
     } 
 
@@ -170,21 +184,30 @@ window.onclick = function(event) {
     var arr=[];
 
     async function followingTweet(mainFollowing){
+      dict=[];
+      arr=[];
       var i;
+      console.log(mainFollowing); 
       var m=mainFollowing.length;
       for( i=0;i<m;i++){
         var run = await getTable(mainFollowing[i], "account")
+        console.log(run.rows[0].tweetId);
+        console.log(run.rows[0].retweetId);
         var j;
         var r=run.rows[0].tweetId.length;
+
         for(j = 0;j < r;j++){
           var res = await getTable(run.rows[0].tweetId[j], "tweettable")
           dict.push(res.rows[0].tweetId);
           arr.push(parseInt(res.rows[0].timestamp));  
+          // console.log(dict); 
+          // console.log(arr);
         }
       }
     }
 
-    function sorting(){   
+    function sorting(){  
+     
       var l=arr.length;
       var a, c, temp, temp1;
       for( a=0;a<l;a++){
@@ -196,9 +219,11 @@ window.onclick = function(event) {
             temp1=arr[c-1];
             arr[c-1]=arr[c];
             arr[c]=temp1;
+
           }
         }
       }
+     
       tweets(dict);
     } 
     String.prototype.hashCode = function() {

@@ -1,5 +1,6 @@
 var account, network, accounts, eos, options;
 var userslist=[];
+var signedacc=[];
 
 async function connect() {
     let connected = await scatter.connect("TestPage");
@@ -23,7 +24,7 @@ async function connect() {
 }
 
 async function getTable(scope,table){
-    let result = await eos.getTableRows(true, "slateme11222", scope, table);
+    let result = await eos.getTableRows(true, "slateme22333", scope, table);
     return result;
   }
 
@@ -75,13 +76,14 @@ function comment(tweetid){
     var eos = scatter.eos(network, Eos, options);
     scatter.getIdentity({accounts:[network]}).then(function(id){
         const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
-        eos.contract('slateme11222').then(contract => {
+        eos.contract('slateme22333').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = id.accounts[0].name;
             var timestamp =  Date.now();
             var tweetId = Number(tweetid);
             contract.reply({accName,parentId:tweetId,replyId,reply,timestamp},options).then(function(res){
                 console.log('res', res);
+                main();
             }).catch(function(err){
                 console.log('err', err);
             });
@@ -91,6 +93,8 @@ function comment(tweetid){
   
 function tweets(tweetIndex){  
     iDiv = document.createElement('div');
+    iDiv.id="divisionId"
+  //  console.log(tweetIndex);
     iDiv.innerHTML="..........................TWEETS ..................................";
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){  
@@ -99,12 +103,14 @@ function tweets(tweetIndex){
             var idiv2 = document.createElement('div');
             var idiv3 = document.createElement('div');
             var delButton = document.createElement('button');
+            var retweetButton = document.createElement('button');
             var input = document.createElement('textarea');
             var button = document.createElement('button');
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             replyButton.innerHTML = "replies";
             delButton.innerHTML = "delete";
+            retweetButton.innerHTML = "reTweet";
             button.innerHTML = "Comment";
             replyButton.id = "button"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
@@ -121,6 +127,7 @@ function tweets(tweetIndex){
                 likeButton.setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
             }
             else{
+                
                 likeButton.innerHTML="like";
                 likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
             } 
@@ -131,8 +138,11 @@ function tweets(tweetIndex){
             }
             button.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
+            retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
+           
             var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
-            iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();                
+
+            iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();              
             idiv1.innerHTML = bal.rows[0].msg;
             idiv2.innerHTML= convert(bal.rows[0].timestamp);
             iDiv.appendChild(iname);
@@ -141,6 +151,7 @@ function tweets(tweetIndex){
             iDiv.appendChild(idiv3);
             iDiv.appendChild(input);
             if(account.name==bal.rows[0].accName)   iDiv.appendChild(delButton);
+            if(account.name!=bal.rows[0].accName)   iDiv.appendChild(retweetButton);
             iDiv.appendChild(button);
             iDiv.appendChild(replyButton);
             iDiv.appendChild(likeButton);
@@ -173,7 +184,7 @@ function reply(replyIndex){
 }
 
 function like(twId){
-    eos.contract('slateme11222').then(contract => {
+    eos.contract('slateme22333').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
            // likeButton.innerHTML="unlike";
@@ -185,7 +196,7 @@ function like(twId){
 }
 
 function unlike(twId){
-    eos.contract('slateme11222').then(contract => {
+    eos.contract('slateme22333').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
            // likeButton.innerHTML="like";
@@ -197,9 +208,22 @@ function unlike(twId){
 }
 
 function deleteTweet(twId){
-    eos.contract('slateme11222').then(contract => {
+    eos.contract('slateme22333').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
-            console.log('res', res);   
+            console.log('res', res);
+            document.getElementById("divisionId").innerHTML = "";  
+            main();
+        }).catch(function(err){
+            console.log('err', err);
+        });
+    });
+}
+
+function reTweet(twId){
+    eos.contract('slateme22333').then(contract => {
+        contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
+            console.log('res', res);
+            document.getElementById("divisionId").innerHTML = "";  
             main();
         }).catch(function(err){
             console.log('err', err);

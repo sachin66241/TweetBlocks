@@ -94,6 +94,7 @@ function comment(tweetid){
 function tweets(tweetIndex){  
     iDiv = document.createElement('div');
     iDiv.id="divisionId"
+    $("#divisionId").empty();
   //  console.log(tweetIndex);
     iDiv.innerHTML="..........................TWEETS ..................................";
     for (var index = tweetIndex.length-1; index >=0 ; index--) {

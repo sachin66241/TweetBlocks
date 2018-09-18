@@ -213,7 +213,8 @@ function tweets(tweetIndex){
             iDiv.appendChild(input);
             iDiv.appendChild(button);
             if(account.name==bal.rows[0].accName)   iDiv.appendChild(delButton);
-            if(account.name!=bal.rows[0].accName)   iDiv.appendChild(retweetButton);
+            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   iDiv.appendChild(retweetButton);
+            iDiv.appendChild(button);
             iDiv.appendChild(replyButton);
             iDiv.appendChild(likeButton);
             document.getElementsByTagName('body')[0].appendChild(iDiv);

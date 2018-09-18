@@ -69,6 +69,7 @@ function convertDate(myDate){
 function comment(tweetid){
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
+    if(reply=="")   return;
     const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
     const options = {
         authorization: [ `${account.name}@${account.authority}`]
@@ -210,6 +211,7 @@ function tweets(tweetIndex){
             iDiv.appendChild(idiv2);
             iDiv.appendChild(idiv3);
             iDiv.appendChild(input);
+            iDiv.appendChild(button);
             if(account.name==bal.rows[0].accName)   iDiv.appendChild(delButton);
             if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   iDiv.appendChild(retweetButton);
             iDiv.appendChild(button);
@@ -271,7 +273,6 @@ function deleteTweet(twId){
     eos.contract('slateme22333').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
-            document.getElementById("divisionId").innerHTML = "";  
             main();
         }).catch(function(err){
             console.log('err', err);
@@ -283,7 +284,6 @@ function reTweet(twId){
     eos.contract('slateme22333').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
-            document.getElementById("divisionId").innerHTML = "";  
             main();
         }).catch(function(err){
             console.log('err', err);

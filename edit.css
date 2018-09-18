@@ -58,7 +58,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: red;
     color: white;
 }
 
@@ -66,6 +66,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .modal-footer {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: red;
     color: white;
 }

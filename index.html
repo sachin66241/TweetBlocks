@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SlateMe</title>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
     <script src="dist/scatter.min.js"></script> 
+    <link rel="stylesheet" href="edit.css">
     <script src="main.js"></script>
 </head>
 <body>    
@@ -13,12 +14,87 @@
     <a href="signup.html"><input type="button" value="SIGNUP" ></a>
     <button onclick="signOut()">SIGN OUT</button>  
     <input type="button" value="SIGNIN" onclick="login()"></a> 
+
+
+   
+    <div id="myModal" class="modal">
+                    
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <span class="close" id = "close" >&times;</span>
+                 <h1>WARNING : </h1>
+              </div>
+              <div class="modal-body">
+                    <h2 id = "error"></h2>
+
+             </div>
+                <div class="modal-footer">
+                  <h3></h3>
+                </div>
+              </div>
+            
+    </div>
+
+
+
+
+
+
     <script>
-        function login(){
-            connect().then(function(){
-                window.location.replace("http://127.0.0.1:5500/home.html");
-            });
+        var scatterLock;
+        async function checkConnection() {
+            scatterLock = await scatter.connect("TestPage");
+            await console.log('connected', scatterLock);
         }
+             checkConnection().then(function(){
+                 console.log("ready");
+             });
+
+    
+        function login(){
+           
+                if(scatterLock == true)  {  
+                    connect().then(function(){
+                        if(account!=undefined){
+                            getTable(account.name,"account").then(function(res){
+                                console.log(account.name);
+                                if(res.rows.length!=0)  window.location.replace("http://127.0.0.1:5500/home.html");
+                                else  modal.style.display = "block";
+                                $("#error").text("Account Deosn't Exist");
+                            }).catch(function(){
+                                alert(" error ");
+                            })
+                             
+                        }
+                    });
+                }
+                    
+
+                else 
+                    modal.style.display = "block";
+                    $("#error").text("install scatter");
+                }
+
+            var modal = document.getElementById('myModal');
+            // When the user clicks on <span> (x), close the modal
+            $("#close").click(function(){
+                modal.style.display = "none";
+
+            });
+            
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+
+
+
+
     </script>
 </body>
 </html>

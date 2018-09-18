@@ -1,10 +1,11 @@
-var account, network, accounts, eos, options;
+var account, network, accounts, eos, options, scatterConnected;
 var userslist=[];
 var signedacc=[];
 
 async function connect() {
-    let connected = await scatter.connect("TestPage");
-    await console.log('connected', connected);
+    scatterConnected = await scatter.connect("TestPage");
+    await console.log('connected', scatterConnected);
+    
     network = {
         protocol:'http', 
         blockchain:'eos',

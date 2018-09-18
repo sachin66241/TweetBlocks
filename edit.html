@@ -1,42 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
-  <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <!-- <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
   <script src="dist/scatter.min.js"></script> 
   <!-- <script src="index.js"></script> -->
-  <script src="autopredict.js"></script>
+  <link rel="stylesheet" href="edit.css">
   <script src="main.js"></script>
     <title>Document</title>
     <style>
       article, aside, figure, footer, header, hgroup, 
       menu, nav, section { display: block; }
+      .avatar {
+    vertical-align: middle;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+      }
+  
     </style>
 </head>
 <body>
         <body>
             <button id="delete" onclick="deleteAcc()">Deactivate</button>
-                 <form name="F2">
+                 <!-- <form name="F2"> -->
                    <br> USERNAME:<br>
-                    <input type="text" name="userName"><br>
+                    <input type="text" id="userName"><br>
 
                     <br> STATUS:<br>
-                    <input type="text" name="status"><br>
+                    <input type="text" id="status"><br>
 
-                    <input type='file' onchange="readURL(this);" />
-                    <img id="blah" src="#" alt="your image" />
+                    <!-- <img id="blah" src="images/dark.jpg" alt="your image" /> -->
+                    <br>PROFILE IMAGE:<br>
+                   <br> <button id="myBtn">BROWSE</button><br>
+
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal">
+                    
+                      <!-- Modal content -->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <span class="close">&times;</span>
+                          <h2>SELECT YOUR AVATAR</h2>
+                        </div>
+                        <div class="modal-body">
+                             <!-- <img src="images/1.png" alt="Avatar" id="1.jpg" onclick = " selectImage(this)"  class="avatar"> -->
+                             <img src="images/2.png" alt="Avatar" id="2.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/3.png" alt="Avatar" id="3.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/4.png" alt="Avatar" id="4.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/5.png" alt="Avatar" id="5.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/6.png" alt="Avatar" id="6.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/7.png" alt="Avatar" id="7.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/8.png" alt="Avatar" id="8.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/9.png" alt="Avatar" id="9.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/10.png" alt="Avatar" id="10.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/11.png" alt="Avatar" id="11.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/12.png" alt="Avatar" id="12.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/13.png" alt="Avatar" id="13.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/14.png" alt="Avatar" id="14.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/15.png" alt="Avatar" id="15.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/16.png" alt="Avatar" id="16.png" onclick="selectImage(this)" class="avatar">
+                             <img src="images/17.png" alt="Avatar" id="17.png" onclick="selectImage(this)" class="avatar">
+                             <!-- <img src="images/18.png" alt="Avatar" id="18.png" onclick="selectImage(this)" class="avatar"> -->
+
+                        </div>
+                        <div class="modal-footer">
+                          <h3></h3>
+                        </div>
+                      </div>
+                    
+                    </div>
+                    <img id="img"></h1>
 
 
                     <br>DOB:<br>
                     <input type="date" id="myDate" ><br>
                    <br> PHONE:<br>
-                    <input type="text" name="phone" id="ph"><br>
+                    <input type="text" id="phone"><br>
                     <!-- <select name="countryCode" id=""></select> -->
                     <select id ="stdCode">
                     <option id="GB" value="+44-" Selected>UK (+44)</option>
@@ -269,13 +316,50 @@
                     
                    <br> <input type="button" value="Submit" onclick="editPro()"><br>
             
-                </form>
+                <!-- </form> -->
 
         <script>
+
+          var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+}
+</script>
+
+<script>
             
         connect().then(function(){
            formerResult();
         })
+        var imageUrl;
+        function selectImage(img){
+            console.log(img.id);
+            imageUrl = img.id;  
+            modal.style.display = "none";
+        
+            $("#img").attr("src","images/"+imageUrl);
+            $("#img").attr("class","avatar");
+        }
 
         var userName,dob,phoneNo,gender,status, imageUrlbc,imageUrl;
         function formerResult(){
@@ -289,11 +373,12 @@
               imageUrlbc = bal.rows[0].profilepic;
               var Dob=dob[0].split("/");
               dob[1]=Dob[2]+"-"+Dob[1]+"-"+Dob[0];
-              document.forms["F2"]["myDate"].value=dob[1];
-              document.forms["F2"]["userName"].placeholder=userName;
-              document.forms["F2"]["ph"].placeholder=phoneNo;
-              document.forms["F2"]["status"].placeholder=status;
-              document.getElementById("genSelect").value=gender;
+              console.log(dob[1]);
+              $("#myDate").val(dob[1]);
+              $("#userName").attr("placeholder", userName);
+              $("#phone").attr("placeholder", phoneNo);
+              $("#status").attr("placeholder", status);
+              $("#genSelect").val(gender);
               
              
            })
@@ -302,21 +387,21 @@
 
         function editPro(){
 
-          if(document.forms["F2"]["userName"].value!= ""){
-            userName=document.forms["F2"]["userName"].value;
+          if($("#userName").val()!= ""){
+            userName=$("#userName").val();
           }
-          if(document.forms["F2"]["status"].value!= ""){
-            status=document.forms["F2"]["status"].value;
+          if($("#status").val()!= ""){
+            status=$("#status").val();
           }
-          if(document.forms["F2"]["myDate"].value!= ""){
-            dob[1]=document.forms["F2"]["myDate"].value;
+          if($("#myDate").val()!= ""){
+            dob[1]=$("#myDate").val();
           }
-          if(document.forms["F2"]["ph"].value!= ""){
-           phoneNo=document.getElementById("stdCode").value+document.forms["F2"]["ph"].value;
+          if($("#phone").val()!= ""){
+           phoneNo = $("#stdCode").val()+ $("#phone").val();
           }
           if(imageUrl != undefined) imageUrlbc = imageUrl; 
           
-          gender=document.getElementById("genSelect").value;
+          gender=$("#genSelect").val();
           dob[0]=convertDate(dob[1]);
 
           eos.contract('slateme22333').then(contract => {
@@ -335,22 +420,6 @@
         }
 
 
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result)
-                        .width(150)
-                        .height(200);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-                imageUrl = input.files[0].name;
-            }
-        }
 
       function deleteAcc(){
 
@@ -387,12 +456,9 @@
 
       }
 
+
 </script>
-        
-        
-        
-          
-    
+  
 </body>
 
 </html>

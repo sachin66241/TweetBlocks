@@ -10,6 +10,8 @@
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
   <script src="dist/scatter.min.js"></script> 
+  <script src= "jquery.min.js" ></script>
+  <script src= "image-picker.min.js" ></script>
   <!-- <script src="index.js"></script> -->
   <script src="autopredict.js"></script>
   <script src="main.js"></script>
@@ -17,6 +19,25 @@
     <style>
       article, aside, figure, footer, header, hgroup, 
       menu, nav, section { display: block; }
+
+   img {
+    box-sizing: border-box;
+    /* border-radius: 90%; */
+}
+
+.column {
+    float: left;
+    height: 10.33%;
+    width: 10.33%;
+    padding: 15px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
     </style>
 </head>
 <body>
@@ -29,10 +50,35 @@
                     <br> STATUS:<br>
                     <input type="text" name="status"><br>
 
-                    <input type='file' onchange="readURL(this);" />
-                    <img id="blah" src="#" alt="your image" />
+                    <!-- <img id="blah" src="images/dark.jpg" alt="your image" /> -->
+                    <div class="row">
+                        <table>
+                        <tr>
+                            <td>
+                           
+                              <img src="images/1.jpg" width="50px" height="50px" id="1.jpg" onclick="selectImage(this)" style="width:100%">
 
-
+                            
+                        </td>
+                        <td>
+                        
+                          
+                              <img src="images/2.jpg" width="50px" height="50px" onclick="selectImage(this)" style="width:100%">
+                          
+                            </td>
+                            <tr>
+                                <td>
+                           
+                              <img src="images/3.jpg" width="50px" height="50px" id="3.jpg" onclick="selectImage(this)" style="width:100%">
+                           
+                            </td>
+                            <td>
+                         
+                               <img src="images/4.jpg" width="50px" height="50px" id="4.jpg" onclick="selectImage(this)" style="width:100%">
+                       
+                             </td>
+                        </table>
+                          </div>
                     <br>DOB:<br>
                     <input type="date" id="myDate" ><br>
                    <br> PHONE:<br>
@@ -276,6 +322,11 @@
         connect().then(function(){
            formerResult();
         })
+        var imageUrl;
+        function selectImage(img){
+            console.log(img.id);
+            imageUrl = img.id;  
+        }
 
         var userName,dob,phoneNo,gender,status, imageUrlbc,imageUrl;
         function formerResult(){
@@ -387,12 +438,9 @@
 
       }
 
+
 </script>
-        
-        
-        
-          
-    
+  
 </body>
 
 </html>

@@ -203,7 +203,7 @@ function tweets(tweetIndex){
            
          }
             
-            idiv1.innerHTML = bal.rows[0].msg;
+            idiv1.innerHTML = bal.rows[0].msg.link('http://127.0.0.1:5500/scribblebook.html#' + bal.rows[0].tweetId);
             idiv2.innerHTML= convert(bal.rows[0].timestamp);
             iDiv.appendChild(iname);
             iDiv.appendChild(idiv1);

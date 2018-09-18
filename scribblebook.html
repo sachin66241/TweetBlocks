@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- <script src="js/autocomplete.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
+        <script src="dist/scatter.min.js"></script> 
+        <script src="autopredict.js"></script>
+        <script src="main.js"></script>
+        <title>Scibble Display</title>
+        <!-- <link rel="stylesheet" href="profile.css"> -->
+        <h3 id="name"></h4>
+        <h2 id="msg"></h2>
+        <div id="buttons"></div>
+        <!-- <button id = "likeButton"></button>
+        <button id = "delButton">Delete</button>
+        <button id = "retweetButton">ReTweet</button> -->
+        <div id = "replydiv"></div>
+        <textarea id = "comment" placeholder = "Comment here...!"></textarea>
+        <button id = "buttonComment" >Comment</button>
+        
+
+
+
+</head>
+<body>
+    <script>
+    //    $("delButton").hide();
+    //    $("retweetButton").hide();
+        var replymsg;
+        var parameters = location.href.split("#")[1];
+        var tweetId = parseInt(parameters);
+        buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
+        // $("#comment").onclick=comment(tweetId);
+        connect().then((result) => {
+                getTable("slateme22333", "users").then(function(res){
+                   
+                        userslist=res;
+                        console.log("LIST:", userslist);
+                        // for(var i = 0;i < res.rows.length;i++) {
+                        //         userslist.push(res.rows[i]);
+                        //         console.log(userslist);
+                        // //     allUsers.push(res.rows[i]);
+                        // //     users.push(res.rows[i].userName);
+                        // }
+                        displayTweet(tweetId);
+                        console.log("tweetidsuccess");
+                })
+        }).catch((err) => {
+                console.log("error");
+        });
+
+        
+function displayTweet(tweetId){ 
+
+    var retweetButton = document.createElement('button');
+    var likeButton = document.createElement('button');
+    var delButton = document.createElement('button');
+    retweetButton.innerHTML = "Retweet";
+    delButton.innerHTML = "Delete";
+
+
+    console.log("inside display"); 
+    iDiv = document.createElement('div');
+    console.log("tweetId:", tweetId); 
+
+        getTable(tweetId, "tweettable").then(function(bal){
+            console.log("bal:",bal) 
+            for(var i = 0; i<userslist.rows.length; i++){ 
+                if(bal.rows[0].accName == userslist.rows[i].accName)
+                document.getElementById("name").innerHTML =  userslist.rows[i].userName;
+                document.getElementById("msg").innerHTML =  bal.rows[0].msg;
+            } 
+            var retweeters=bal.rows[0].retweet;
+            var likedUsers=[];                    
+            for(var val = 0;val<bal.rows[0].likes.length;val++){
+                likedUsers.push(bal.rows[0].likes[val]);
+            }
+            if(likedUsers.includes(account.name)){
+                likeButton.innerHTML="Unlike";
+                likeButton.setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
+            }
+            else{
+                
+                likeButton.innerHTML="Like";
+                likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
+            }
+             
+             console.log("myacc:", account.name);
+             console.log("tweetacc:",bal.rows[0].accName);
+             buttons.appendChild(likeButton);
+
+             if(account.name == bal.rows[0].accName) buttons.appendChild(delButton);
+
+            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name)))) buttons.appendChild(retweetButton);
+
+               
+              
+            
+           
+            
+            delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
+            retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
+            
+           
+    
+
+
+
+
+
+        for(var i = 0; i<bal.rows[0].replies.length; i++){
+           
+
+            if(bal.rows[0].replies.length>0)
+            {
+            
+                getTable(bal.rows[0].replies[i], "replytable").then(function(res){ 
+                    console.log("res:", res);
+                    replymsg = res.rows[0].reply;
+                    dynamic();
+                });
+               
+            }
+          
+               
+            }
+           
+        });
+    
+
+}
+function dynamic(){
+        
+            var scribblediv = document.createElement("div");
+            scribblediv.innerHTML = replymsg;
+            document.getElementById("replydiv").appendChild(scribblediv);
+
+        
+   } 
+   
+
+
+function comment(tweetid){
+    // var id = "#comment"+tweetid;
+    var reply = $("#comment").val();
+    const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
+    const options = {
+        authorization: [ `${account.name}@${account.authority}`]
+    };
+    var eos = scatter.eos(network, Eos, options);
+    scatter.getIdentity({accounts:[network]}).then(function(id){
+        const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
+        eos.contract('slateme22333').then(contract => {
+            var replyId = Math.floor((Math.random() * 100000) + 1);
+            var accName = id.accounts[0].name;
+            var timestamp =  Date.now();
+            var tweetId = Number(tweetid);
+            contract.reply({accName,parentId:tweetId,replyId,reply,timestamp},options).then(function(res){
+                console.log('res', res);
+            }).catch(function(err){
+                console.log('err', err);
+            });
+        });
+    })
+}
+            
+        
+        </script>
+    
+</body>
+</html>
+      

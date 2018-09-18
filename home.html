@@ -153,15 +153,18 @@ window.onclick = function(event) {
           }
         }
         followingTweet(mainFollowing).then(function(){
-          sorting();
+       sorting();
         });          
       });
     } 
 
     var dict = [];
     var arr=[];
+    var sorted=[];
 
     async function followingTweet(mainFollowing){
+      console.log(mainFollowing);
+      sorted=[];
       dict=[];
       arr=[];
       var i;
@@ -175,8 +178,10 @@ window.onclick = function(event) {
           var res = await getTable(run.rows[0].tweetId[j], "tweettable")
           dict.push(res.rows[0].tweetId);
           arr.push(parseInt(res.rows[0].timestamp));
+        
         }
       }
+      
     }
 
     function sorting(){  

@@ -104,7 +104,7 @@ function tweets(tweetIndex){
        }
     }
 }
-    console.log(repeats);
+    
    
     iDiv.innerHTML="..........................TWEETS ..................................";
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
@@ -152,6 +152,7 @@ function tweets(tweetIndex){
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
             var retweeters=bal.rows[0].retweet;
             var tweeter=userslist.find(function(x){ return x.accName === account.name });
+            console.log(bal.rows[0]);
             var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
             var flag=0;
             var curr=window.location.href;

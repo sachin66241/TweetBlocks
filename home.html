@@ -8,7 +8,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
   <script src="dist/scatter.min.js"></script> 
-  <!-- <script src="index.js"></script> -->
   <script src="autopredict.js"></script>
   <script src="main.js"></script>
   <title>Home</title>
@@ -37,7 +36,7 @@
   <div id="allTweets">
   </div>
 
-  <button id="myBtn">Open Modal</button>
+  <button id="myBtn" style="display:none">Open Modal</button>
   
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -93,7 +92,6 @@ window.onclick = function(event) {
     $("#searchField").val("");
     var userslist = [];
     var users = [];
-   
 
     connect().then(function(res){
       getTable(account.name, "account").then(function(res){
@@ -110,18 +108,8 @@ window.onclick = function(event) {
       autocomplete(document.getElementById("searchField"), users);
     });
 
-    // function getAccount(accName){
-    //   eos.getTableRows(true, "slateme22333", accName, "").then(function(res){
-    //     console.log(res);
-    //   });
-    // }
-    
-
-    $("#myBtn").hide();
     function tweet(){
-      scatter.getIdentity({accounts:[network]}).then(function(id){
         eos.contract('slateme22333').then(contract => {
-          // var tweetId = Math.floor((Math.random() * 100000) + 1);
           var accName = account.name;
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
@@ -134,15 +122,12 @@ window.onclick = function(event) {
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             $("#tweetMsg").val("");
-            //document.getElementById("divisionId").innerHTML = ""
             
             main();
-           
           }).catch(function(err){
             console.log('err', err);
           });
         });
-      }).catch(function(x){});
     }
 
     function searchUser() {
@@ -158,25 +143,18 @@ window.onclick = function(event) {
 
     var mainFollowing=[];
     var tweetIds=[];
-
+    
     function main(){
-      // console.log("Inside main");
-      // console.log(account.name);
       mainFollowing=[account.name];
-      getTable(account.name, "account").then(function(run){                    
+      getTable(account.name, "account").then(function(run){
         for(var val = 0;val<run.rows[0].following.length;val++){   
           if(signedacc.includes(run.rows[0].following[val])){
-          mainFollowing.push(run.rows[0].following[val]);
+            mainFollowing.push(run.rows[0].following[val]);
           }
         }
-        
-       
-        
         followingTweet(mainFollowing).then(function(){
-          console.log(mainFollowing);
           sorting();
-        }); 
-         
+        });          
       });
     } 
 
@@ -187,27 +165,21 @@ window.onclick = function(event) {
       dict=[];
       arr=[];
       var i;
-      console.log(mainFollowing); 
       var m=mainFollowing.length;
       for( i=0;i<m;i++){
         var run = await getTable(mainFollowing[i], "account")
-        console.log(run.rows[0].tweetId);
-        console.log(run.rows[0].retweetId);
         var j;
         var r=run.rows[0].tweetId.length;
 
         for(j = 0;j < r;j++){
           var res = await getTable(run.rows[0].tweetId[j], "tweettable")
           dict.push(res.rows[0].tweetId);
-          arr.push(parseInt(res.rows[0].timestamp));  
-          // console.log(dict); 
-          // console.log(arr);
+          arr.push(parseInt(res.rows[0].timestamp));
         }
       }
     }
 
     function sorting(){  
-     
       var l=arr.length;
       var a, c, temp, temp1;
       for( a=0;a<l;a++){
@@ -223,7 +195,6 @@ window.onclick = function(event) {
           }
         }
       }
-     
       tweets(dict);
     } 
     String.prototype.hashCode = function() {
@@ -232,8 +203,7 @@ window.onclick = function(event) {
               hash  = ((hash << 5) - hash + this.charCodeAt(i++)) << 0;
                             }
           return hash;
-    };
-                          
+    };                  
   </script>
 </body>
 </html>

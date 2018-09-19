@@ -125,7 +125,7 @@ function tweets(tweetIndex){
             var button = document.createElement('button');
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
-            replyButton.innerHTML = "replies";
+            replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
             delButton.innerHTML = "delete";
             retweetButton.innerHTML = "reTweet";
             button.innerHTML = "Comment";
@@ -140,12 +140,12 @@ function tweets(tweetIndex){
                 likedUsers.push(bal.rows[0].likes[val]);
             }
             if(likedUsers.includes(account.name)){
-                likeButton.innerHTML="unlike";
+                likeButton.innerHTML="unlike ("+likedUsers.length+")";
                 likeButton.setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
             }
             else{
                 
-                likeButton.innerHTML="like";
+                likeButton.innerHTML="like ("+likedUsers.length+")";
                 likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
             } 
             var xxx = input.value;

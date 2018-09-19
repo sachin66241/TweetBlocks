@@ -39,8 +39,12 @@ function signIn(){
 
 function signOut(){
     scatter.forgetIdentity().then(() => {
-        alert("Signed out!");
-        location.replace("http://127.0.0.1:5500/index.html");
+        modal.style.display = "block";
+        $("#rplContent").html("Signed Out");
+        setTimeout(function(){
+            location.replace("http://127.0.0.1:5500/index.html");
+        },2000);
+       
     });
 }
 

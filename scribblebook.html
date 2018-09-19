@@ -12,6 +12,17 @@
         <script src="js/main.js"></script>
         <title>Scibble Display</title>
         <!-- <link rel="stylesheet" href="profile.css"> -->
+        <h3 id="name"></h4>
+        <h2 id="msg"></h2>
+        <div id="buttons"></div>
+        <textarea id = "comment" placeholder = "Comment here...!"></textarea>       
+         <button id = "buttonComment" >Comment</button>
+         <br> <br>
+        <div id = "replydiv"></div>
+        
+
+
+
 </head>
 <body>
     <a href="http://127.0.0.1:5500/home.html"><button>Home</button></a>
@@ -28,6 +39,8 @@
     //    $("delButton").hide();
     //    $("retweetButton").hide();
         var replymsg;
+        var replyer;
+        var replytime;
         var parameters = location.href.split("#")[1];
         var tweetId = parseInt(parameters);
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
@@ -88,21 +101,9 @@ function displayTweet(tweetId){
 
             if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name)))) buttons.appendChild(retweetButton);
 
-               
-              
-            
-           
-            
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
-            
-           
     
-
-
-
-
-
         for(var i = 0; i<bal.rows[0].replies.length; i++){
            
 
@@ -112,6 +113,13 @@ function displayTweet(tweetId){
                 getTable(bal.rows[0].replies[i], "replytable").then(function(res){ 
                     console.log("res:", res);
                     replymsg = res.rows[0].reply;
+                    tweeter = res.rows[0].accName;
+                    replytime = res.rows[0].timestamp;
+
+                    for(var i = 0; i<userslist.rows.length; i++){ 
+                        if(res.rows[0].accName == userslist.rows[i].accName)
+                           replyer =  userslist.rows[i].userName;
+                    } 
                     dynamic();
                 });
                
@@ -125,13 +133,26 @@ function displayTweet(tweetId){
 
 }
 function dynamic(){
+            var linebreak = document.createElement("br");
+            
+            var replyerdiv = document.createElement("div");
+            replyerdiv.innerHTML = replyer;
+            document.getElementById("replydiv").appendChild(replyerdiv);
         
-            var scribblediv = document.createElement("div");
-            scribblediv.innerHTML = replymsg;
-            document.getElementById("replydiv").appendChild(scribblediv);
+            var replydiv = document.createElement("div");
+            replydiv.innerHTML = replymsg;
+            document.getElementById("replydiv").appendChild(replydiv);
 
-        
-   } 
+
+            var timediv = document.createElement("div");
+            timediv.innerHTML = convert(replytime);
+            document.getElementById("replydiv").appendChild(timediv);
+
+            document.getElementById("replydiv").appendChild(linebreak);
+
+
+   }        
+
    
 
 

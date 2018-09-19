@@ -89,21 +89,6 @@ window.onclick = function(event) {
   <script>
 
  
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     "use strict";
 
     $("#searchField").val("");
@@ -112,6 +97,7 @@ window.onclick = function(event) {
 
     connect().then(function(res){
       getTable(account.name, "account").then(function(res){
+        if(res.rows.length==0) window.location.replace("http://127.0.0.1:5500/index.html");
         $("#userName").text(res.rows[0].userName);
         getTable("slateme22333", "users").then(function(res){
           for(var i = 0;i < res.rows.length;i++) {

@@ -3,6 +3,8 @@ var userslist=[];
 var signedacc=[];
 
 async function connect() {
+    try{
+
     scatterConnected = await scatter.connect("TestPage");
     await console.log('connected', scatterConnected);
     
@@ -22,7 +24,18 @@ async function connect() {
         authorization: [ `${account.name}@${account.authority}`]
     };
     eos = scatter.eos(network, Eos, options);
+   
+
+} catch(err){
+    if(err.type ="identity_rejected"){
+
+    window.location.replace("http://127.0.0.1:5500/index.html");
+    }
+
+} 
+
 }
+ 
 
 async function getTable(scope,table){
     let result = await eos.getTableRows(true, "slateme22333", scope, table);

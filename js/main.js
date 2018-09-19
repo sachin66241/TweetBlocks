@@ -166,8 +166,8 @@ function tweets(tweetIndex){
             
             delete mainFollowing[0];
             if(acc.accName==account.name){
-                //iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();
-                iname.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();  
+                iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();
+               
             }
             else   {
                 if(retweeters.length>0){
@@ -203,13 +203,20 @@ function tweets(tweetIndex){
                 var tweeter=userslist.find(function(x){ return x.accName === parameters});
 
                 if(parameters!=acc.accName){
-                 iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
-                }
+                    if(acc.accName==account.name){
+                        iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+ "Your".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
+                        }
+                    else{
+                        iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
+
+                        }
+                    }
+                
                 else{
                     iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold(); 
-                }
+                    }
            
-         }
+            }
             
             idiv1.innerHTML = bal.rows[0].msg.link('http://127.0.0.1:5500/scribblebook.html#' + bal.rows[0].tweetId);
             idiv2.innerHTML= convert(bal.rows[0].timestamp);

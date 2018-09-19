@@ -171,7 +171,7 @@ function tweets(tweetIndex){
             else   {
                 if(retweeters.length>0){
                     if(retweeters.includes(account.name)){
-                        iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
+                        iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "'s tweet";
                     }
                     else
                     {

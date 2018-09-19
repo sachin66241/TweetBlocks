@@ -3,6 +3,8 @@ var userslist=[];
 var signedacc=[];
 
 async function connect() {
+    try{
+
     scatterConnected = await scatter.connect("TestPage");
     await console.log('connected', scatterConnected);
     
@@ -22,7 +24,18 @@ async function connect() {
         authorization: [ `${account.name}@${account.authority}`]
     };
     eos = scatter.eos(network, Eos, options);
+   
+
+} catch(err){
+    if(err.type ="identity_rejected"){
+
+    window.location.replace("http://127.0.0.1:5500/index.html");
+    }
+
+} 
+
 }
+ 
 
 async function getTable(scope,table){
     let result = await eos.getTableRows(true, "slateme22333", scope, table);
@@ -125,7 +138,7 @@ function tweets(tweetIndex){
             var button = document.createElement('button');
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
-            replyButton.innerHTML = "replies";
+            replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
             delButton.innerHTML = "delete";
             retweetButton.innerHTML = "reTweet";
             button.innerHTML = "Comment";
@@ -140,12 +153,12 @@ function tweets(tweetIndex){
                 likedUsers.push(bal.rows[0].likes[val]);
             }
             if(likedUsers.includes(account.name)){
-                likeButton.innerHTML="unlike";
+                likeButton.innerHTML="unlike ("+likedUsers.length+")";
                 likeButton.setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
             }
             else{
                 
-                likeButton.innerHTML="like";
+                likeButton.innerHTML="like ("+likedUsers.length+")";
                 likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
             } 
             var xxx = input.value;
@@ -166,8 +179,8 @@ function tweets(tweetIndex){
             
             delete mainFollowing[0];
             if(acc.accName==account.name){
-                //iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();
-                iname.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();  
+                iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();
+               
             }
             else   {
                 if(retweeters.length>0){
@@ -203,13 +216,20 @@ function tweets(tweetIndex){
                 var tweeter=userslist.find(function(x){ return x.accName === parameters});
 
                 if(parameters!=acc.accName){
-                 iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
-                }
+                    if(acc.accName==account.name){
+                        iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+ "Your".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
+                        }
+                    else{
+                        iname.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted "+acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() + "Tweet";
+
+                        }
+                    }
+                
                 else{
                     iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold(); 
-                }
+                    }
            
-         }
+            }
             
             idiv1.innerHTML = bal.rows[0].msg.link('http://127.0.0.1:5500/scribblebook.html#' + bal.rows[0].tweetId);
             idiv2.innerHTML= convert(bal.rows[0].timestamp);

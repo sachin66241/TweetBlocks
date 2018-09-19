@@ -15,7 +15,7 @@
 </head>
 <body>
     <a href="http://127.0.0.1:5500/home.html"><button>Home</button></a>
-    <button onclick="signOut()">SIGN OUT</button>
+    <button id="signUp" style="display:none"></button>
     <button id="buttonFollow" style="display:none"></button>
     <button id="buttonFollowers">Followers</button>
     <button id="buttonFollowing">Following</button> 
@@ -90,10 +90,26 @@
 
         // //////////////////////////////
         var parameters = location.href.split("#")[1];
-       
+        var signedUp = false; 
         
 
         connect().then(function(){
+            getTable(account.name, "account").then(function(res){
+            if(res.rows.length!=0){
+                signedUp=true;
+                $("#signUp").html("Sign Out");
+                $("#signUp").show();
+                $("#signUp").attr("onclick","signOut()");
+
+            }
+            else{
+                signedUp=false;
+                $("#signUp").html("Sign Up");
+                $("#signUp").attr("onclick","signUp()");
+                $("#signUp").show();
+            }
+
+            });
             getTable("slateme22333", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
@@ -102,8 +118,12 @@
             main();
             });
         })
+        function signUp(){
+            window.location.replace("http://127.0.0.1:5500/signup.html");
+        }
 
         function follow(){
+            if(signedUp){
             eos.contract('slateme22333').then(contract => {
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
@@ -116,6 +136,8 @@
                 });
             });
         }
+        else alert("sign up first");
+    }
 
         function unfollow(){
             eos.contract('slateme22333').then(contract => {
@@ -160,7 +182,7 @@
         function main(){
            
             var acc = userslist.find(function(x){ return x.accName === account.name });
-            var mainAcc=acc.userName;
+            //var mainAcc=acc.userName;
             getTable(parameters, "account").then(function(bal){
                 console.log(bal);
                 if(parameters==account.name){
@@ -180,6 +202,7 @@
                     var acc = userslist.find(function(x){ return x.accName === bal.rows[0].followers[foll] });
                     accFollowers.push(acc.userName.link('http://127.0.0.1:5500/profile.html#' + acc.accName));
                     foll++
+                    
                 }
                 
                 var follo=0;

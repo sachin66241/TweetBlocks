@@ -12,32 +12,24 @@
         <script src="js/main.js"></script>
         <title>Scibble Display</title>
         <!-- <link rel="stylesheet" href="profile.css"> -->
-        <h3 id="name"></h4>
-        <h2 id="msg"></h2>
-        <div id="buttons"></div>
-        <textarea id = "comment" placeholder = "Comment here...!"></textarea>       
-         <button id = "buttonComment" >Comment</button>
-         <br> <br>
-        <div id = "replydiv"></div>
+
         
 
 
 
 </head>
 <body>
-    <a href="http://127.0.0.1:5500/home.html"><button>Home</button></a>
-        <h3 id="name"></h4>
+            <a href="http://127.0.0.1:5500/home.html"><button>Home</button></a>
+            <h3 id="name"></h4>
             <h2 id="msg"></h2>
             <div id="buttons"></div>
-            <!-- <button id = "likeButton"></button>
-            <button id = "delButton">Delete</button>
-            <button id = "retweetButton">ReTweet</button> -->
-            <div id = "replydiv"></div>
-            <textarea id = "comment" placeholder = "Comment here...!"></textarea>
+            <textarea id = "comment" placeholder = "Comment here...!"></textarea>       
             <button id = "buttonComment" >Comment</button>
+            <br> <br>
+            <div id = "replydiv"></div>
+            
     <script>
-    //    $("delButton").hide();
-    //    $("retweetButton").hide();
+    
         var replymsg;
         var replyer;
         var replytime;
@@ -50,12 +42,6 @@
                    
                         userslist=res;
                         console.log("LIST:", userslist);
-                        // for(var i = 0;i < res.rows.length;i++) {
-                        //         userslist.push(res.rows[i]);
-                        //         console.log(userslist);
-                        // //     allUsers.push(res.rows[i]);
-                        // //     users.push(res.rows[i].userName);
-                        // }
                         displayTweet(tweetId);
                         console.log("tweetidsuccess");
                 })
@@ -65,12 +51,15 @@
 
         
 function displayTweet(tweetId){ 
-
+  
     var retweetButton = document.createElement('button');
     var likeButton = document.createElement('button');
     var delButton = document.createElement('button');
     retweetButton.innerHTML = "Retweet";
     delButton.innerHTML = "Delete";
+    var likeCount = document.createElement('button');
+    var retweetCount = document.createElement('button');
+    var linebreak = document.createElement("br");
 
 
     console.log("inside display"); 
@@ -79,9 +68,13 @@ function displayTweet(tweetId){
 
         getTable(tweetId, "tweettable").then(function(bal){
             console.log("bal:",bal) 
+
+            var likescount = bal.rows[0].likes.length;
+            var retweetcount = bal.rows[0].retweet.length;
+
             for(var i = 0; i<userslist.rows.length; i++){ 
                 if(bal.rows[0].accName == userslist.rows[i].accName)
-                document.getElementById("name").innerHTML =  userslist.rows[i].userName;
+                document.getElementById("name").innerHTML =  userslist.rows[i].userName.link('http://127.0.0.1:5500/profile.html#' + userslist.rows[i].accName);
                 document.getElementById("msg").innerHTML =  bal.rows[0].msg;
             } 
             var retweeters=bal.rows[0].retweet;
@@ -102,13 +95,28 @@ function displayTweet(tweetId){
              console.log("myacc:", account.name);
              console.log("tweetacc:",bal.rows[0].accName);
              buttons.appendChild(likeButton);
+        
 
-             if(account.name == bal.rows[0].accName) buttons.appendChild(delButton);
+             if(account.name == bal.rows[0].accName) {
+                 buttons.appendChild(delButton);
+                 buttons.appendChild(linebreak);
+             }
 
-            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name)))) buttons.appendChild(retweetButton);
+            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name)))) {
+                buttons.appendChild(retweetButton);
+                buttons.appendChild(linebreak);
+            }
 
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
+            
+             likeCount.innerHTML = "Likes("+likescount+")";
+             retweetCount.innerHTML = "Retweets("+retweetcount+")";
+             buttons.appendChild(likeCount);
+             buttons.appendChild(retweetCount);
+             
+
+            
     
         for(var i = 0; i<bal.rows[0].replies.length; i++){
            
@@ -119,12 +127,12 @@ function displayTweet(tweetId){
                 getTable(bal.rows[0].replies[i], "replytable").then(function(res){ 
                     console.log("res:", res);
                     replymsg = res.rows[0].reply;
-                    tweeter = res.rows[0].accName;
+                    // tweeter = res.rows[0].accName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
                     replytime = res.rows[0].timestamp;
 
                     for(var i = 0; i<userslist.rows.length; i++){ 
                         if(res.rows[0].accName == userslist.rows[i].accName)
-                           replyer =  userslist.rows[i].userName;
+                           replyer =  userslist.rows[i].userName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
                     } 
                     dynamic();
                 });

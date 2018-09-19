@@ -39,35 +39,72 @@
         });
 
         function login(){
-            if(scatterLock == true)  {
-                connect().then(function(){
-                    if(account!=undefined){
-                        getTable(account.name,"account").then(function(res){
-                            console.log(account.name);
-                            if(res.rows.length!=0)  window.location.replace("http://127.0.0.1:5500/home.html");
-                            else  modal.style.display = "block";
-                            $("#error").text("Account Doesn't Exist");
-                        }).catch(function(){
-                            alert(" error ");
-                        });
+            if(scatter.identity != undefined){
+                scatter.forgetIdentity().then(function(){
+                    if(scatterLock == true)  {
+                    connect().then(function(){
+                        if(account!=undefined){
+                            getTable(account.name,"account").then(function(res){
+                                console.log(account.name);
+                                if(res.rows.length!=0)  window.location.replace("http://127.0.0.1:5500/home.html");
+                                else  modal.style.display = "block";
+                                $("#error").text("Account Doesn't Exist");
+                            }).catch(function(){
+                                alert(" error ");
+                            });
+                        }
+                    });
+                }
+                else{
+                    modal.style.display = "block";
+                    $("#error").text("install scatter");
+                }
+
+                var modal = document.getElementById('myModal');
+                // When the user clicks on <span> (x), close the modal
+                $("#close").click(function(){
+                    modal.style.display = "none";
+                });
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
                     }
+                }
                 });
             }
             else{
-                modal.style.display = "block";
-                $("#error").text("install scatter");
-            }
+                if(scatterLock == true)  {
+                    connect().then(function(){
+                        if(account!=undefined){
+                            getTable(account.name,"account").then(function(res){
+                                console.log(account.name);
+                                if(res.rows.length!=0)  window.location.replace("http://127.0.0.1:5500/home.html");
+                                else  modal.style.display = "block";
+                                $("#error").text("Account Doesn't Exist");
+                            }).catch(function(){
+                                alert(" error ");
+                            });
+                        }
+                    });
+                }
+                else{
+                    modal.style.display = "block";
+                    $("#error").text("install scatter");
+                }
 
-            var modal = document.getElementById('myModal');
-            // When the user clicks on <span> (x), close the modal
-            $("#close").click(function(){
-                modal.style.display = "none";
-            });
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
+                var modal = document.getElementById('myModal');
+                // When the user clicks on <span> (x), close the modal
+                $("#close").click(function(){
                     modal.style.display = "none";
+                });
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
                 }
             }
         }

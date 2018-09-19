@@ -23,8 +23,8 @@ function tweets(tweetIndex){
               input.id='comment'+bal.rows[0].tweetId;
               input.name = "post";
               input.maxLength = "100";
-              input.cols = "20";
-              input.rows = "3";
+              input.style.width = 400;
+              input.style.height = 25;
 
               val=0;
               var likedUsers=[];                    

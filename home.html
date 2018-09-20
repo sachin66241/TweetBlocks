@@ -176,7 +176,6 @@ input.addEventListener("keyup", function(event) {
           }
         }
         followingTweet(mainFollowing).then(function(){
-       sorting();
         });          
       });
     } 
@@ -194,37 +193,15 @@ input.addEventListener("keyup", function(event) {
       var m=mainFollowing.length;
       for( i=0;i<m;i++){
         var run = await getTable(mainFollowing[i], "account")
-        var j;
-        var r=run.rows[0].tweetId.length;
-
-        for(j = 0;j < r;j++){
-          var res = await getTable(run.rows[0].tweetId[j], "tweettable")
-          dict.push(res.rows[0].tweetId);
-          arr.push(parseInt(res.rows[0].timestamp));
-        
-        }
-      }
-      
-    }
-
-    function sorting(){  
-      var l=arr.length;
-      var a, c, temp, temp1;
-      for( a=0;a<l;a++){
-        for( c=l-1;c>0;c--){
-          if (arr[c]<arr[c-1]){
-            temp=dict[c-1];
-            dict[c-1]=dict[c];
-            dict[c]=temp;
-            temp1=arr[c-1];
-            arr[c-1]=arr[c];
-            arr[c]=temp1;
-
+          for(var j=0;j<run.rows[0].tweetId.length;j++){
+          dict.push(run.rows[0].tweetId[j]);
           }
         }
-      }
-      tweets(dict);
-    } 
+        dict.sort(function(a,b){return a-b});
+        tweets(dict);
+    }
+
+    
     String.prototype.hashCode = function() {
         var hash = 0, i = 0, len = this.length;
          while ( i < len ) {

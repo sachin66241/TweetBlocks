@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
     <script src="js/scatter.min.js"></script>
@@ -17,7 +19,7 @@
     <!-- <script>signIn();</script> -->
      <form name="F2">
        <br> USERNAME:<br>
-        <input type="text" name="userName"><br>
+        <input id="userNa" type="text" name="userName"><br>
         <br>DOB:<br>
         <input type="date" id="myDate"  value="2018-12-22"><br>
        <br> PHONE:<br>
@@ -263,7 +265,14 @@
        
 function signUp(){
 
+    if($("#userNa").val()==''){
+        alert("Enter User Name");
+        console.log("usename needed");
+        return;
+    }
 
+
+       
 network = {
     protocol:'http', 
     blockchain:'eos',
@@ -276,7 +285,10 @@ const requiredFields = {
 };
      
 
-
+    if(scatter.identity != undefined){
+        scatter.forgetIdentity(function(){});
+    }
+    setTimeout(function(){
      scatter.getIdentity({accounts:[network]}).then(function(id){
             const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
             const options = {
@@ -289,7 +301,7 @@ const requiredFields = {
 
     var eos = scatter.eos(network, Eos, options);
 
-            eos.contract('slateme22333').then(contract => {
+            eos.contract('slateme33333').then(contract => {
 
              var accName = account.name;
              var userName = document.forms["F2"]["userName"].value;
@@ -309,10 +321,13 @@ const requiredFields = {
                 console.log('res', res);
                 }).catch(function(err){
                     console.log('err', err);
+                    alert("Account is already signup with Scatter");
                 });
             });
 
         })
+    },100);
+
 
 
 }

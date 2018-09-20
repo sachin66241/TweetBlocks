@@ -354,7 +354,22 @@
 <script>
   function removeImage(){
     imageUrl="";
+    
+    getTable(account.name, "account").then(function(bal){
+    
+    if(bal.rows[0].gender == "female"){
+     
+                    $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                
+                   }
+                    else if(bal.rows[0].gender == "male") {
+        
+                        $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+                    }
+                    else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+               })
   }
+
             
         connect().then(function(){
            formerResult();
@@ -427,7 +442,7 @@
           gender=$("#genSelect").val();
           dob[0]=convertDate(dob[1]);
 
-          eos.contract('slateme22333').then(contract => {
+          eos.contract('slateme33333').then(contract => {
 
              contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
                     console.log('res', res);
@@ -450,7 +465,7 @@
                 var txt;
             if (confirm("Are you Sure!")) {
                 
-                eos.contract('slateme22333').then(contract => {
+                eos.contract('slateme33333').then(contract => {
 
                 contract.deleteacc({accName:account.name},options).then(function(res){
                       console.log('res', res);

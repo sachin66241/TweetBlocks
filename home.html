@@ -117,7 +117,7 @@ input.addEventListener("keyup", function(event) {
       getTable(account.name, "account").then(function(res){
         if(res.rows.length==0) window.location.replace("http://127.0.0.1:5500/index.html");
         $("#userName").text(res.rows[0].userName);
-        getTable("slateme22333", "users").then(function(res){
+        getTable("slateme33333", "users").then(function(res){
           for(var i = 0;i < res.rows.length;i++) {
             userslist.push(res.rows[i]);
             users.push(res.rows[i].userName);
@@ -130,14 +130,17 @@ input.addEventListener("keyup", function(event) {
     });
 
     function tweet(){
-        eos.contract('slateme22333').then(contract => {
+        eos.contract('slateme33333').then(contract => {
           var accName = account.name;
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
           var tohash = accName+timestamp+msg;
           console.log("tohash:",tohash);
-          var tweetId = Math.abs(tohash.hashCode());
+          var tweetId = (Math.abs(tohash.hashCode()))/100000;
+          
           // var tweetid = Math.abs(tweetId);
+          tweetId = timestamp+""+tweetId
+           tweetId = parseInt(tweetId);
           console.log("tweetid:",tweetId);
           if(msg.length>0){
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
@@ -176,7 +179,6 @@ input.addEventListener("keyup", function(event) {
           }
         }
         followingTweet(mainFollowing).then(function(){
-       sorting();
         });          
       });
     } 
@@ -194,37 +196,15 @@ input.addEventListener("keyup", function(event) {
       var m=mainFollowing.length;
       for( i=0;i<m;i++){
         var run = await getTable(mainFollowing[i], "account")
-        var j;
-        var r=run.rows[0].tweetId.length;
-
-        for(j = 0;j < r;j++){
-          var res = await getTable(run.rows[0].tweetId[j], "tweettable")
-          dict.push(res.rows[0].tweetId);
-          arr.push(parseInt(res.rows[0].timestamp));
-        
-        }
-      }
-      
-    }
-
-    function sorting(){  
-      var l=arr.length;
-      var a, c, temp, temp1;
-      for( a=0;a<l;a++){
-        for( c=l-1;c>0;c--){
-          if (arr[c]<arr[c-1]){
-            temp=dict[c-1];
-            dict[c-1]=dict[c];
-            dict[c]=temp;
-            temp1=arr[c-1];
-            arr[c-1]=arr[c];
-            arr[c]=temp1;
-
+          for(var j=0;j<run.rows[0].tweetId.length;j++){
+          dict.push(run.rows[0].tweetId[j]);
           }
         }
-      }
-      tweets(dict);
-    } 
+        dict.sort(function(a,b){return a-b});
+        tweets(dict);
+    }
+
+    
     String.prototype.hashCode = function() {
         var hash = 0, i = 0, len = this.length;
          while ( i < len ) {

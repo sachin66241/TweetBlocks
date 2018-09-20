@@ -121,6 +121,8 @@ function displayTweet(tweetId){
     console.log("tweetId:", tweetId); 
 
         getTable(tweetId, "tweettable").then(function(bal){
+           if (bal.rows[0]==undefined)
+            window.location.replace("http://127.0.0.1:5500/error.html");
             console.log("bal:",bal) 
 
             var likescount = bal.rows[0].likes.length;

@@ -206,6 +206,9 @@
             var acc = userslist.find(function(x){ return x.accName === account.name });
             //var mainAcc=acc.userName;
             getTable(parameters, "account").then(function(bal){
+                if(bal.rows[0]== undefined){
+                    window.location.replace("http://127.0.0.1:5500/error.html");
+                }
                 console.log(bal);
                 if(parameters==account.name){
                     $("#buttonEdit").show();

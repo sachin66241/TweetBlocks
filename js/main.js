@@ -137,6 +137,7 @@ function tweets(unique){
     });
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){
+            $("#loader").hide();
             var indivTweetDiv = document.createElement('div');
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');

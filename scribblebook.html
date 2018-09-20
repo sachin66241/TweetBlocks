@@ -89,7 +89,7 @@
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
         // $("#comment").onclick=comment(tweetId);
         connect().then((result) => {
-            getTable("slateme22333", "users").then(function(res){
+            getTable("slateme33333", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
                 }
@@ -243,7 +243,7 @@ function comment(tweetid){
     var eos = scatter.eos(network, Eos, options);
     scatter.getIdentity({accounts:[network]}).then(function(id){
         const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
-        eos.contract('slateme22333').then(contract => {
+        eos.contract('slateme33333').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = id.accounts[0].name;
             var timestamp =  Date.now();

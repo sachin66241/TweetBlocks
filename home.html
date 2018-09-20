@@ -12,7 +12,7 @@
   <script src="js/main.js"></script>
   <title>Home</title>
   <link rel="stylesheet" href="css/profile.css">
-  <link href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <button onclick="signOut()">SIGN OUT</button>
@@ -36,6 +36,13 @@
   <br><br>
   <div id="allTweetDiv">
     <h1 style="text-align: center;">Recent tweets</h1>
+    <div id="loader" class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
   </div>
 
   <button id="myBtn" style="display:none">Open Modal</button>
@@ -132,7 +139,7 @@ input.addEventListener("keyup", function(event) {
           var tweetId = Math.abs(tohash.hashCode());
           // var tweetid = Math.abs(tweetId);
           console.log("tweetid:",tweetId);
-
+          if(msg.length>0){
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             $("#tweetMsg").val("");
@@ -141,6 +148,8 @@ input.addEventListener("keyup", function(event) {
           }).catch(function(err){
             console.log('err', err);
           });
+        }
+        else alert("scribble something");
         });
     }
 

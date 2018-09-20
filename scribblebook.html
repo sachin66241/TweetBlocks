@@ -91,7 +91,7 @@
         connect().then((result) => {
             getTable("slateme22333", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
-                   userslist.push(res.rows[i]);
+                userslist.push(res.rows[i]);
                 }
                        
                         displayTweet(tweetId);
@@ -261,46 +261,33 @@ function comment(tweetid){
 function rep(twId){
 
 getTable(twId, "tweettable").then(function(lik){
-    console.log("lik:", lik);
-    console.log(userslist);
-    var modaldiv = document.getElementById("tweetInrply");
-    modaldiv.innerHTML = '';
-  
-    for(var i = 0; i<userslist.rows.length; i++){
-                for(var j = 0; j<lik.rows[0].likes.length; j++){ 
-                if(userslist.rows[i].accName == lik.rows[0].likes[j]){
-                    console.log("ok");
-                    console.log(userslist.rows[i].userName);
+    var modaldiv = document.getElementById("tweetInrply");            
+        $("#tweetInrply").empty();
+        for(var i=0;i<lik.rows[0].likes.length;i++){
+                    var tweeter=userslist.find(function(x){ return x.accName === lik.rows[0].likes[i] });
                     var liker = document.createElement("div");
-                    liker.innerHTML = userslist.rows[i].userName.link('http://127.0.0.1:5500/profile.html#' + userslist.rows[i].accName);
                     document.getElementById("tweetInrply").appendChild(liker);
-                    }
-                }
-                modal.style.display = "block";  
-           }     
+                    liker.innerHTML=tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold();
+                    modal.style.display = "block";
+
+                }                
+               
   });
 }
 
 function com(twId){
 
 getTable(twId, "tweettable").then(function(lik){
-    console.log("lik:", lik);
-    console.log(userslist);
-    var modaldiv = document.getElementById("tweetInrply");
-    modaldiv.innerHTML = '';
-  
-    for(var i = 0; i<userslist.rows.length; i++){
-                for(var j = 0; j<lik.rows[0].retweet.length; j++){ 
-                if(userslist.rows[i].accName == lik.rows[0].retweet[j]){
-                    console.log("ok");
-                    console.log(userslist.rows[i].userName);
-                    var retweeter = document.createElement("div");
-                    retweeter.innerHTML = userslist.rows[i].userName.link('http://127.0.0.1:5500/profile.html#' + userslist.rows[i].accName);
-                    document.getElementById("tweetInrply").appendChild(retweeter);
-                    }
-                }
-                modal.style.display = "block";  
-           }     
+    var modaldiv = document.getElementById("tweetInrply");            
+        $("#tweetInrply").empty();
+        for(var i=0;i<lik.rows[0].retweet.length;i++){
+                    var tweeter=userslist.find(function(x){ return x.accName === lik.rows[0].retweet[i] });
+                    var liker = document.createElement("div");
+                    document.getElementById("tweetInrply").appendChild(liker);
+                    liker.innerHTML=tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold();
+                    modal.style.display = "block";
+
+                }        
   });
 }
 

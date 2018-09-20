@@ -85,7 +85,8 @@
         var replyer;
         var replytime;
         var parameters = location.href.split("#")[1];
-        var tweetId = parseInt(parameters);
+        console.log("para:", parameters);
+        var tweetId = parameters;
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
         // $("#comment").onclick=comment(tweetId);
         connect().then((result) => {

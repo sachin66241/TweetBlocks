@@ -38,7 +38,7 @@ async function connect() {
  
 
 async function getTable(scope,table){
-    let result = await eos.getTableRows(true, "slateme44333", scope, table);
+    let result = await eos.getTableRows(true, "slateme11444", scope, table);
     return result;
   }
 
@@ -121,7 +121,7 @@ function comment(tweetid){
     var eos = scatter.eos(network, Eos, options);
     scatter.getIdentity({accounts:[network]}).then(function(id){
         const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
-        eos.contract('slateme44333').then(contract => {
+        eos.contract('slateme11444').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = id.accounts[0].name;
             var timestamp =  Date.now();
@@ -337,7 +337,7 @@ function reply(replyIndex){
 }
 
 function like(twId){
-    eos.contract('slateme44333').then(contract => {
+    eos.contract('slateme11444').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
            // likeButton.innerHTML="unlike";
@@ -349,7 +349,7 @@ function like(twId){
 }
 
 function unlike(twId){
-    eos.contract('slateme44333').then(contract => {
+    eos.contract('slateme11444').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
            // likeButton.innerHTML="like";
@@ -361,7 +361,7 @@ function unlike(twId){
 }
 
 function deleteTweet(twId){
-    eos.contract('slateme44333').then(contract => {
+    eos.contract('slateme11444').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             main();
@@ -372,7 +372,7 @@ function deleteTweet(twId){
 }
 
 function reTweet(twId){
-    eos.contract('slateme44333').then(contract => {
+    eos.contract('slateme11444').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             main();

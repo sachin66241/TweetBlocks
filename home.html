@@ -12,6 +12,7 @@
   <script src="js/main.js"></script>
   <title>Home</title>
   <link rel="stylesheet" href="css/profile.css">
+  <link href="css/style.css">
 </head>
 <body>
   <button onclick="signOut()">SIGN OUT</button>
@@ -28,12 +29,13 @@
     </form>
     <div>
       <br>
-      <textarea id="tweetMsg" cols="30" rows="4" placeholder="write here..........!!!!"></textarea><br>
+      <textarea id="tweetMsg" cols="30" rows="4" placeholder="write here!!!"></textarea><br>
       <input type="button" value="TWEET" onclick="tweet()"> 
     </div>     
   </form>
   <br><br>
-  <div id="allTweets">
+  <div id="allTweetDiv">
+    <h1 style="text-align: center;">Recent tweets</h1>
   </div>
 
   <button id="myBtn" style="display:none">Open Modal</button>

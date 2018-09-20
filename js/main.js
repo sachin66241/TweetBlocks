@@ -157,15 +157,13 @@ function a(twId){
 function tweets(unique){ 
     var curr=window.location.href; 
     if(curr=="http://127.0.0.1:5500/home.html") mainFollowing.splice(0, 1);
-    iDiv = document.createElement('div');
-    iDiv.id="divisionId"
+    var allTweetDiv = document.getElementById("allTweetDiv");
     var tweetIndex = unique.filter(function(elem, index, self) {
         return index === self.indexOf(elem);
-    })
-   
-    iDiv.innerHTML="..........................TWEETS ..................................";
+    });
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){
+            var indivTweetDiv = document.createElement('div');
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
             var idiv1 = document.createElement('div');
@@ -295,19 +293,21 @@ function tweets(unique){
             
             idiv1.innerHTML = bal.rows[0].msg.link('http://127.0.0.1:5500/scribblebook.html#' + bal.rows[0].tweetId);
             idiv2.innerHTML= convert(bal.rows[0].timestamp);
-            iDiv.appendChild(retweetdiv);
-            iDiv.appendChild(iname);
-            iDiv.appendChild(idiv1);
-            iDiv.appendChild(idiv2);
-            iDiv.appendChild(idiv3);
-            iDiv.appendChild(input);
-            iDiv.appendChild(button);
-            if(account.name==bal.rows[0].accName)   iDiv.appendChild(delButton);
-            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   iDiv.appendChild(retweetButton);
-            iDiv.appendChild(button);
-            iDiv.appendChild(replyButton);
-            iDiv.appendChild(likeButton);
-            document.getElementsByTagName('body')[0].appendChild(iDiv);
+            indivTweetDiv.appendChild(retweetdiv);
+            indivTweetDiv.appendChild(iname);
+            indivTweetDiv.appendChild(idiv1);
+            indivTweetDiv.appendChild(idiv2);
+            indivTweetDiv.appendChild(idiv3);
+            indivTweetDiv.appendChild(input);
+            indivTweetDiv.appendChild(button);
+            if(account.name==bal.rows[0].accName)   indivTweetDiv.appendChild(delButton);
+            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   indivTweetDiv.appendChild(retweetButton);
+            indivTweetDiv.appendChild(button);
+            indivTweetDiv.appendChild(replyButton);
+            indivTweetDiv.appendChild(likeButton);
+            indivTweetDiv.style.paddingBottom = "40px";
+            allTweetDiv.appendChild(indivTweetDiv);
+            //document.getElementsByTagName('body')[0].appendChild(iDiv);
         });
     }
 }

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,10 @@
         <script src="js/scatter.min.js"></script> 
         <script src="js/autopredict.js"></script>
         <script src="js/main.js"></script>
+        <link rel="stylesheet" href="css/edit.css">
+
         <title>Scibble Display</title>
-        <!-- <link rel="stylesheet" href="profile.css"> -->
+        <link rel="stylesheet" href="profile.css">
 
         
 
@@ -22,14 +25,62 @@
             <a href="http://127.0.0.1:5500/home.html"><button>Home</button></a>
             <h3 id="name"></h4>
             <h2 id="msg"></h2>
+            <!-- <input type="button" value="LIKE COUNT" onclick=" displayTweet()"> -->
+            <!-- <input type="button" value="RETWEET COUNT" onclick=" displayTweet()"> -->
             <div id="buttons"></div>
             <textarea id = "comment" placeholder = "Comment here...!"></textarea>       
             <button id = "buttonComment" >Comment</button>
             <br> <br>
             <div id = "replydiv"></div>
+
+
+            <button id="myBtn" style="display:none">Open Modal</button>
+  
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+            
+              <!-- Modal content -->
+              <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                  <p id="tweetInrply"></p>
+                  
+                </div>
+                <div class="modal-footer">
+                  <h3></h3>
+                </div>
+              </div>
+            
+            </div>
+         
             
     <script>
-    
+        var modal = document.getElementById('myModal');
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         var replymsg;
         var replyer;
         var replytime;
@@ -57,8 +108,8 @@ function displayTweet(tweetId){
     var delButton = document.createElement('button');
     retweetButton.innerHTML = "Retweet";
     delButton.innerHTML = "Delete";
-    var likeCount = document.createElement('button');
-    var retweetCount = document.createElement('button');
+    var likeCount = document.createElement('text');
+    var retweetCount = document.createElement('text');
     var linebreak = document.createElement("br");
 
 
@@ -91,6 +142,19 @@ function displayTweet(tweetId){
                 likeButton.innerHTML="Like";
                 likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
             }
+
+             replies=bal.rows[0].replies;
+           
+           if(likescount>0){
+             
+          
+            likeCount.setAttribute('onclick','rep('+bal.rows[0].tweetId+')');
+          
+             }
+
+
+             retweetCount.setAttribute('onclick', 'com('+bal.rows[0].tweetId+')');
+            
              
              console.log("myacc:", account.name);
              console.log("tweetacc:",bal.rows[0].accName);
@@ -110,8 +174,8 @@ function displayTweet(tweetId){
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
             
-             likeCount.innerHTML = "Likes("+likescount+")";
-             retweetCount.innerHTML = "Retweets("+retweetcount+")";
+             likeCount.innerHTML = "LIKES("+likescount+")";
+             retweetCount.innerHTML = "RETWEET("+retweetcount+")";
              buttons.appendChild(likeCount);
              buttons.appendChild(retweetCount);
              
@@ -193,10 +257,70 @@ function comment(tweetid){
         });
     })
 }
-            
+
+
+function rep(twId){
+
+getTable(twId, "tweettable").then(function(lik){
+    console.log("lik:", lik);
+    console.log(userslist);
+    var modaldiv = document.getElementById("tweetInrply");
+    modaldiv.innerHTML = '';
+  
+    for(var i = 0; i<userslist.rows.length; i++){
+                for(var j = 0; j<lik.rows[0].likes.length; j++){ 
+                if(userslist.rows[i].accName == lik.rows[0].likes[j]){
+                    console.log("ok");
+                    console.log(userslist.rows[i].userName);
+                    var liker = document.createElement("div");
+                    liker.innerHTML = userslist.rows[i].userName.link('http://127.0.0.1:5500/profile.html#' + userslist.rows[i].accName);
+                    document.getElementById("tweetInrply").appendChild(liker);
+                    }
+                }
+                modal.style.display = "block";  
+           }     
+  });
+}
+
+function com(twId){
+
+getTable(twId, "tweettable").then(function(lik){
+    console.log("lik:", lik);
+    console.log(userslist);
+    var modaldiv = document.getElementById("tweetInrply");
+    modaldiv.innerHTML = '';
+  
+    for(var i = 0; i<userslist.rows.length; i++){
+                for(var j = 0; j<lik.rows[0].retweet.length; j++){ 
+                if(userslist.rows[i].accName == lik.rows[0].retweet[j]){
+                    console.log("ok");
+                    console.log(userslist.rows[i].userName);
+                    var retweeter = document.createElement("div");
+                    retweeter.innerHTML = userslist.rows[i].userName.link('http://127.0.0.1:5500/profile.html#' + userslist.rows[i].accName);
+                    document.getElementById("tweetInrply").appendChild(retweeter);
+                    }
+                }
+                modal.style.display = "block";  
+           }     
+  });
+}
+
+
+
+
+
+          
+
+                    
+
+
+
         
         </script>
     
 </body>
 </html>
       
+	
+	
+	

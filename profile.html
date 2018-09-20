@@ -259,7 +259,21 @@
                     document.getElementById('buttonFollow').setAttribute('onclick','follow()');
                 }
                 $("#profilename").text(bal.rows[0].userName);
-               $("#proimg").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
+               
+               if(bal.rows[0].profilepic == ""){
+                   if(bal.rows[0].gender == "female"){
+                    $("#proimg").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                
+                   }
+                    else if(bal.rows[0].gender == "male") {
+        
+                        $("#proimg").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+                    }
+                    else $("#proimg").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+               }
+               else {
+                   $("#proimg").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
+               }
                 $("#status").text(bal.rows[0].stat);
                 console.log(bal.rows[0].tweetId); 
                 length=bal.rows[0].tweetId.length;

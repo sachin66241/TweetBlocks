@@ -56,7 +56,7 @@ function signOut(){
         $("#rplContent").html("Signed Out");
         setTimeout(function(){
             location.replace("http://127.0.0.1:5500/index.html");
-        },2000);
+        },1000);
        
     });
 }
@@ -65,18 +65,44 @@ function convert(scribbletime){
 
     scribblesec = scribbletime/1000;
     scribblesec = parseInt(scribblesec);
-
     var myDate = new Date( scribblesec *1000);
-   /// console.log(myDate);
     var gmt = (myDate.toLocaleString());
+    var gmt1=gmt.split(",");
+    var scrdate=gmt1[0];
+    var now0=converttime(Date.now());
+    var now=now0.split(",");
+    if(gmt1[0]==now[0]){
+        scrdate="today ";
+    }
+    var gmt2=now[0].split("/");
+    var ygmt=(gmt2[0]-1)+"/"+gmt2[1]+"/"+gmt2[2];
+    if(ygmt==gmt1[0]){
+        scrdate="yesterday ";
+    }
+    var tgmt=gmt1[1].split(":");
+    if(tgmt[0]>12){
+        tgmt[0]=tgmt[0]-12;
+        var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
+    }
+    else var scrtime=tgmt[0]+":"+tgmt[1]+" AM" 
 
-    //var scribblediv = document.createElement("div");
-   // scribblediv.innerHTML = "<br>" + (msg.link("scribblepage.html#" + tweetid)) +"<br>" + gmt;
-    //document.getElementById('datetime').innerHTML = convdataTime;
-
-    return gmt;
+    return scrdate+ " "+scrtime;
     
    }
+
+   function converttime(scribbletime){
+    
+    scribblesec = scribbletime/1000;
+    scribblesec = parseInt(scribblesec);
+    var myDate = new Date( scribblesec *1000);
+    var gmt = (myDate.toLocaleString());
+
+    
+
+    return gmt;
+
+}
+
 
 function convertDate(myDate){
     
@@ -137,6 +163,7 @@ function tweets(unique){
     });
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){
+            $("#loader").hide();
             var indivTweetDiv = document.createElement('div');
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
@@ -374,3 +401,10 @@ function find_duplicate_in_string(arra1) {
     return result;
 
 }
+
+var current = window.location.href;
+setInterval(function() {
+    if (window.location.href!== current) {
+    window.location.reload();
+    }
+    }, 2000);

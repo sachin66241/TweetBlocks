@@ -132,7 +132,7 @@
             }
 
             });
-            getTable("slateme33333", "users").then(function(res){
+            getTable("slateme44333", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
                 signedacc.push(res.rows[i].accName);
@@ -146,7 +146,7 @@
 
         function follow(){
             if(signedUp){
-            eos.contract('slateme33333').then(contract => {
+            eos.contract('slateme44333').then(contract => {
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
                     console.log('res', res);
@@ -162,7 +162,7 @@
     }
 
         function unfollow(){
-            eos.contract('slateme33333').then(contract => {
+            eos.contract('slateme44333').then(contract => {
 
                 contract.unfollow({accName:account.name,unfollowing:parameters},options).then(function(res){
                     console.log('res', res);

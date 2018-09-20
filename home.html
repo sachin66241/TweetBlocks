@@ -137,6 +137,10 @@ input.addEventListener("keyup", function(event) {
           var tohash = accName+timestamp+msg;
           console.log("tohash:",tohash);
           var tweetId = (Math.abs(tohash.hashCode()))/100000;
+          if(tweetId.toString().length!=5){
+          var x ="0" * (5-(tweetId.toString().length));
+          tweetId=tweetId+x;
+          }
           
           // var tweetid = Math.abs(tweetId);
           tweetId = timestamp+""+tweetId

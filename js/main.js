@@ -65,18 +65,44 @@ function convert(scribbletime){
 
     scribblesec = scribbletime/1000;
     scribblesec = parseInt(scribblesec);
-
     var myDate = new Date( scribblesec *1000);
-   /// console.log(myDate);
     var gmt = (myDate.toLocaleString());
+    var gmt1=gmt.split(",");
+    var scrdate=gmt1[0];
+    var now0=converttime(Date.now());
+    var now=now0.split(",");
+    if(gmt1[0]==now[0]){
+        scrdate="today ";
+    }
+    var gmt2=now[0].split("/");
+    var ygmt=(gmt2[0]-1)+"/"+gmt2[1]+"/"+gmt2[2];
+    if(ygmt==gmt1[0]){
+        scrdate="yesterday ";
+    }
+    var tgmt=gmt1[1].split(":");
+    if(tgmt[0]>12){
+        tgmt[0]=tgmt[0]-12;
+        var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
+    }
+    else var scrtime=tgmt[0]+":"+tgmt[1]+" AM" 
 
-    //var scribblediv = document.createElement("div");
-   // scribblediv.innerHTML = "<br>" + (msg.link("scribblepage.html#" + tweetid)) +"<br>" + gmt;
-    //document.getElementById('datetime').innerHTML = convdataTime;
-
-    return gmt;
+    return scrdate+ " "+scrtime;
     
    }
+
+   function converttime(scribbletime){
+    
+    scribblesec = scribbletime/1000;
+    scribblesec = parseInt(scribblesec);
+    var myDate = new Date( scribblesec *1000);
+    var gmt = (myDate.toLocaleString());
+
+    
+
+    return gmt;
+
+}
+
 
 function convertDate(myDate){
     

@@ -365,7 +365,7 @@
           getTable(account.name, "account").then(function(bal){
 
               userName=bal.rows[0].userName;
-              dob=convert(bal.rows[0].dob).split(",");
+              dob=converttime(bal.rows[0].dob).split(",");
               phoneNo=bal.rows[0].phoneNo;
               gender=bal.rows[0].gender;
               status=bal.rows[0].stat;
@@ -418,6 +418,7 @@
                    
         }
 
+       
 
 
       function deleteAcc(){

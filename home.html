@@ -130,7 +130,7 @@ window.onclick = function(event) {
           var tweetId = Math.abs(tohash.hashCode());
           // var tweetid = Math.abs(tweetId);
           console.log("tweetid:",tweetId);
-
+          if(msg.length>0){
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             $("#tweetMsg").val("");
@@ -139,6 +139,8 @@ window.onclick = function(event) {
           }).catch(function(err){
             console.log('err', err);
           });
+        }
+        else alert("scribble something");
         });
     }
 

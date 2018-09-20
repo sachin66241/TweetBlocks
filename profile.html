@@ -103,7 +103,17 @@
         // //////////////////////////////
         var parameters = location.href.split("#")[1];
         var signedUp = false; 
-        
+
+         window.setInterval(function() {
+        if (window.location.url!== parameters) {
+        window.location.reload;
+        }
+        else {
+            console.log(parameters);
+            console.log(window.location.url);
+            }
+
+        }, 2000);
 
         connect().then(function(){
             getTable(account.name, "account").then(function(res){
@@ -216,6 +226,7 @@
                     foll++
                     
                 }
+
                 
                 var follo=0;
                 accFollowing=[];                    
@@ -248,7 +259,21 @@
                     document.getElementById('buttonFollow').setAttribute('onclick','follow()');
                 }
                 $("#profilename").text(bal.rows[0].userName);
-               $("#proimg").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
+               
+               if(bal.rows[0].profilepic == ""){
+                   if(bal.rows[0].gender == "female"){
+                    $("#proimg").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                
+                   }
+                    else if(bal.rows[0].gender == "male") {
+        
+                        $("#proimg").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+                    }
+                    else $("#proimg").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+               }
+               else {
+                   $("#proimg").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
+               }
                 $("#status").text(bal.rows[0].stat);
                 console.log(bal.rows[0].tweetId); 
                 length=bal.rows[0].tweetId.length;
@@ -265,6 +290,9 @@
         function home(){
             window.location.replace("http://127.0.0.1:5500/home.html");
         }
+
+        
+       
 </script>
 </body>
 </html>

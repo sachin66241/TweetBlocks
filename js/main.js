@@ -56,7 +56,7 @@ function signOut(){
         $("#rplContent").html("Signed Out");
         setTimeout(function(){
             location.replace("http://127.0.0.1:5500/index.html");
-        },2000);
+        },1000);
        
     });
 }
@@ -401,3 +401,10 @@ function find_duplicate_in_string(arra1) {
     return result;
 
 }
+
+var current = window.location.href;
+setInterval(function() {
+    if (window.location.href!== current) {
+    window.location.reload();
+    }
+    }, 2000);

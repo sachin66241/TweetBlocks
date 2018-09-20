@@ -16,7 +16,7 @@
 </head>
 <body>
   <button onclick="signOut()">SIGN OUT</button>
-  <button onclick="men()">PROFILE</button>
+  <button onclick="visitProfile()">PROFILE</button>
   <form name="F3">
     <h1 id="userName"></h1>
     <h2 id="demo"></h2> 
@@ -24,7 +24,7 @@
     <form autocomplete="off">
       <div class="autocomplete" style="width:300px;">
         <input id="searchField"  cols="30" rows="4"  type="text" placeholder="Search username">
-        <button id="myBtn"  value="Find" onclick="searchUser()">Find</button>
+        <input type="button" id="searchBtn"  value="Find" onclick="searchUser()">
       </div>
     </form>
     <div>
@@ -99,7 +99,7 @@ var input = document.getElementById("searchField");
 input.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
-        document.getElementById("myBtn").click();
+        document.getElementById("searchBtn").click();
     }
 });
   </script>
@@ -109,7 +109,7 @@ input.addEventListener("keyup", function(event) {
  
     "use strict";
 
-    $("#searchField").val("");
+    //$("#searchField").val("");
     var userslist = [];
     var users = [];
 
@@ -158,10 +158,12 @@ input.addEventListener("keyup", function(event) {
 
     function searchUser() {
       var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
+      console.log(acc);
+
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;
     }
-    function men(){
+    function visitProfile(){
       var url = 'http://127.0.0.1:5500/profile.html#' + account.name;
       window.location.href = url;
 

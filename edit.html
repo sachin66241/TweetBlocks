@@ -354,7 +354,22 @@
 <script>
   function removeImage(){
     imageUrl="";
+    
+    getTable(account.name, "account").then(function(bal){
+    
+    if(bal.rows[0].gender == "female"){
+     
+                    $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                
+                   }
+                    else if(bal.rows[0].gender == "male") {
+        
+                        $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+                    }
+                    else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+               })
   }
+
             
         connect().then(function(){
            formerResult();

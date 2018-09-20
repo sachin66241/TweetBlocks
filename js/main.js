@@ -183,7 +183,6 @@ function tweets(unique){
             var retweeters=bal.rows[0].retweet;
             if(curr=="http://127.0.0.1:5500/home.html"){
                 var follotweet=retweeters.concat(mainFollowing);
-                console.log(follotweet);
                 console.log(bal.rows[0].msg);
                 var commonusers=find_duplicate_in_string(follotweet);
                
@@ -211,8 +210,14 @@ function tweets(unique){
                             retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" and "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" retweeted " ;
                             }
                             else{
-                                retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" "+ (commonusers.length-1) +" others".link("javascript:a("+bal.rows[0].tweetId+")")+" retweeted " ; 
+                                var tweeter1=userslist.find(function(x){ return x.accName === commonusers[1] });
+                                if(commonusers.length==2){
+                                retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" retweeted " ; 
                                 }
+                                else{
+                                retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" , "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+(commonusers.length-2) +" others".link("javascript:a("+bal.rows[0].tweetId+")")+" retweeted " ; 
+                                }
+                            }
                         }
                         else
                         {

@@ -91,7 +91,17 @@
         // //////////////////////////////
         var parameters = location.href.split("#")[1];
         var signedUp = false; 
-        
+
+         window.setInterval(function() {
+        if (window.location.url!== parameters) {
+        window.location.reload;
+        }
+        else {
+            console.log(parameters);
+            console.log(window.location.url);
+            }
+
+        }, 2000);
 
         connect().then(function(){
             getTable(account.name, "account").then(function(res){
@@ -204,6 +214,7 @@
                     foll++
                     
                 }
+
                 
                 var follo=0;
                 accFollowing=[];                    
@@ -253,6 +264,9 @@
         function home(){
             window.location.replace("http://127.0.0.1:5500/home.html");
         }
+
+        
+       
 </script>
 </body>
 </html>

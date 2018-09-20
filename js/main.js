@@ -337,3 +337,10 @@ function find_duplicate_in_array(arra1) {
     return result;
 
 }
+
+var current = window.location.href;
+setInterval(function() {
+    if (window.location.href!== current) {
+    window.location.reload();
+    }
+    }, 2000);

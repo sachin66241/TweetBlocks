@@ -117,7 +117,7 @@ input.addEventListener("keyup", function(event) {
       getTable(account.name, "account").then(function(res){
         if(res.rows.length==0) window.location.replace("http://127.0.0.1:5500/index.html");
         $("#userName").text(res.rows[0].userName);
-        getTable("slateme44444", "users").then(function(res){
+        getTable("slateme55555", "users").then(function(res){
           for(var i = 0;i < res.rows.length;i++) {
             userslist.push(res.rows[i]);
             users.push(res.rows[i].userName);
@@ -130,30 +130,30 @@ input.addEventListener("keyup", function(event) {
     });
 
     function tweet(){
-        eos.contract('slateme44444').then(contract => {
+        eos.contract('slateme55555').then(contract => {
           var accName = account.name;
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
           var tohash = accName+timestamp+msg;
           console.log("tohash:",tohash);
-          var tweetId = (Math.abs(tohash.hashCode()))/100000;
-          tweetId=tweetId.toString();
-          var idTweet=tweetId.split(".");
-          tweetId=idTweet[0];
-          console.log("tw  "+tweetId);
-          console.log("len   "+tweetId.length);
-          if(tweetId.length!=5){
-          var x ="0" * (5-(tweetId.toString().length));
-          console.log(x);
-          tweetId=x+tweetId;
+          var hash = (Math.abs(tohash.hashCode()));
+          var len = Math.ceil(Math.log(hash + 1) / Math.LN10);
+          if(len==9){
+            hash=Math.floor(hash/1000);
+            }
+          else{
+            hash=Math.floor(hash/10000);
           }
-          
-          // var tweetid = Math.abs(tweetId);
-          tweetId = timestamp+""+tweetId
+          len = Math.ceil(Math.log(hash + 1) / Math.LN10); 
+          console.log(len);
+          var tweetId=(timestamp*10000)+hash;
           console.log("tweetid:",tweetId);
+          console.log(typeof tweetId);
           if(msg.length>0){
-          contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){
+            console.log(tweetId);
+          contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
+            console.log(idd);
             $("#tweetMsg").val("");
             
             main();

@@ -80,7 +80,7 @@ function convert(scribbletime){
         scrdate="yesterday ";
     }
     var tgmt=gmt1[1].split(":");
-    if(tgmt[0]>12){
+    if(tgmt[0]>=12){
         tgmt[0]=tgmt[0]-12;
         var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
     }

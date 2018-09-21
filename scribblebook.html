@@ -85,7 +85,6 @@
         var replyer;
         var replytime;
         var parameters = location.href.split("#")[1];
-        console.log("para:", parameters);
         var tweetId = parameters;
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
         // $("#comment").onclick=comment(tweetId);
@@ -96,7 +95,6 @@
                 }
                        
                         displayTweet(tweetId);
-                        console.log("tweetidsuccess");
                 })
         }).catch((err) => {
                 console.log("error");
@@ -116,14 +114,10 @@ function displayTweet(tweetId){
     var linebreak = document.createElement("br");
 
 
-    console.log("inside display"); 
     iDiv = document.createElement('div');
-    console.log("tweetId:", tweetId); 
-
         getTable(tweetId, "tweettable").then(function(bal){
            if (bal.rows[0]==undefined)
             window.location.replace("http://127.0.0.1:5500/error.html");
-            console.log("bal:",bal) 
 
             var likescount = bal.rows[0].likes.length;
             var retweetcount = bal.rows[0].retweet.length;
@@ -158,10 +152,6 @@ function displayTweet(tweetId){
 
 
              retweetCount.setAttribute('onclick', 'com('+bal.rows[0].tweetId+')');
-            
-             
-             console.log("myacc:", account.name);
-             console.log("tweetacc:",bal.rows[0].accName);
              buttons.appendChild(likeButton);
         
 
@@ -193,13 +183,11 @@ function displayTweet(tweetId){
             {
             
                 getTable(bal.rows[0].replies[i], "replytable").then(function(res){ 
-                    console.log("res:", res);
                     replymsg = res.rows[0].reply;
                     // tweeter = res.rows[0].accName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
                     replytime = res.rows[0].timestamp;
                     var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
                     replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
-                    console
                     dynamic();
                 });
                
@@ -293,19 +281,8 @@ getTable(twId, "tweettable").then(function(lik){
                 }        
   });
 }
-
-
-
-
-
-          
-
-                    
-
-
-
-        
-        </script>
+   
+    </script>
     
 </body>
 </html>

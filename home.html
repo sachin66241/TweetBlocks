@@ -135,7 +135,6 @@ input.addEventListener("keyup", function(event) {
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
           var tohash = accName+timestamp+msg;
-          console.log("tohash:",tohash);
           var hash = (Math.abs(tohash.hashCode()));
           var len = Math.ceil(Math.log(hash + 1) / Math.LN10);
           if(len==9){
@@ -145,15 +144,10 @@ input.addEventListener("keyup", function(event) {
             hash=Math.floor(hash/10000);
           }
           len = Math.ceil(Math.log(hash + 1) / Math.LN10); 
-          console.log(len);
           var tweetId=(timestamp*10000)+hash;
-          console.log("tweetid:",tweetId);
-          console.log(typeof tweetId);
           if(msg.length>0){
-            console.log(tweetId);
           contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
-            console.log(idd);
             $("#tweetMsg").val("");
             
             main();
@@ -167,8 +161,6 @@ input.addEventListener("keyup", function(event) {
 
     function searchUser() {
       var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
-      console.log(acc);
-
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;
     }
@@ -199,7 +191,6 @@ input.addEventListener("keyup", function(event) {
     var sorted=[];
 
     async function followingTweet(mainFollowing){
-      console.log(mainFollowing);
       sorted=[];
       dict=[];
       arr=[];

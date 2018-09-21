@@ -108,11 +108,6 @@
         if (window.location.url!== parameters) {
         window.location.reload;
         }
-        else {
-            console.log(parameters);
-            console.log(window.location.url);
-            }
-
         }, 2000);
 
         connect().then(function(){
@@ -209,7 +204,6 @@
                 if(bal.rows[0]== undefined){
                     window.location.replace("http://127.0.0.1:5500/error.html");
                 }
-                console.log(bal);
                 if(parameters==account.name){
                     $("#buttonEdit").show();
                     $("#buttonFollow").hide();
@@ -278,7 +272,6 @@
                    $("#proimg").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
                }
                 $("#status").text(bal.rows[0].stat);
-                console.log(bal.rows[0].tweetId); 
                 length=bal.rows[0].tweetId.length;
                 var tweetCount=(bal.rows[0].tweetId.length);
                 if(tweetCount>0){

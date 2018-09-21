@@ -111,7 +111,6 @@ function convertDate(myDate){
 } 
 
 function comment(tweetid){
-    console.log(tweetid);
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
@@ -127,7 +126,6 @@ function comment(tweetid){
             var accName = id.accounts[0].name;
             var timestamp =  Date.now();
             var tweetId = Number(tweetid);
-            console.log(reply);
             contract.reply({accName,parentId:tweetId,replyId,reply:reply,timestamp},options).then(function(res){
                 console.log('res', res);
                 main();
@@ -143,7 +141,6 @@ function a(twId){
     var retweeters=res.rows[0].retweet;    
     var afollotweet=retweeters.concat(mainFollowing);
                 $("#rplContent").empty();
-                console.log(afollotweet);
                 var acommonusers=find_duplicate_in_string(afollotweet);
                 for(var i=2;i<acommonusers.length;i++){
                     var tweeter=userslist.find(function(x){ return x.accName === acommonusers[i] });
@@ -166,7 +163,6 @@ function tweets(unique){
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){
             $("#loader").hide();
-            console.log(bal);
             var indivTweetDiv = document.createElement('div');
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
@@ -185,7 +181,6 @@ function tweets(unique){
             button.innerHTML = "Comment";
             replyButton.id = "button"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
-            console.log(input.id);
             input.name = "post";
             input.maxLength = "100";
             input.cols = "20";
@@ -208,7 +203,6 @@ function tweets(unique){
             if(replies.length>0){
                 replyButton.setAttribute('onclick','replie('+bal.rows[0].tweetId+')');
             }
-            console.log(bal.rows[0].tweetId);
             button.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');

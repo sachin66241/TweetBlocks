@@ -153,7 +153,6 @@ input.addEventListener("keyup", function(event) {
             console.log(tweetId);
           contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
-            console.log(idd);
             $("#tweetMsg").val("");
             
             main();
@@ -167,7 +166,7 @@ input.addEventListener("keyup", function(event) {
 
     function searchUser() {
       var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
-      console.log(acc);
+
 
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;

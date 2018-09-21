@@ -150,8 +150,7 @@
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
                     console.log('res', res);
-                    document.getElementById("divisionId").innerHTML = ""
-
+                    //document.getElementById("divisionId").innerHTML = ""
                     main();
                 }).catch(function(err){
                     console.log('err', err);
@@ -166,8 +165,7 @@
 
                 contract.unfollow({accName:account.name,unfollowing:parameters},options).then(function(res){
                     console.log('res', res);
-                    document.getElementById("divisionId").innerHTML = ""
-
+                    //document.getElementById("divisionId").innerHTML = ""
                     main();
                 }).catch(function(err){
                     console.log('err', err);

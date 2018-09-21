@@ -80,11 +80,14 @@ function convert(scribbletime){
         scrdate="yesterday ";
     }
     var tgmt=gmt1[1].split(":");
-    if(tgmt[0]>=12){
-        tgmt[0]=tgmt[0]-12;
-        var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
+    if(tgmt[0]==12) var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
+    else if((tgmt[0]<12)&&(tgmt[0]>0)) var scrtime=tgmt[0]+":"+tgmt[1]+" AM";
+    else if(tgmt[0]>12){
+    tgmt[0]=tgmt[0]-12;
+        var scrtime=tgmt[0]+":"+tgmt[1]+" PM";
     }
-    else var scrtime=tgmt[0]+":"+tgmt[1]+" AM" 
+    else var scrtime=12+":"+tgmt[1]+" AM";
+
 
     return scrdate+ " "+scrtime;
     
@@ -166,7 +169,6 @@ function tweets(unique){
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){
             $("#loader").hide();
-            console.log(bal);
             var indivTweetDiv = document.createElement('div');
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
@@ -185,7 +187,6 @@ function tweets(unique){
             button.innerHTML = "Comment";
             replyButton.id = "button"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
-            console.log(input.id);
             input.name = "post";
             input.maxLength = "100";
             input.cols = "20";
@@ -208,7 +209,6 @@ function tweets(unique){
             if(replies.length>0){
                 replyButton.setAttribute('onclick','replie('+bal.rows[0].tweetId+')');
             }
-            console.log(bal.rows[0].tweetId);
             button.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');

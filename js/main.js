@@ -9,10 +9,10 @@ async function connect() {
     await console.log('connected', scatterConnected);
     
     network = {
-        protocol:'http', 
+        protocol:'https', 
         blockchain:'eos',
-        host:'52.199.125.75',
-        port:8888,
+        host:'api.jungle.alohaeos.com',
+        port:443,
         chainId:"038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca",
     };
     const requiredFields = {
@@ -117,26 +117,27 @@ function comment(tweetid){
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
-    const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
-    const options = {
-        authorization: [ `${account.name}@${account.authority}`]
-    };
-    var eos = scatter.eos(network, Eos, options);
-    scatter.getIdentity({accounts:[network]}).then(function(id){
-        const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
         eos.contract('slateme55555').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
-            var accName = id.accounts[0].name;
+            var accName = account.name;
             var timestamp =  Date.now();
             var tweetId = Number(tweetid);
             contract.reply({accName,parentId:tweetId,replyId,reply:reply,timestamp},options).then(function(res){
                 console.log('res', res);
+                $(""+id+"").val("");
+                getTable(tweetId,"tweettable").then(function(res){
+                    $("#replyBtn"+tweetId).html("replies ("+res.rows[0].replies.length+")");
+                    if(res.rows[0].replies.length>0){
+                        document.getElementById("#replyBtn").setAttribute('onclick','replie('+res.rows[0].tweetId+')');
+                    }
+                    
+                })
                 main();
             }).catch(function(err){
                 console.log('err', err);
             });
         });
-    })
+   // })
 }
 
 function a(twId){
@@ -176,14 +177,15 @@ function tweets(unique){
             var delButton = document.createElement('button');
             var retweetButton = document.createElement('button');
             var input = document.createElement('textarea');
-            var button = document.createElement('button');
+            var commentBtn = document.createElement('button');
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
+            likeButton.id = "likeBtn"+ bal.rows[0].tweetId;
             replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
             delButton.innerHTML = "delete";
             retweetButton.innerHTML = "reTweet";
-            button.innerHTML = "Comment";
-            replyButton.id = "button"+bal.rows[0].tweetId;
+            commentBtn.innerHTML = "Comment";
+            replyButton.id = "replyBtn"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
             input.name = "post";
             input.maxLength = "100";
@@ -207,7 +209,7 @@ function tweets(unique){
             if(replies.length>0){
                 replyButton.setAttribute('onclick','replie('+bal.rows[0].tweetId+')');
             }
-            button.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
+            commentBtn.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
             var retweeters=bal.rows[0].retweet;
@@ -215,9 +217,7 @@ function tweets(unique){
                 var follotweet=retweeters.concat(mainFollowing);
                
                 var commonusers=find_duplicate_in_string(follotweet);
-               
-                
-        }
+            }
             var tweeter=userslist.find(function(x){ return x.accName === account.name });
             
             var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
@@ -303,11 +303,10 @@ function tweets(unique){
             indivTweetDiv.appendChild(idiv2);
             indivTweetDiv.appendChild(idiv3);
             indivTweetDiv.appendChild(input);
-            indivTweetDiv.appendChild(button);
+            indivTweetDiv.appendChild(commentBtn);
+            indivTweetDiv.appendChild(replyButton);
             if(account.name==bal.rows[0].accName)   indivTweetDiv.appendChild(delButton);
             if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   indivTweetDiv.appendChild(retweetButton);
-            indivTweetDiv.appendChild(button);
-            indivTweetDiv.appendChild(replyButton);
             indivTweetDiv.appendChild(likeButton);
             indivTweetDiv.style.paddingBottom = "40px";
             allTweetDiv.appendChild(indivTweetDiv);
@@ -342,9 +341,11 @@ function reply(replyIndex){
 function like(twId){
     eos.contract('slateme55555').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
+            getTable(twId,"tweettable").then(function(res){
+                $("#likeBtn"+twId).html("unlike ("+res.rows[0].likes.length+")");
+                document.getElementById("likeBtn"+twId).setAttribute('onclick','unlike('+res.rows[0].tweetId+')');
+            })
             console.log('res', res);
-           // likeButton.innerHTML="unlike";
-            //main();
         }).catch(function(err){
             console.log('err', err);
         });
@@ -354,9 +355,11 @@ function like(twId){
 function unlike(twId){
     eos.contract('slateme55555').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
+            getTable(twId,"tweettable").then(function(res){
+                $("#likeBtn"+twId).html("like ("+res.rows[0].likes.length+")");
+                document.getElementById("likeBtn"+twId).setAttribute('onclick','like('+res.rows[0].tweetId+')');
+            })
             console.log('res', res);
-           // likeButton.innerHTML="like";
-           // main();
         }).catch(function(err){
             console.log('err', err);
         });
@@ -367,8 +370,8 @@ function deleteTweet(twId){
     eos.contract('slateme55555').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
-            deleteTweetDiv(twId);
-            //main();
+            var tweetDiv = document.getElementById("tweetdiv"+twId);
+            document.getElementById("allTweetDiv").removeChild(tweetDiv);
         }).catch(function(err){
             console.log('err', err);
         });
@@ -412,8 +415,3 @@ setInterval(function() {
     window.location.reload();
     }
     }, 2000);
-
-    function deleteTweetDiv(tweetid){
-        var tweetDiv = document.getElementById("tweetdiv"+tweetid);
-        document.getElementById("allTweetDiv").removeChild(tweetDiv);
-    }

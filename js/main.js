@@ -38,7 +38,7 @@ async function connect() {
  
 
 async function getTable(scope,table){
-    let result = await eos.getTableRows(true, "slateme11444", scope, table);
+    let result = await eos.getTableRows(true, "slateme55555", scope, table);
     return result;
   }
 
@@ -80,7 +80,7 @@ function convert(scribbletime){
         scrdate="yesterday ";
     }
     var tgmt=gmt1[1].split(":");
-    if(tgmt[0]>12){
+    if(tgmt[0]>=12){
         tgmt[0]=tgmt[0]-12;
         var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
     }
@@ -111,6 +111,7 @@ function convertDate(myDate){
 } 
 
 function comment(tweetid){
+    console.log(tweetid);
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
@@ -121,12 +122,13 @@ function comment(tweetid){
     var eos = scatter.eos(network, Eos, options);
     scatter.getIdentity({accounts:[network]}).then(function(id){
         const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
-        eos.contract('slateme11444').then(contract => {
+        eos.contract('slateme55555').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = id.accounts[0].name;
             var timestamp =  Date.now();
             var tweetId = Number(tweetid);
-            contract.reply({accName,parentId:tweetId,replyId,reply,timestamp},options).then(function(res){
+            console.log(reply);
+            contract.reply({accName,parentId:tweetId,replyId,reply:reply,timestamp},options).then(function(res){
                 console.log('res', res);
                 main();
             }).catch(function(err){
@@ -164,6 +166,7 @@ function tweets(unique){
     for (var index = tweetIndex.length-1; index >=0 ; index--) {
         getTable(tweetIndex[index], "tweettable").then(function(bal){
             $("#loader").hide();
+            console.log(bal);
             var indivTweetDiv = document.createElement('div');
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
@@ -182,6 +185,7 @@ function tweets(unique){
             button.innerHTML = "Comment";
             replyButton.id = "button"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
+            console.log(input.id);
             input.name = "post";
             input.maxLength = "100";
             input.cols = "20";
@@ -204,6 +208,7 @@ function tweets(unique){
             if(replies.length>0){
                 replyButton.setAttribute('onclick','replie('+bal.rows[0].tweetId+')');
             }
+            console.log(bal.rows[0].tweetId);
             button.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
             retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
@@ -337,7 +342,7 @@ function reply(replyIndex){
 }
 
 function like(twId){
-    eos.contract('slateme11444').then(contract => {
+    eos.contract('slateme55555').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
            // likeButton.innerHTML="unlike";
@@ -349,7 +354,7 @@ function like(twId){
 }
 
 function unlike(twId){
-    eos.contract('slateme11444').then(contract => {
+    eos.contract('slateme55555').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
            // likeButton.innerHTML="like";
@@ -361,7 +366,7 @@ function unlike(twId){
 }
 
 function deleteTweet(twId){
-    eos.contract('slateme11444').then(contract => {
+    eos.contract('slateme55555').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             main();
@@ -372,7 +377,7 @@ function deleteTweet(twId){
 }
 
 function reTweet(twId){
-    eos.contract('slateme11444').then(contract => {
+    eos.contract('slateme55555').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             main();

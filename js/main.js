@@ -168,6 +168,7 @@ function tweets(unique){
             $("#loader").hide();
             console.log(bal);
             var indivTweetDiv = document.createElement('div');
+            indivTweetDiv.id = "tweetdiv"+bal.rows[0].tweetId;
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
             var idiv1 = document.createElement('div');
@@ -369,7 +370,8 @@ function deleteTweet(twId){
     eos.contract('slateme55555').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
-            main();
+            deleteTweetDiv(twId);
+            //main();
         }).catch(function(err){
             console.log('err', err);
         });
@@ -413,3 +415,8 @@ setInterval(function() {
     window.location.reload();
     }
     }, 2000);
+
+    function deleteTweetDiv(tweetid){
+        var tweetDiv = document.getElementById("tweetdiv"+tweetid);
+        document.getElementById("allTweetDiv").removeChild(tweetDiv);
+    }

@@ -43,6 +43,7 @@
       <div class="rect4"></div>
       <div class="rect5"></div>
     </div>
+    <h3 id = "nofeed"></h3>
   </div>
 
   <button id="myBtn" style="display:none">Open Modal</button>
@@ -213,6 +214,10 @@ input.addEventListener("keyup", function(event) {
         }
         dict.sort(function(a,b){return a-b});
         console.log("dict:", dict);
+        if (dict == ''){
+          $("#nofeed").html("You don't have any feeds to display. Please follow some of your friends");
+          $("#loader").hide();
+        }
         tweets(dict);
     }
 

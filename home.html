@@ -173,7 +173,7 @@ input.addEventListener("keyup", function(event) {
 
     function searchUser() {
       var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
-      console.log(acc);
+
 
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;

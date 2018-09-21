@@ -154,10 +154,9 @@ input.addEventListener("keyup", function(event) {
             console.log(tweetId);
           contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
-            console.log(idd);
             $("#tweetMsg").val("");
+            updateDiv();
             
-            main();
           }).catch(function(err){
             console.log('err', err);
           });
@@ -165,10 +164,17 @@ input.addEventListener("keyup", function(event) {
         else alert("scribble something");
         });
     }
+    
+    function updateDiv()
+{ 
+    $( "#allTweetDiv" ).load(window.location.href + " #allTweetDiv" );
+     main();
+}
+
 
     function searchUser() {
       var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
-      console.log(acc);
+
 
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;

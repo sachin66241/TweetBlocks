@@ -43,6 +43,7 @@
       <div class="rect4"></div>
       <div class="rect5"></div>
     </div>
+    <h3 id = "nofeed"></h3>
   </div>
 
   <button id="myBtn" style="display:none">Open Modal</button>
@@ -149,8 +150,8 @@ input.addEventListener("keyup", function(event) {
           contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             $("#tweetMsg").val("");
+            updateDiv();
             
-            main();
           }).catch(function(err){
             console.log('err', err);
           });
@@ -158,9 +159,18 @@ input.addEventListener("keyup", function(event) {
         else alert("scribble something");
         });
     }
+    
+    function updateDiv()
+{ 
+    $( "#allTweetDiv" ).load(window.location.href + " #allTweetDiv" );
+     main();
+}
+
 
     function searchUser() {
       var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
+
+
       var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
       window.location.href = url;
     }
@@ -203,6 +213,11 @@ input.addEventListener("keyup", function(event) {
           }
         }
         dict.sort(function(a,b){return a-b});
+        console.log("dict:", dict);
+        if (dict == ''){
+          $("#nofeed").html("You don't have any feeds to display. Please follow some of your friends");
+          $("#loader").hide();
+        }
         tweets(dict);
     }
 

@@ -80,11 +80,14 @@ function convert(scribbletime){
         scrdate="yesterday ";
     }
     var tgmt=gmt1[1].split(":");
-    if(tgmt[0]>12){
-        tgmt[0]=tgmt[0]-12;
-        var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
+    if(tgmt[0]==12) var scrtime=tgmt[0]+":"+tgmt[1]+" PM"
+    else if((tgmt[0]<12)&&(tgmt[0]>0)) var scrtime=tgmt[0]+":"+tgmt[1]+" AM";
+    else if(tgmt[0]>12){
+    tgmt[0]=tgmt[0]-12;
+        var scrtime=tgmt[0]+":"+tgmt[1]+" PM";
     }
-    else var scrtime=tgmt[0]+":"+tgmt[1]+" AM" 
+    else var scrtime=12+":"+tgmt[1]+" AM";
+
 
     return scrdate+ " "+scrtime;
     
@@ -164,6 +167,7 @@ function tweets(unique){
         getTable(tweetIndex[index], "tweettable").then(function(bal){
             $("#loader").hide();
             var indivTweetDiv = document.createElement('div');
+            indivTweetDiv.id = "tweetdiv"+bal.rows[0].tweetId;
             var retweetdiv = document.createElement('div');
             var iname = document.createElement('div');
             var idiv1 = document.createElement('div');
@@ -363,7 +367,8 @@ function deleteTweet(twId){
     eos.contract('slateme55555').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
-            main();
+            deleteTweetDiv(twId);
+            //main();
         }).catch(function(err){
             console.log('err', err);
         });
@@ -407,3 +412,8 @@ setInterval(function() {
     window.location.reload();
     }
     }, 2000);
+
+    function deleteTweetDiv(tweetid){
+        var tweetDiv = document.getElementById("tweetdiv"+tweetid);
+        document.getElementById("allTweetDiv").removeChild(tweetDiv);
+    }

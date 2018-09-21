@@ -117,7 +117,7 @@ input.addEventListener("keyup", function(event) {
       getTable(account.name, "account").then(function(res){
         if(res.rows.length==0) window.location.replace("http://127.0.0.1:5500/index.html");
         $("#userName").text(res.rows[0].userName);
-        getTable("slateme11444", "users").then(function(res){
+        getTable("slateme44444", "users").then(function(res){
           for(var i = 0;i < res.rows.length;i++) {
             userslist.push(res.rows[i]);
             users.push(res.rows[i].userName);
@@ -130,21 +130,26 @@ input.addEventListener("keyup", function(event) {
     });
 
     function tweet(){
-        eos.contract('slateme11444').then(contract => {
+        eos.contract('slateme44444').then(contract => {
           var accName = account.name;
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
           var tohash = accName+timestamp+msg;
           console.log("tohash:",tohash);
           var tweetId = (Math.abs(tohash.hashCode()))/100000;
-          if(tweetId.toString().length!=5){
+          tweetId=tweetId.toString();
+          var idTweet=tweetId.split(".");
+          tweetId=idTweet[0];
+          console.log("tw  "+tweetId);
+          console.log("len   "+tweetId.length);
+          if(tweetId.length!=5){
           var x ="0" * (5-(tweetId.toString().length));
+          console.log(x);
           tweetId=x+tweetId;
           }
           
           // var tweetid = Math.abs(tweetId);
           tweetId = timestamp+""+tweetId
-           tweetId = parseInt(tweetId);
           console.log("tweetid:",tweetId);
           if(msg.length>0){
           contract.tweet({tweetId,accName,msg,timestamp},options).then(function(res){

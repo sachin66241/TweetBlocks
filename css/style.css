@@ -50,3 +50,12 @@
       -webkit-transform: scaleY(1.0);
     }
   }
+
+article, aside, figure, footer, header, hgroup, menu, nav, section { display: block; }
+
+.avatar {
+  vertical-align: middle;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}

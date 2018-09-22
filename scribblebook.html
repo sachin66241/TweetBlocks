@@ -86,6 +86,8 @@
         var replytime;
         var parameters = location.href.split("#")[1];
         var tweetId = parameters;
+        var likedUsers=[];
+        var likescount;
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
         // $("#comment").onclick=comment(tweetId);
         connect().then((result) => {
@@ -106,11 +108,14 @@ function displayTweet(tweetId){
   
     var retweetButton = document.createElement('button');
     var likeButton = document.createElement('button');
+    likeButton.id = "likeunlike";
     var delButton = document.createElement('button');
     retweetButton.innerHTML = "Retweet";
     delButton.innerHTML = "Delete";
-    var likeCount = document.createElement('text');
-    var retweetCount = document.createElement('text');
+    var likeCount = document.createElement('label');
+    likeCount.id = "likecount"
+    var retweetCount = document.createElement('label');
+    retweetCount.id = "retweetcount"
     var linebreak = document.createElement("br");
 
 
@@ -119,7 +124,7 @@ function displayTweet(tweetId){
            if (bal.rows[0]==undefined)
             window.location.replace("http://127.0.0.1:5500/error.html");
 
-            var likescount = bal.rows[0].likes.length;
+            likescount = bal.rows[0].likes.length;
             var retweetcount = bal.rows[0].retweet.length;
 
             var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
@@ -127,18 +132,18 @@ function displayTweet(tweetId){
                 document.getElementById("msg").innerHTML =  bal.rows[0].msg;
             
             var retweeters=bal.rows[0].retweet;
-            var likedUsers=[];                    
+                                
             for(var val = 0;val<bal.rows[0].likes.length;val++){
                 likedUsers.push(bal.rows[0].likes[val]);
             }
             if(likedUsers.includes(account.name)){
                 likeButton.innerHTML="Unlike";
-                likeButton.setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
+                likeButton.setAttribute('onclick','scribblelike('+bal.rows[0].tweetId+')');
             }
             else{
                 
                 likeButton.innerHTML="Like";
-                likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
+                likeButton.setAttribute('onclick','scribblelike('+bal.rows[0].tweetId+')');
             }
 
              replies=bal.rows[0].replies;
@@ -166,7 +171,7 @@ function displayTweet(tweetId){
             }
 
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
-            retweetButton.setAttribute('onclick','reTweet('+bal.rows[0].tweetId+')');
+            retweetButton.setAttribute('onclick','rescribble('+bal.rows[0].tweetId+')');
             
              likeCount.innerHTML = "LIKES("+likescount+")";
              retweetCount.innerHTML = "RETWEET("+retweetcount+")";
@@ -289,7 +294,65 @@ getTable(twId, "tweettable").then(function(lik){
                 }        
   });
 }
+
+function scribblelike(twId) {
+    console.log(likedUsers);
+    if(likedUsers.includes(account.name)){
+        console.log("unlike");
+        eos.contract('slateme55555').then(contract => {
+        contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
+            $("#likeunlike").html("Like");
+            console.log('res', res);
+            getTable(twId,"tweettable").then(function(res){
+                console.log(res);
+                likescount = res.rows[0].likes.length;
+                $("#likecount").html("LIKES("+likescount+")");
+                // document.getElementById("likeBtn"+twId).setAttribute('onclick','like('+res.rows[0].tweetId+')');
+                likedUsers = [];
+                for(var i = 0;i<res.rows[0].likes.length;i++){
+                likedUsers.push(res.rows[0].likes[i]);
+                }   
+            })
+            
+        }).catch(function(err){
+            console.log('err', err);
+        });
+    });
+    
+    }
+    else{
+        console.log("like");
+        eos.contract('slateme55555').then(contract => {
+        contract.like({accName:account.name,tweetId:twId},options).then(function(res){
+            $("#likeunlike").html("Unlike");
+            console.log('res', res);
+            getTable(twId,"tweettable").then(function(res){
+            likescount = res.rows[0].likes.length;
+             $("#likecount").html("LIKES("+likescount+")");
+           
+            likedUsers = [];
+            for(var i = 0;i<res.rows[0].likes.length;i++){
+                likedUsers.push(res.rows[0].likes[i]);
+            }
+                           
+            })
+        }).catch(function(err){
+            console.log('err', err);
+        });
+    }).catch(function(err){
+            console.log('err', err);
+    })
+    }
+    
+}
    
+function rescribble(twId){
+    eos.contract('slateme55555').then(contract => {
+        contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
+            console.log('res', res);
+        })
+    })
+}
     </script>
     
 </body>

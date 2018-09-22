@@ -104,7 +104,7 @@
         var parameters = location.href.split("#")[1];
         var signedUp = false; 
 
-         window.setInterval(function() {
+        window.setInterval(function() {
         if (window.location.url!== parameters) {
         window.location.reload;
         }
@@ -145,14 +145,17 @@
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
                     console.log('res', res);
-                    //document.getElementById("divisionId").innerHTML = ""
                     main();
                 }).catch(function(err){
                     console.log('err', err);
                 });
             });
         }
-        else alert("sign up first");
+        else {
+            document.getElementById("rplContent").innerHTML="";
+            document.getElementById("rplContent").innerHTML="Sign up first";
+            modal.style.display = "block";
+        }
     }
 
         function unfollow(){
@@ -160,7 +163,6 @@
 
                 contract.unfollow({accName:account.name,unfollowing:parameters},options).then(function(res){
                     console.log('res', res);
-                    //document.getElementById("divisionId").innerHTML = ""
                     main();
                 }).catch(function(err){
                     console.log('err', err);
@@ -193,13 +195,8 @@
         
 
 
-        // page reload in profile
-        var current = window.location.href;
-        setInterval(function() {
-            if (window.location.href!== current) {
-            window.location.reload();
-            }
-            }, 2000);
+        
+        
  
         /////////////////////////////////////////////////////////////////////////////////
         $("#myBtn").hide();

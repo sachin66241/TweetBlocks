@@ -122,6 +122,7 @@ input.addEventListener("keyup", function(event) {
     //$("#searchField").val("");
     var userslist = [];
     var users = [];
+    var signedUp=true;
 
     connect().then(function(res){
       getTable(account.name, "account").then(function(res){
@@ -174,17 +175,20 @@ input.addEventListener("keyup", function(event) {
             var idiv3 = document.createElement('div');
             var delButton = document.createElement('button');
             var input = document.createElement('textarea');
-            var commentBtn = document.createElement('button');
+            var commentBtn = document.createElement('input');
+            commentBtn.type = "button";
+            commentBtn.value = "Comment";
             commentBtn.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
-            commentBtn.innerHTML = "Comment";
+            commentBtn.style.position = "absolute";
+            commentBtn.style.left = 200;
             var replyButton = document.createElement('button');
+            replyButton.id = "replyBtn"+bal.rows[0].tweetId;
             var likeButton = document.createElement('button');
             likeButton.innerHTML = "Like";
             likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
             replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
             delButton.innerHTML = "delete";
             delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
-            replyButton.id = "button"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
             input.name = "post";
             input.maxLength = "100";
@@ -203,7 +207,6 @@ input.addEventListener("keyup", function(event) {
             indivTweetDiv.appendChild(likeButton);
             indivTweetDiv.style.paddingBottom = "40px";
             allTweetDiv.prepend(indivTweetDiv)
-            console.log('res', res);
             });
             
           }).catch(function(err){
@@ -214,11 +217,7 @@ input.addEventListener("keyup", function(event) {
         });
     }
     
-    function updateDiv()
-{ 
-    $( "#allTweetDiv" ).load(window.location.href + " #allTweetDiv" );
-     main();
-}
+
 
 
     function searchUser() {

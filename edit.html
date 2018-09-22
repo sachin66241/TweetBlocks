@@ -29,8 +29,7 @@
 <body>
            <br> <button id="delete" onclick="deleteAcc()">Deactivate</button><br>
           <br><a href="http://127.0.0.1:5500/home.html"><button>Home</button></a><br>
-                 <!-- <form name="F2"> -->
-                   <br> USERNAME:<br>
+                   <label> USERNAME:</label>
                     <input type="text" id="userName"><br>
 
                     <br> STATUS:<br>
@@ -90,8 +89,8 @@
                     <input type="text" id="phone"><br>
                     <!-- <select name="countryCode" id=""></select> -->
                     <select id ="stdCode">
-                    <option id="GB" value="+44-" Selected>UK (+44)</option>
-                    <option id="US" value="+1-">USA (+1)</option>
+                    <option id="IN" value="+91-" Selected>India (+91)</option>
+                    <option id="GB" value="+44-" >UK (+44)</option>
                     <optgroup label="Other countries" >
                         <option id="DZ" value="+213-">Algeria (+213)</option>
                         <option id="AD" value="+376-">Andorra (+376)</option>
@@ -294,7 +293,7 @@
                         <option id="UA" value="+380-">Ukraine (+380)</option>
                         <option id="AE" value="+971-">United Arab Emirates (+971)</option>
                         <option id="UY" value="+598-">Uruguay (+598)</option>
-                        <!-- <option id="US" value="1">USA (+1)</option> -->
+                        <option id="US" value="1">USA (+1)</option>
                         <option id="UZ" value="+7-">Uzbekistan (+7)</option>
                         <option id="VU" value="+678-">Vanuatu (+678)</option>
                         <option id="VA" value="+379-">Vatican City (+379)</option>
@@ -352,23 +351,47 @@
 </script>
 
 <script>
+  $("#genSelect").change(function(){
+    var imageUrl = $("#img").attr("src");
+    if(imageUrl == "http://127.0.0.1:5500/images/femaledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/maledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/othersdefault.jpg")  removeImage();
+
+});
+
   function removeImage(){
     imageUrl="";
     
-    getTable(account.name, "account").then(function(bal){
+   var gender = $("#genSelect").val();
     
-    if(bal.rows[0].gender == "female"){
+    if(gender == "female"){
      
                     $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
                 
                    }
-                    else if(bal.rows[0].gender == "male") {
+                    else if(gender == "male") {
         
                         $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
                     }
                     else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
-               })
+
   }
+
+  // function removeImage(){
+  //   imageUrl="";
+    
+  //   getTable(account.name, "account").then(function(bal){
+    
+  //   if(bal.rows[0].gender == "female"){
+     
+  //                   $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                
+  //                  }
+  //                   else if(bal.rows[0].gender == "male") {
+        
+  //                       $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+  //                   }
+  //                   else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+  //              })
+  // }
 
             
         connect().then(function(){

@@ -1,4 +1,4 @@
-var account, network, accounts, eos, options, scatterConnected;
+var account, network, accounts, eos, options, scatterConnected, requiredFields;
 var userslist=[];
 var signedacc=[];
 
@@ -15,7 +15,7 @@ async function connect() {
         port:443,
         chainId:"038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca",
     };
-    const requiredFields = {
+    requiredFields = {
         accounts:[network]
     };
     let id = await scatter.getIdentity({accounts:[network]})
@@ -114,6 +114,8 @@ function convertDate(myDate){
 } 
 
 function comment(tweetid){
+    
+    if(signedUp){
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
@@ -126,18 +128,23 @@ function comment(tweetid){
                 console.log('res', res);
                 $(""+id+"").val("");
                 getTable(tweetId,"tweettable").then(function(res){
+                    console.log(res.rows[0].replies.length);
                     $("#replyBtn"+tweetId).html("replies ("+res.rows[0].replies.length+")");
                     if(res.rows[0].replies.length>0){
-                        document.getElementById("#replyBtn").setAttribute('onclick','replie('+res.rows[0].tweetId+')');
+                        document.getElementById("replyBtn"+res.rows[0].tweetId).setAttribute('onclick','replie('+res.rows[0].tweetId+')');
                     }
                     
                 })
-                main();
             }).catch(function(err){
                 console.log('err', err);
             });
         });
-   // })
+    }
+        else{
+            document.getElementById("rplContent").innerHTML="";
+            document.getElementById("rplContent").innerHTML="Sign up first";
+            modal.style.display = "block";
+        }
 }
 
 function otherRetweet(twId){
@@ -180,6 +187,9 @@ function tweets(unique){
             var input = document.createElement('textarea');
             var commentBtn = document.createElement('input');
             commentBtn.type = "button";
+            commentBtn.value = "Comment";
+            commentBtn.style.position = "absolute";
+            commentBtn.style.left = 200;
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             likeButton.id = "likeBtn"+ bal.rows[0].tweetId;
@@ -303,15 +313,14 @@ function tweets(unique){
             indivTweetDiv.appendChild(iname);
             indivTweetDiv.appendChild(commentBtn);
             indivTweetDiv.appendChild(idiv1);
-            
             indivTweetDiv.appendChild(idiv2);
-            
             indivTweetDiv.appendChild(idiv3);
             indivTweetDiv.appendChild(input);
             indivTweetDiv.appendChild(commentBtn);
             indivTweetDiv.appendChild(replyButton);
-            if(account.name==bal.rows[0].accName)   indivTweetDiv.appendChild(delButton);
-            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   indivTweetDiv.appendChild(retweetButton);
+            if((account.name==bal.rows[0].accName)&&((curr=="http://127.0.0.1:5500/home.html")||(curr=="http://127.0.0.1:5500/profile.html#"+account.name)))   
+            indivTweetDiv.appendChild(delButton);
+            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name)))) indivTweetDiv.appendChild(retweetButton);
             indivTweetDiv.appendChild(likeButton);
             indivTweetDiv.style.paddingBottom = "40px";
             allTweetDiv.appendChild(indivTweetDiv);
@@ -344,6 +353,7 @@ function reply(replyIndex){
 }
 
 function like(twId){
+    if(signedUp){
     eos.contract('slateme55555').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
@@ -356,8 +366,15 @@ function like(twId){
         });
     });
 }
+else{
+    document.getElementById("rplContent").innerHTML="";
+    document.getElementById("rplContent").innerHTML="Sign up first";
+    modal.style.display = "block";
+}
+}
 
 function unlike(twId){
+    if(signedUp){
     eos.contract('slateme55555').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
@@ -369,6 +386,12 @@ function unlike(twId){
             console.log('err', err);
         });
     });
+}
+else{
+    document.getElementById("rplContent").innerHTML="";
+    document.getElementById("rplContent").innerHTML="Sign up first";
+    modal.style.display = "block";
+}
 }
 
 function deleteTweet(twId){
@@ -384,6 +407,8 @@ function deleteTweet(twId){
 }
 
 function reTweet(twId){
+    if(signedUp){
+
     eos.contract('slateme55555').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
@@ -446,6 +471,13 @@ function reTweet(twId){
         });
     });
 }
+    else{
+        document.getElementById("rplContent").innerHTML="";
+        document.getElementById("rplContent").innerHTML="Sign up first";
+        modal.style.display = "block";
+    }
+    
+}
 
 function find_duplicate_in_string(arra1) {
     var object = {};
@@ -464,6 +496,7 @@ function find_duplicate_in_string(arra1) {
     }
 
     return result;
-
 }
+
+
 

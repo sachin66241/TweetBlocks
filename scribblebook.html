@@ -307,11 +307,11 @@ function scribblelike(twId) {
                 console.log(res);
                 likescount = res.rows[0].likes.length;
                 $("#likecount").html("LIKES("+likescount+")");
-                document.getElementById("likeBtn"+twId).setAttribute('onclick','like('+res.rows[0].tweetId+')');
+                // document.getElementById("likeBtn"+twId).setAttribute('onclick','like('+res.rows[0].tweetId+')');
                 likedUsers = [];
                 for(var i = 0;i<res.rows[0].likes.length;i++){
                 likedUsers.push(res.rows[0].likes[i]);
-            }   
+                }   
             })
             
         }).catch(function(err){

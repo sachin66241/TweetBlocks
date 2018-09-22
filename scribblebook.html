@@ -186,7 +186,7 @@ function displayTweet(tweetId){
                     replymsg = res.rows[0].reply;
                     // tweeter = res.rows[0].accName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
                     replytime = res.rows[0].timestamp;
-                    var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
+                    var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
                     replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
                     dynamic();
                 });
@@ -226,6 +226,7 @@ function dynamic(){
 
 function comment(tweetid){
     // var id = "#comment"+tweetid;
+    console.log("comment");
     var reply = $("#comment").val();
     const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
     const options = {
@@ -241,7 +242,14 @@ function comment(tweetid){
             var tweetId = Number(tweetid);
             contract.reply({accName,parentId:tweetId,replyId,reply,timestamp},options).then(function(res){
                 console.log('res', res);
-            }).catch(function(err){
+                getTable(replyId, "replytable").then(function(res){ 
+                    replymsg = res.rows[0].reply;
+                    // tweeter = res.rows[0].accName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
+                    replytime = res.rows[0].timestamp;
+                    var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
+                    replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
+                    dynamic();
+                });            }).catch(function(err){
                 console.log('err', err);
             });
         });

@@ -11,8 +11,16 @@
   <script src="js/autopredict.js"></script>
   <script src="js/main.js"></script>
   <title>Home</title>
+  <!-- <link rel="stylesheet" href="css/autopredict.css"> -->
   <link rel="stylesheet" href="css/profile.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/autoprdict.css">
+
+
+  
+   
+
+  
 </head>
 <body>
   <button onclick="signOut()">SIGN OUT</button>
@@ -196,8 +204,6 @@ input.addEventListener("keyup", function(event) {
             indivTweetDiv.style.paddingBottom = "40px";
             allTweetDiv.prepend(indivTweetDiv)
             console.log('res', res);
-            
-            //updateDiv();
             });
             
           }).catch(function(err){

@@ -178,7 +178,8 @@ function tweets(unique){
             var delButton = document.createElement('button');
             var retweetButton = document.createElement('button');
             var input = document.createElement('textarea');
-            var commentBtn = document.createElement('button');
+            var commentBtn = document.createElement('input');
+            commentBtn.type = "button";
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             likeButton.id = "likeBtn"+ bal.rows[0].tweetId;
@@ -300,8 +301,11 @@ function tweets(unique){
             idiv2.innerHTML= convert(bal.rows[0].timestamp);
             indivTweetDiv.appendChild(retweetdiv);
             indivTweetDiv.appendChild(iname);
+            indivTweetDiv.appendChild(commentBtn);
             indivTweetDiv.appendChild(idiv1);
+            
             indivTweetDiv.appendChild(idiv2);
+            
             indivTweetDiv.appendChild(idiv3);
             indivTweetDiv.appendChild(input);
             indivTweetDiv.appendChild(commentBtn);

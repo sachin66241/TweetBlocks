@@ -140,7 +140,7 @@ function comment(tweetid){
    // })
 }
 
-function a(twId){
+function otherRetweet(twId){
     getTable(twId, "tweettable").then(function(res){
     var retweeters=res.rows[0].retweet;    
     var afollotweet=retweeters.concat(mainFollowing);
@@ -170,6 +170,7 @@ function tweets(unique){
             var indivTweetDiv = document.createElement('div');
             indivTweetDiv.id = "tweetdiv"+bal.rows[0].tweetId;
             var retweetdiv = document.createElement('div');
+            retweetdiv.id="retweetdiv"+bal.rows[0].tweetId;
             var iname = document.createElement('div');
             var idiv1 = document.createElement('div');
             var idiv2 = document.createElement('div');
@@ -181,9 +182,10 @@ function tweets(unique){
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             likeButton.id = "likeBtn"+ bal.rows[0].tweetId;
+            retweetButton.id="retweetBtn"+ bal.rows[0].tweetId;
             replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
             delButton.innerHTML = "delete";
-            retweetButton.innerHTML = "reTweet";
+            retweetButton.innerHTML = "reTweet ("+bal.rows[0].retweet.length+")";
             commentBtn.innerHTML = "Comment";
             replyButton.id = "replyBtn"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
@@ -221,7 +223,6 @@ function tweets(unique){
             var tweeter=userslist.find(function(x){ return x.accName === account.name });
             
             var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
-            var flag=0;
             if(curr=="http://127.0.0.1:5500/home.html"){
 
                 iname.innerHTML = acc.userName.link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold();
@@ -245,7 +246,7 @@ function tweets(unique){
                                 retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" retweeted " ; 
                                 }
                                 else{
-                                retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" , "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+(commonusers.length-2) +" others".link("javascript:a("+bal.rows[0].tweetId+")")+" retweeted " ; 
+                                retweetdiv.innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" , "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+(commonusers.length-2) +" others".link("javascript:otherRetweet("+bal.rows[0].tweetId+")")+" retweeted " ; 
                                 }
                             }
                         }
@@ -263,7 +264,7 @@ function tweets(unique){
                             else{
                                 
                                 var tweeter1 = userslist.find(function(x){ return x.accName === commonusers[1] });
-                                retweetdiv.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" , "+tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter1.accName).bold() +" and "+ (commonusers.length-2) +" others".link("javascript:a("+bal.rows[0].tweetId+")")+" retweeted " ; 
+                                retweetdiv.innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" , "+tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter1.accName).bold() +" and "+ (commonusers.length-2) +" others".link("javascript:otherRetweet("+bal.rows[0].tweetId+")")+" retweeted " ; 
                                
 
                             }
@@ -382,7 +383,60 @@ function reTweet(twId){
     eos.contract('slateme55555').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
-            main();
+            document.getElementById("retweetBtn"+twId).style.display="none";
+            var curr=window.location.href
+            if(curr=="http://127.0.0.1:5500/home.html"){
+                getTable(twId, "tweettable").then(function(bal){ 
+                var retweeters=bal.rows[0].retweet;
+                var follotweet=retweeters.concat(mainFollowing);           
+                var commonusers=find_duplicate_in_string(follotweet);
+                var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
+                if(retweeters.length>0){
+
+                    if(commonusers.length==0){
+                        if(retweeters.includes(account.name)){
+                            document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold()+" retweeted ";
+                        }
+                    }
+                    else{
+                        if(retweeters.includes(account.name)){
+                            var tweeter=userslist.find(function(x){ return x.accName === commonusers[0] });
+                            if(commonusers.length<2){
+                                document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" and "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" retweeted " ;
+                            }
+                            else{
+                                var tweeter1=userslist.find(function(x){ return x.accName === commonusers[1] });
+                                if(commonusers.length==2){
+                                    document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML= "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" retweeted " ; 
+                                }
+                                else{
+                                    document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML = "You".link( 'http://127.0.0.1:5500/profile.html#' + acc.accName).bold() +" , "+ tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" , "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold()+" and "+(commonusers.length-2) +" others".link("javascript:othersDisplay("+bal.rows[0].tweetId+")")+" retweeted " ; 
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var tweeter=userslist.find(function(x){ return x.accName === commonusers[0] });
+                            if(commonusers.length==1){
+                            
+                                document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" retweeted " ;
+                            }
+                            else if(commonusers.length==2){
+                                var tweeter1 = userslist.find(function(x){ return x.accName === commonusers[1] });
+                                document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML =  tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" and "+ tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter1.accName).bold()+ " retweeted " ;
+                                }
+                            else{
+                                
+                                var tweeter1 = userslist.find(function(x){ return x.accName === commonusers[1] });
+                                document.getElementById("retweetdiv"+bal.rows[0].tweetId).innerHTML = tweeter.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter.accName).bold() +" , "+tweeter1.userName.link( 'http://127.0.0.1:5500/profile.html#' + tweeter1.accName).bold() +" and "+ (commonusers.length-2) +" others".link("javascript:othersDisplay("+bal.rows[0].tweetId+")")+" retweeted " ; 
+                            
+
+                            }
+                            }
+                        }
+                    }
+                });
+            }
         }).catch(function(err){
             console.log('err', err);
         });
@@ -409,9 +463,3 @@ function find_duplicate_in_string(arra1) {
 
 }
 
-var current = window.location.href;
-setInterval(function() {
-    if (window.location.href!== current) {
-    window.location.reload();
-    }
-    }, 2000);

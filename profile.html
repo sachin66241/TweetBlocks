@@ -190,6 +190,16 @@
             window.location.href = ("http://127.0.0.1:5500/edit.html");
         
         }
+        
+
+
+        // page reload in profile
+        var current = window.location.href;
+        setInterval(function() {
+            if (window.location.href!== current) {
+            window.location.reload();
+            }
+            }, 2000);
  
         /////////////////////////////////////////////////////////////////////////////////
         $("#myBtn").hide();

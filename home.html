@@ -42,8 +42,9 @@
     </div>     
   </form>
   <br><br>
+  <h1 style="text-align: center;">Recent tweets</h1>
   <div id="allTweetDiv">
-    <h1 style="text-align: center;">Recent tweets</h1>
+    
     <div id="loader" class="spinner">
       <div class="rect1"></div>
       <div class="rect2"></div>
@@ -144,7 +145,6 @@ input.addEventListener("keyup", function(event) {
           var msg = $("#tweetMsg").val();
           var timestamp =  Date.now();
           var tohash = accName+timestamp+msg;
-          console.log("tohash:",tohash);
           var hash = (Math.abs(tohash.hashCode()));
           var len = Math.ceil(Math.log(hash + 1) / Math.LN10);
           if(len==9){
@@ -154,16 +154,57 @@ input.addEventListener("keyup", function(event) {
             hash=Math.floor(hash/10000);
           }
           len = Math.ceil(Math.log(hash + 1) / Math.LN10); 
-          console.log(len);
           var tweetId=(timestamp*10000)+hash;
-          console.log("tweetid:",tweetId);
-          console.log(typeof tweetId);
           if(msg.length>0){
-            console.log(tweetId);
           contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             $("#tweetMsg").val("");
-            updateDiv();
+            getTable(tweetId,"tweettable").then(function(bal){
+
+            
+
+            var indivTweetDiv = document.createElement('div');
+            indivTweetDiv.id = "tweetdiv"+bal.rows[0].tweetId;
+            var retweetdiv = document.createElement('div');
+            var iname = document.createElement('div');
+            iname.innerHTML = $("#userName").text().link( 'http://127.0.0.1:5500/profile.html#' + account.name).bold();
+            var idiv1 = document.createElement('div');
+            idiv1.innerHTML = bal.rows[0].msg.link('http://127.0.0.1:5500/scribblebook.html#' + bal.rows[0].tweetId);
+            var idiv2 = document.createElement('div');
+            var idiv3 = document.createElement('div');
+            var delButton = document.createElement('button');
+            var input = document.createElement('textarea');
+            var commentBtn = document.createElement('button');
+            commentBtn.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
+            commentBtn.innerHTML = "Comment";
+            var replyButton = document.createElement('button');
+            var likeButton = document.createElement('button');
+            likeButton.innerHTML = "Like";
+            likeButton.setAttribute('onclick','like('+bal.rows[0].tweetId+')');
+            replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
+            delButton.innerHTML = "delete";
+            delButton.setAttribute('onclick','deleteTweet('+bal.rows[0].tweetId+')');
+            replyButton.id = "button"+bal.rows[0].tweetId;
+            input.id='comment'+bal.rows[0].tweetId;
+            input.name = "post";
+            input.maxLength = "100";
+            input.cols = "20";
+            input.rows = "3";
+
+            idiv2.innerHTML= convert(bal.rows[0].timestamp);
+            indivTweetDiv.appendChild(iname);
+            indivTweetDiv.appendChild(idiv1);
+            indivTweetDiv.appendChild(idiv2);
+            indivTweetDiv.appendChild(idiv3);
+            indivTweetDiv.appendChild(input);
+            indivTweetDiv.appendChild(commentBtn);
+            indivTweetDiv.appendChild(replyButton);
+            indivTweetDiv.appendChild(delButton);
+            indivTweetDiv.appendChild(likeButton);
+            indivTweetDiv.style.paddingBottom = "40px";
+            allTweetDiv.prepend(indivTweetDiv)
+            console.log('res', res);
+            });
             
           }).catch(function(err){
             console.log('err', err);
@@ -214,7 +255,6 @@ input.addEventListener("keyup", function(event) {
     var sorted=[];
 
     async function followingTweet(mainFollowing){
-      console.log(mainFollowing);
       sorted=[];
       dict=[];
       arr=[];

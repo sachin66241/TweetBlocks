@@ -422,13 +422,13 @@ function reTweet(twId){
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             document.getElementById("retweetBtn"+twId).style.display="none";
+            var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
             var curr=window.location.href
             if(curr=="http://127.0.0.1:5500/home.html"){
                 getTable(twId, "tweettable").then(function(bal){ 
                 var retweeters=bal.rows[0].retweet;
                 var follotweet=retweeters.concat(mainFollowing);           
                 var commonusers=find_duplicate_in_string(follotweet);
-                var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
                 if(retweeters.length>0){
 
                     if(commonusers.length==0){
@@ -476,6 +476,9 @@ function reTweet(twId){
                     }
                 });
             }
+
+            
+
         }).catch(function(err){
             console.log('err', err);
         });

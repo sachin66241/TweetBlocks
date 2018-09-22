@@ -122,6 +122,7 @@ input.addEventListener("keyup", function(event) {
     //$("#searchField").val("");
     var userslist = [];
     var users = [];
+    var signedUp=true;
 
     connect().then(function(res){
       getTable(account.name, "account").then(function(res){
@@ -216,11 +217,7 @@ input.addEventListener("keyup", function(event) {
         });
     }
     
-    function updateDiv()
-{ 
-    $( "#allTweetDiv" ).load(window.location.href + " #allTweetDiv" );
-     main();
-}
+
 
 
     function searchUser() {

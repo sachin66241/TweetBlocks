@@ -105,8 +105,8 @@
         var signedUp = false; 
 
         window.setInterval(function() {
-        if (window.location.url!== parameters) {
-        window.location.reload;
+        if (location.href.split("#")[1]!= parameters) {
+        window.location.reload();
         }
         }, 2000);
 

@@ -351,23 +351,47 @@
 </script>
 
 <script>
+  $("#genSelect").change(function(){
+    var imageUrl = $("#img").attr("src");
+    if(imageUrl == "http://127.0.0.1:5500/images/femaledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/maledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/othersdefault.jpg")  removeImage();
+
+});
+
   function removeImage(){
     imageUrl="";
     
-    getTable(account.name, "account").then(function(bal){
+   var gender = $("#genSelect").val();
     
-    if(bal.rows[0].gender == "female"){
+    if(gender == "female"){
      
                     $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
                 
                    }
-                    else if(bal.rows[0].gender == "male") {
+                    else if(gender == "male") {
         
                         $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
                     }
                     else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
-               })
+
   }
+
+  // function removeImage(){
+  //   imageUrl="";
+    
+  //   getTable(account.name, "account").then(function(bal){
+    
+  //   if(bal.rows[0].gender == "female"){
+     
+  //                   $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                
+  //                  }
+  //                   else if(bal.rows[0].gender == "male") {
+        
+  //                       $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+  //                   }
+  //                   else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+  //              })
+  // }
 
             
         connect().then(function(){

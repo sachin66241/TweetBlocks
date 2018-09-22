@@ -128,9 +128,10 @@ function comment(tweetid){
                 console.log('res', res);
                 $(""+id+"").val("");
                 getTable(tweetId,"tweettable").then(function(res){
+                    console.log(res.rows[0].replies.length);
                     $("#replyBtn"+tweetId).html("replies ("+res.rows[0].replies.length+")");
                     if(res.rows[0].replies.length>0){
-                        document.getElementById("replyBtn"+tweetId).setAttribute('onclick','replie('+res.rows[0].tweetId+')');
+                        document.getElementById("replyBtn"+res.rows[0].tweetId).setAttribute('onclick','replie('+res.rows[0].tweetId+')');
                     }
                     
                 })

@@ -114,6 +114,8 @@ function convertDate(myDate){
 } 
 
 function comment(tweetid){
+    
+    if(signedUp){
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
@@ -136,7 +138,12 @@ function comment(tweetid){
                 console.log('err', err);
             });
         });
-   // })
+    }
+        else{
+            document.getElementById("rplContent").innerHTML="";
+            document.getElementById("rplContent").innerHTML="Sign up first";
+            modal.style.display = "block";
+        }
 }
 
 function otherRetweet(twId){
@@ -342,6 +349,7 @@ function reply(replyIndex){
 }
 
 function like(twId){
+    if(signedUp){
     eos.contract('slateme55555').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
@@ -354,8 +362,15 @@ function like(twId){
         });
     });
 }
+else{
+    document.getElementById("rplContent").innerHTML="";
+    document.getElementById("rplContent").innerHTML="Sign up first";
+    modal.style.display = "block";
+}
+}
 
 function unlike(twId){
+    if(signedUp){
     eos.contract('slateme55555').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
@@ -367,6 +382,12 @@ function unlike(twId){
             console.log('err', err);
         });
     });
+}
+else{
+    document.getElementById("rplContent").innerHTML="";
+    document.getElementById("rplContent").innerHTML="Sign up first";
+    modal.style.display = "block";
+}
 }
 
 function deleteTweet(twId){
@@ -382,6 +403,8 @@ function deleteTweet(twId){
 }
 
 function reTweet(twId){
+    if(signedUp){
+
     eos.contract('slateme55555').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
@@ -444,6 +467,13 @@ function reTweet(twId){
         });
     });
 }
+    else{
+        document.getElementById("rplContent").innerHTML="";
+        document.getElementById("rplContent").innerHTML="Sign up first";
+        modal.style.display = "block";
+    }
+    
+}
 
 function find_duplicate_in_string(arra1) {
     var object = {};
@@ -462,6 +492,7 @@ function find_duplicate_in_string(arra1) {
     }
 
     return result;
-
 }
+
+
 

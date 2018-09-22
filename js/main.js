@@ -128,11 +128,10 @@ function comment(tweetid){
                 getTable(tweetId,"tweettable").then(function(res){
                     $("#replyBtn"+tweetId).html("replies ("+res.rows[0].replies.length+")");
                     if(res.rows[0].replies.length>0){
-                        document.getElementById("#replyBtn").setAttribute('onclick','replie('+res.rows[0].tweetId+')');
+                        document.getElementById("replyBtn"+tweetId).setAttribute('onclick','replie('+res.rows[0].tweetId+')');
                     }
                     
                 })
-                main();
             }).catch(function(err){
                 console.log('err', err);
             });
@@ -303,15 +302,14 @@ function tweets(unique){
             indivTweetDiv.appendChild(iname);
             indivTweetDiv.appendChild(commentBtn);
             indivTweetDiv.appendChild(idiv1);
-            
             indivTweetDiv.appendChild(idiv2);
-            
             indivTweetDiv.appendChild(idiv3);
             indivTweetDiv.appendChild(input);
             indivTweetDiv.appendChild(commentBtn);
             indivTweetDiv.appendChild(replyButton);
-            if(account.name==bal.rows[0].accName)   indivTweetDiv.appendChild(delButton);
-            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   indivTweetDiv.appendChild(retweetButton);
+            if((account.name==bal.rows[0].accName)&&((curr=="http://127.0.0.1:5500/home.html")||(curr=="http://127.0.0.1:5500/profile.html#"+account.name)))   
+            indivTweetDiv.appendChild(delButton);
+            if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name)))) indivTweetDiv.appendChild(retweetButton);
             indivTweetDiv.appendChild(likeButton);
             indivTweetDiv.style.paddingBottom = "40px";
             allTweetDiv.appendChild(indivTweetDiv);

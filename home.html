@@ -177,6 +177,8 @@ input.addEventListener("keyup", function(event) {
             var commentBtn = document.createElement('button');
             commentBtn.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
             commentBtn.innerHTML = "Comment";
+            commentBtn.style.position = "absolute";
+            commentBtn.style.left = 200;
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             likeButton.innerHTML = "Like";

@@ -186,6 +186,9 @@ function tweets(unique){
             var input = document.createElement('textarea');
             var commentBtn = document.createElement('input');
             commentBtn.type = "button";
+            commentBtn.value = "Comment";
+            commentBtn.style.position = "absolute";
+            commentBtn.style.left = 200;
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             likeButton.id = "likeBtn"+ bal.rows[0].tweetId;

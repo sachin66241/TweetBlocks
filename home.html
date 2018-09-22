@@ -175,9 +175,10 @@ input.addEventListener("keyup", function(event) {
             var idiv3 = document.createElement('div');
             var delButton = document.createElement('button');
             var input = document.createElement('textarea');
-            var commentBtn = document.createElement('button');
+            var commentBtn = document.createElement('input');
+            commentBtn.type = "button";
+            commentBtn.value = "Comment";
             commentBtn.setAttribute('onclick', 'comment('+bal.rows[0].tweetId+')');
-            commentBtn.innerHTML = "Comment";
             commentBtn.style.position = "absolute";
             commentBtn.style.left = 200;
             var replyButton = document.createElement('button');

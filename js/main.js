@@ -179,13 +179,14 @@ function tweets(unique){
             var delButton = document.createElement('button');
             var retweetButton = document.createElement('button');
             var input = document.createElement('textarea');
-            var button = document.createElement('button');
+            var button = document.createElement('input');
+            button.type = "button";
             var replyButton = document.createElement('button');
             var likeButton = document.createElement('button');
             replyButton.innerHTML = "replies ("+bal.rows[0].replies.length+")";
             delButton.innerHTML = "delete";
             retweetButton.innerHTML = "reTweet";
-            button.innerHTML = "Comment";
+            button.value = "Comment";
             replyButton.id = "button"+bal.rows[0].tweetId;
             input.id='comment'+bal.rows[0].tweetId;
             input.name = "post";
@@ -302,11 +303,14 @@ function tweets(unique){
             idiv2.innerHTML= convert(bal.rows[0].timestamp);
             indivTweetDiv.appendChild(retweetdiv);
             indivTweetDiv.appendChild(iname);
+            indivTweetDiv.appendChild(button);
             indivTweetDiv.appendChild(idiv1);
+            
             indivTweetDiv.appendChild(idiv2);
+            
             indivTweetDiv.appendChild(idiv3);
             indivTweetDiv.appendChild(input);
-            indivTweetDiv.appendChild(button);
+            
             if(account.name==bal.rows[0].accName)   indivTweetDiv.appendChild(delButton);
             if((account.name!=bal.rows[0].accName)&&(!(retweeters.includes(account.name))))   indivTweetDiv.appendChild(retweetButton);
             indivTweetDiv.appendChild(button);

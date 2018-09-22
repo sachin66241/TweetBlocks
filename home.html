@@ -37,7 +37,7 @@
     </form>
     <div>
       <br>
-      <textarea id="tweetMsg" cols="30" rows="4" placeholder="write here!!!"></textarea><br>
+      <textarea id="tweetMsg" cols="30" rows="4" placeholder="write here!!!" maxlength="320"></textarea><br>
       <input type="button"  value="TWEET" onclick="tweet()"> 
     </div>     
   </form>
@@ -156,7 +156,7 @@ input.addEventListener("keyup", function(event) {
           }
           len = Math.ceil(Math.log(hash + 1) / Math.LN10); 
           var tweetId=(timestamp*10000)+hash;
-          if(msg.length>0){
+          if(msg.length<1 && msg.length>320)  return;
           contract.tweet({tweetId:tweetId,accName,msg,timestamp},options).then(function(res){
             console.log('res', res);
             $("#tweetMsg").val("");
@@ -213,11 +213,9 @@ input.addEventListener("keyup", function(event) {
           }).catch(function(err){
             console.log('err', err);
           });
-        }
-        else alert("scribble something");
         });
-    }
     
+}
 
 
 

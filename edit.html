@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.0/lib/eos.min.js"></script>
-  <!-- <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
   <script src="js/scatter.min.js"></script> 
   <link rel="stylesheet" href="css/edit.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js"></script>
-    <title>Edit Profile</title>
-    <style>
-      article, aside, figure, footer, header, hgroup, 
-      menu, nav, section { display: block; }
-      .avatar {
-    vertical-align: middle;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-      }
-  
-    </style>
+  <title>Edit Profile</title>
 </head>
 <body>
-           <br> <button id="delete" onclick="deleteAcc()">Deactivate</button><br>
-          <br><a href="http://127.0.0.1:5500/home.html"><button>Home</button></a><br>
-                   <label> USERNAME:</label>
-                    <input type="text" id="userName"><br>
+    <button id="delete" onclick="deleteAcc()">Deactivate</button><br><br>
+    <a href="http://127.0.0.1:5500/home.html"><button>Home</button></a><br>
+    
+    <label> USERNAME:</label>
+    <input type="text" id="userName"><br>
 
-                    <br> STATUS:<br>
-                    <input type="text" id="status"><br>
+    <label> STATUS:</label>>
+    <input type="text" id="status"><br>
 
-                    <!-- <img id="blah" src="images/dark.jpg" alt="your image" /> -->
-                    <br>PROFILE IMAGE:<br>
-                    <br>
-                    <img id="img" width="100" height="100"></h1>
-                    
-                   <br> <button id="myBtn">BROWSE</button>
-                     <button id="remvBtn" onclick="removeImage()">Remove Profile Pic</button>
+    <!-- <img id="blah" src="images/dark.jpg" alt="your image" /> -->
+    <br>PROFILE IMAGE:<br>
+    <br>
+    <img id="img" width="100" height="100"></h1>
+    
+    <br> <button id="myBtn">BROWSE</button>
+      <button id="remvBtn" onclick="removeImage()">Remove Profile Pic</button>
 
                     <!-- The Modal -->
                     <div id="myModal" class="modal">
@@ -365,13 +354,18 @@
     if(gender == "female"){
      
                     $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+                    imageUrl="femaledefault.jpg";
                 
                    }
                     else if(gender == "male") {
-        
+                      imageUrl = "maledefault.jpg"
+                      
                         $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
                     }
-                    else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+                    else {
+                       $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+                       imageUrl = "othersdefault.jpg";
+                    }
 
   }
 

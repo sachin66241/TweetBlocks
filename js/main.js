@@ -38,7 +38,7 @@ async function connect() {
  
 
 async function getTable(scope,table){
-    let result = await eos.getTableRows(true, "slateme55555", scope, table);
+    let result = await eos.getTableRows(true, "slatemeram11", scope, table);
     return result;
   }
 
@@ -119,7 +119,7 @@ function comment(tweetid){
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
-        eos.contract('slateme55555').then(contract => {
+        eos.contract('slatemeram11').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = account.name;
             var timestamp =  Date.now();
@@ -363,7 +363,7 @@ function reply(replyIndex){
 
 function like(twId){
     if(signedUp){
-    eos.contract('slateme55555').then(contract => {
+    eos.contract('slatemeram11').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
                 $("#likeBtn"+twId).html("unlike ("+res.rows[0].likes.length+")");
@@ -384,7 +384,7 @@ else{
 
 function unlike(twId){
     if(signedUp){
-    eos.contract('slateme55555').then(contract => {
+    eos.contract('slatemeram11').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
                 $("#likeBtn"+twId).html("like ("+res.rows[0].likes.length+")");
@@ -404,7 +404,7 @@ else{
 }
 
 function deleteTweet(twId){
-    eos.contract('slateme55555').then(contract => {
+    eos.contract('slatemeram11').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             var tweetDiv = document.getElementById("tweetdiv"+twId);
@@ -418,14 +418,14 @@ function deleteTweet(twId){
 function reTweet(twId){
     if(signedUp){
 
-    eos.contract('slateme55555').then(contract => {
+    eos.contract('slatemeram11').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             document.getElementById("retweetBtn"+twId).style.display="none";
-            var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
             var curr=window.location.href
             if(curr=="http://127.0.0.1:5500/home.html"){
                 getTable(twId, "tweettable").then(function(bal){ 
+                var acc = userslist.find(function(x){ return x.accName === bal.rows[0].accName });
                 var retweeters=bal.rows[0].retweet;
                 var follotweet=retweeters.concat(mainFollowing);           
                 var commonusers=find_duplicate_in_string(follotweet);

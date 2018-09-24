@@ -21,7 +21,7 @@
   <label> USERNAME:</label>
   <input type="text" id="userName"><br><br>
 
-  <label> STATUS:</label>>
+  <label> STATUS:</label>
   <input type="text" id="status"><br><br>
 
   <label>PROFILE IMAGE:</label><br>
@@ -59,14 +59,12 @@
         <h3></h3>
       </div>
     </div>
-  </div>
+  </div><br><br>
 
   <label>DOB:</label>
   <input type="date" id="myDate" ><br><br>
 
   <label> PHONE:</label>
-  <input type="text" id="phone"><br>
-
   <select id ="stdCode">
     <option id="IN" value="+91-" Selected>India (+91)</option>
     <option id="GB" value="+44-" >UK (+44)</option>
@@ -287,6 +285,7 @@
         <option id="ZW" value="+263-">Zimbabwe (+263)</option>
     </optgroup>
   </select>
+  <input type="text" id="phone"><br><br>
 
   <label>GENDER:</label>
   <select id="genSelect">
@@ -323,177 +322,100 @@
         }
     }
 
-  $("#genSelect").change(function(){
-    var imageUrl = $("#img").attr("src");
-    if(imageUrl == "http://127.0.0.1:5500/images/femaledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/maledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/othersdefault.jpg")  removeImage();
-  });
+    connect().then(function(){
+      formerResult();
+    });
+    var userName,dob,phoneNo,gender,status, imageUrlbc, imageUrl;
+    function selectImage(img){
+      imageUrl = img.id;  
+      modal.style.display = "none";
+      $("#img").attr("src","images/"+imageUrl);
+      $("#img").attr("class","avatar");
+    }
 
-  function removeImage(){
-    imageUrl="";
-    var gender = $("#genSelect").val();
-    if(gender == "female"){
-      $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
-      imageUrl="femaledefault.jpg";
-  
+    $("#genSelect").change(function(){
+      var imageUrl = $("#img").attr("src");
+      if(imageUrl == "http://127.0.0.1:5500/images/femaledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/maledefault.jpg" || imageUrl == "http://127.0.0.1:5500/images/othersdefault.jpg")  removeImage();
+    });
+
+    function removeImage(){
+      imageUrl="";
+      var gender = $("#genSelect").val();
+      if(gender == "female"){
+        $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+        imageUrl="femaledefault.jpg";
       }
       else if(gender == "male") {
-        imageUrl = "maledefault.jpg"
-        
-          $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+        imageUrl = "maledefault.jpg"  
+        $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
       }
       else {
-          $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
-          imageUrl = "othersdefault.jpg";
+        $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
+        imageUrl = "othersdefault.jpg";
       }
+    }
 
-  }
-
-  // function removeImage(){
-  //   imageUrl="";
-    
-  //   getTable(account.name, "account").then(function(bal){
-    
-  //   if(bal.rows[0].gender == "female"){
-     
-  //                   $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
-                
-  //                  }
-  //                   else if(bal.rows[0].gender == "male") {
-        
-  //                       $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
-  //                   }
-  //                   else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
-  //              })
-  // }
-
-            
-        connect().then(function(){
-           formerResult();
-        })
-        var imageUrl;
-        function selectImage(img){
-            console.log(img.id);
-            imageUrl = img.id;  
-            modal.style.display = "none";
-        
-            $("#img").attr("src","images/"+imageUrl);
-            $("#img").attr("class","avatar");
+    function formerResult(){
+      getTable(account.name, "account").then(function(res){
+        userName=res.rows[0].userName;
+        dob=converttime(res.rows[0].dob).split(",");
+        phoneNo=res.rows[0].phoneNo;
+        gender=res.rows[0].gender;
+        status=res.rows[0].stat;
+        imageUrlbc = res.rows[0].profilepic;
+        if(res.rows[0].profilepic == ""){
+          if(res.rows[0].gender == "female")  $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
+          else if(res.rows[0].gender == "male") $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
+          else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
         }
+        else  $("#img").attr("src","http://127.0.0.1:5500/images/"+res.rows[0].profilepic);
 
-        var userName,dob,phoneNo,gender,status, imageUrlbc,imageUrl;
-        function formerResult(){
-          getTable(account.name, "account").then(function(bal){
+        var Dob=dob[0].split("/");
+        dob[1]=Dob[2]+"-"+Dob[1]+"-"+Dob[0];
+        $("#myDate").val(dob[1]);
+        $("#userName").val(userName);
+        $("#phone").val(phoneNo);
+        $("#status").val(status);
+        $("#genSelect").val(gender);
+      })
+    }
 
-              userName=bal.rows[0].userName;
-              dob=converttime(bal.rows[0].dob).split(",");
-              phoneNo=bal.rows[0].phoneNo;
-              gender=bal.rows[0].gender;
-              status=bal.rows[0].stat;
-              imageUrlbc = bal.rows[0].profilepic;
-              if(bal.rows[0].profilepic == ""){
-                   if(bal.rows[0].gender == "female"){
-                    $("#img").attr("src","http://127.0.0.1:5500/images/femaledefault.jpg");
-                
-                   }
-                    else if(bal.rows[0].gender == "male") {
-        
-                        $("#img").attr("src","http://127.0.0.1:5500/images/maledefault.jpg");
-                    }
-                    else $("#img").attr("src","http://127.0.0.1:5500/images/othersdefault.jpg");
-               }
-               else {
-                   $("#img").attr("src","http://127.0.0.1:5500/images/"+bal.rows[0].profilepic);
-               }
+    function editPro(){
 
-              var Dob=dob[0].split("/");
-              dob[1]=Dob[2]+"-"+Dob[1]+"-"+Dob[0];
-              console.log(dob[1]);
-              $("#myDate").val(dob[1]);
-              $("#userName").attr("placeholder", userName);
-              $("#phone").attr("placeholder", phoneNo);
-              $("#status").attr("placeholder", status);
-              $("#genSelect").val(gender);
-              
-             
-           })
+      if($("#userName").val()!= "") userName=$("#userName").val();
+      if($("#status").val()!= "") status=$("#status").val();
+      if($("#myDate").val()!= "") dob[1]=$("#myDate").val();
+      if($("#phone").val()!= "")  phoneNo = $("#stdCode").val()+ $("#phone").val();
+      if(imageUrl != undefined) imageUrlbc = imageUrl; 
+      gender=$("#genSelect").val();
+      dob[0]=convertDate(dob[1]);
+      eos.contract('slateme55555').then(contract => {
+        contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
+              console.log('res', res);
+              window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
+        }).catch(function(err){
+              console.log('err', err);
+        });
+      });
+    }
 
-        }
-
-        function editPro(){
-
-          if($("#userName").val()!= ""){
-            userName=$("#userName").val();
-          }
-          if($("#status").val()!= ""){
-            status=$("#status").val();
-          }
-          if($("#myDate").val()!= ""){
-            dob[1]=$("#myDate").val();
-          }
-          if($("#phone").val()!= ""){
-           phoneNo = $("#stdCode").val()+ $("#phone").val();
-          }
-          if(imageUrl != undefined) imageUrlbc = imageUrl; 
-          
-          gender=$("#genSelect").val();
-          dob[0]=convertDate(dob[1]);
-
-          eos.contract('slateme55555').then(contract => {
-
-             contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
-                    console.log('res', res);
-                    window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
-                }).catch(function(err){
-                    console.log('err', err);
-                });
-            });
-        
-          
-          
-                   
-        }
-
-       
-
-
-      function deleteAcc(){
-
-                var txt;
-            if (confirm("Are you Sure!")) {
-                
-                eos.contract('slateme55555').then(contract => {
-
-                contract.deleteacc({accName:account.name},options).then(function(res){
-                      console.log('res', res);
-                      scatter.forgetIdentity().then(() => {
-                            alert("Account De-Activated!");
-                            location.replace("http://127.0.0.1:5500/index.html");
-                        });
-                      
-                  }).catch(function(err){
-                      console.log('err', err);
-                  });
-                });
-               
-            } 
-            
-            else {
-               window.location.reload();
-
-            }
-   
-   
-        //document.getElementById("demo").innerHTML = txt;
-
-         
-
-
-
-      }
-
-
-</script>
-  
+    function deleteAcc(){
+      var txt;
+      if (confirm("Are you Sure!")) {
+        eos.contract('slateme55555').then(contract => {
+          contract.deleteacc({accName:account.name},options).then(function(res){
+            console.log('res', res);
+            scatter.forgetIdentity().then(() => {
+              alert("Account De-Activated!");
+              location.replace("http://127.0.0.1:5500/index.html");
+            });    
+          }).catch(function(err){
+            console.log('err', err);
+          });
+        });  
+      } 
+      else window.location.reload();
+    }
+  </script>
 </body>
-
 </html>

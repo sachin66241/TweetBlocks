@@ -267,6 +267,7 @@ function comment(tweetid){
                     var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
                     replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
                     dynamic();
+                    $("#comment").val() = '';
                 });            }).catch(function(err){
                 console.log('err', err);
             });

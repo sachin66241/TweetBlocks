@@ -369,8 +369,9 @@
                             var gen = $("#genSelect").val();
                             var imageUrl = $("#img").attr("id");          
                             contract.signup({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
-                                window.location.replace("http://127.0.0.1:5500/home.html")
                                 console.log('res', res);
+                                //window.location.replace("http://127.0.0.1:5500/home.html")
+                                
                             }).catch(function(err){
                                 console.log('err', err);
                                 alert("Account is already signed up with Scatter");

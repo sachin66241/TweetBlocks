@@ -365,9 +365,9 @@ function like(twId){
     if(signedUp){
     eos.contract('slatemeram11').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
-            getTable(twId,"tweettable").then(function(res){
-                $("#likeBtn"+twId).html("unlike ("+res.rows[0].likes.length+")");
-                document.getElementById("likeBtn"+twId).setAttribute('onclick','unlike('+res.rows[0].tweetId+')');
+            getTable(twId,"tweettable").then(function(bal){
+                $("#likeBtn"+twId).html("unlike ("+bal.rows[0].likes.length+")");
+                document.getElementById("likeBtn"+twId).setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
             })
             console.log('res', res);
         }).catch(function(err){

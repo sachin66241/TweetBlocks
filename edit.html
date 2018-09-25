@@ -442,7 +442,7 @@
 
              contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
                     console.log('res', res);
-                    window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
+                   // window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
                 }).catch(function(err){
                     console.log('err', err);
                 });

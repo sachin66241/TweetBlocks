@@ -38,7 +38,7 @@ async function connect() {
  
 
 async function getTable(scope,table){
-    let result = await eos.getTableRows(true, "slatemeram11", scope, table);
+    let result = await eos.getTableRows(true, "slateme12312", scope, table);
     return result;
   }
 
@@ -119,7 +119,7 @@ function comment(tweetid){
     var id = "#comment"+tweetid;
     var reply = $(""+id+"").val();
     if(reply=="")   return;
-        eos.contract('slatemeram11').then(contract => {
+        eos.contract('slateme12312').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = account.name;
             var timestamp =  Date.now();
@@ -363,11 +363,11 @@ function reply(replyIndex){
 
 function like(twId){
     if(signedUp){
-    eos.contract('slatemeram11').then(contract => {
+    eos.contract('slateme12312').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
-            getTable(twId,"tweettable").then(function(res){
-                $("#likeBtn"+twId).html("unlike ("+res.rows[0].likes.length+")");
-                document.getElementById("likeBtn"+twId).setAttribute('onclick','unlike('+res.rows[0].tweetId+')');
+            getTable(twId,"tweettable").then(function(bal){
+                $("#likeBtn"+twId).html("unlike ("+bal.rows[0].likes.length+")");
+                document.getElementById("likeBtn"+twId).setAttribute('onclick','unlike('+bal.rows[0].tweetId+')');
             })
             console.log('res', res);
         }).catch(function(err){
@@ -384,7 +384,7 @@ else{
 
 function unlike(twId){
     if(signedUp){
-    eos.contract('slatemeram11').then(contract => {
+    eos.contract('slateme12312').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             getTable(twId,"tweettable").then(function(res){
                 $("#likeBtn"+twId).html("like ("+res.rows[0].likes.length+")");
@@ -404,7 +404,7 @@ else{
 }
 
 function deleteTweet(twId){
-    eos.contract('slatemeram11').then(contract => {
+    eos.contract('slateme12312').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             var tweetDiv = document.getElementById("tweetdiv"+twId);
@@ -418,7 +418,7 @@ function deleteTweet(twId){
 function reTweet(twId){
     if(signedUp){
 
-    eos.contract('slatemeram11').then(contract => {
+    eos.contract('slateme12312').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
             document.getElementById("retweetBtn"+twId).style.display="none";

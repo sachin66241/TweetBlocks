@@ -301,6 +301,8 @@
 
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
+    var im = document.getElementById("img");
+
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -309,6 +311,10 @@
     btn.onclick = function() {
         modal.style.display = "block";
     }
+
+    im.onclick = function() {
+            modal.style.display = "block";
+        }
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
@@ -327,11 +333,9 @@
     });
     var userName,dob,phoneNo,gender,status, imageUrlbc, imageUrl;
     function selectImage(img){
-      imageUrl = img.id;
-      console.log(imageUrl);
+      imageUrl = img.id;  
       modal.style.display = "none";
       $("#img").attr("src","images/"+imageUrl);
-      console.log($("#img").attr("src"));
       $("#img").attr("class","avatar");
     }
 
@@ -391,10 +395,10 @@
       if(imageUrl != undefined) imageUrlbc = imageUrl; 
       gender=$("#genSelect").val();
       dob[0]=convertDate(dob[1]);
-      eos.contract('slateme55555').then(contract => {
+      eos.contract('slatemelate1').then(contract => {
         contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
               console.log('res', res);
-              //window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
+              window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
         }).catch(function(err){
               console.log('err', err);
         });
@@ -404,7 +408,7 @@
     function deleteAcc(){
       var txt;
       if (confirm("Are you Sure!")) {
-        eos.contract('slateme55555').then(contract => {
+        eos.contract('slatemelate1').then(contract => {
           contract.deleteacc({accName:account.name},options).then(function(res){
             console.log('res', res);
             scatter.forgetIdentity().then(() => {

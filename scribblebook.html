@@ -87,16 +87,13 @@
                     modal.style.display = "none";
                 }
             }
-        var replymsg;
-        var replyer;
-        var replyeracc;
-        var replytime;
+       
         var parameters = location.href.split("#")[1];
         var tweetId = parameters;
         var likedUsers=[];
         var likescount;
-        var retweetcount
-        var reply_id;
+        var retweetcount;
+        
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
         // $("#comment").onclick=comment(tweetId);
         connect().then((result) => {

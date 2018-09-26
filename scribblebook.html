@@ -100,7 +100,7 @@
         buttonComment.setAttribute('onclick', 'comment('+tweetId+')');
         // $("#comment").onclick=comment(tweetId);
         connect().then((result) => {
-            getTable("slateme12312", "users").then(function(res){
+            getTable("slatemelate1", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
                 }
@@ -270,7 +270,7 @@ function comment(tweetid){
     var eos = scatter.eos(network, Eos, options);
     scatter.getIdentity({accounts:[network]}).then(function(id){
         const account = id.accounts.find(function(x){ return x.blockchain === 'eos' });
-        eos.contract('slateme12312').then(contract => {
+        eos.contract('slatemelate1').then(contract => {
             var replyId = Math.floor((Math.random() * 100000) + 1);
             var accName = id.accounts[0].name;
             var timestamp =  Date.now();
@@ -284,7 +284,7 @@ function comment(tweetid){
                     var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
                     replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
                     dynamic();
-                    $("#comment").val('');
+                    $("#comment").val("");
                 });            }).catch(function(err){
                 console.log('err', err);
             });
@@ -335,7 +335,7 @@ function scribblelike(twId) {
     console.log(likedUsers);
     if(likedUsers.includes(account.name)){
         console.log("unlike");
-        eos.contract('slateme12312').then(contract => {
+        eos.contract('slatemelate1').then(contract => {
         contract.unlike({accName:account.name,tweetId:twId},options).then(function(res){
             $("#likeunlike").html("Like");
             console.log('res', res);
@@ -357,7 +357,7 @@ function scribblelike(twId) {
     }
     else{
         console.log("like");
-        eos.contract('slateme12312').then(contract => {
+        eos.contract('slatemelate1').then(contract => {
         contract.like({accName:account.name,tweetId:twId},options).then(function(res){
             $("#likeunlike").html("Unlike");
             console.log('res', res);
@@ -381,7 +381,7 @@ function scribblelike(twId) {
 }
    
 function rescribble(twId){
-    eos.contract('slateme12312').then(contract => {
+    eos.contract('slatemelate1').then(contract => {
         contract.retweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
 

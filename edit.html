@@ -438,11 +438,11 @@
           gender=$("#genSelect").val();
           dob[0]=convertDate(dob[1]);
 
-          eos.contract('slateme12312').then(contract => {
+          eos.contract('slatemelate1').then(contract => {
 
              contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
                     console.log('res', res);
-                   // window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
+                    window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
                 }).catch(function(err){
                     console.log('err', err);
                 });
@@ -461,13 +461,13 @@
                 var txt;
             if (confirm("Are you Sure!")) {
                 
-                eos.contract('slateme12312').then(contract => {
+                eos.contract('slatemelate1').then(contract => {
 
                 contract.deleteacc({accName:account.name},options).then(function(res){
                       console.log('res', res);
                       scatter.forgetIdentity().then(() => {
                             alert("Account De-Activated!");
-                            //location.replace("http://127.0.0.1:5500/index.html");
+                            location.replace("http://127.0.0.1:5500/index.html");
                         });
                       
                   }).catch(function(err){

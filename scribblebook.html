@@ -192,72 +192,45 @@ function displayTweet(tweetId){
              buttons.appendChild(retweetCount);
              
              $("#time").html(convert( bal.rows[0].timestamp));
-
-
+             if(bal.rows[0].replies.length>0) replie(bal.rows[0].replies);
             
-    
-        for(var i = 0; i<bal.rows[0].replies.length; i++){
-           
-
-            if(bal.rows[0].replies.length>0)
-            {
+            });
+        } 
             
-                getTable(bal.rows[0].replies[i], "replytable").then(function(res){ 
-                    replymsg = res.rows[0].reply;
-                    reply_id = res.rows[0].replyId;
-                    // tweeter = res.rows[0].accName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
-                    replytime = res.rows[0].timestamp;
+    function replie(replyIndex){
+
+        for(var i = 0; i<replyIndex.length; i++){
+
+                getTable(replyIndex[i], "replytable").then(function(res){ 
+                    
                     var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
-                    replyeracc = acc.accName;
-                    replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
-                    dynamic();
-                });
-               
-            }
-          
-               
-            }
-           
-        });
-    
+                        var eachreply = document.createElement("div");
+                        eachreply.id = "reply"+res.rows[0].replyId;   
+                        var linebreak = document.createElement("br");
+                        var replyerdiv = document.createElement("div");
+                        replyerdiv.innerHTML = acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
+                        var replymsgdiv = document.createElement("div");
+                        replymsgdiv.innerHTML = res.rows[0].reply;
+                        var timediv = document.createElement("div");
+                        timediv.innerHTML = convert(res.rows[0].timestamp);
+                        var removereply = document.createElement("button");
+                        removereply.innerHTML = "Delete";
 
-}
-function dynamic(){
-            var eachreply = document.createElement("div");
-            eachreply.id = "reply"+reply_id;
-            document.getElementById("replydiv").appendChild(eachreply);
-            console.log(replymsg);
-            console.log(reply_id);
+                        document.getElementById("replydiv").appendChild(eachreply);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(replyerdiv);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(replymsgdiv);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(timediv);
+                        if(acc.accName == account.name) { document.getElementById("reply"+res.rows[0].replyId).appendChild(removereply);
+                        removereply.setAttribute('onclick','replydelete('+res.rows[0].replyId+')'); }
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(linebreak);
 
-            var linebreak = document.createElement("br");
+                 });
+               
+            }      
             
-            var replyerdiv = document.createElement("div");
-            replyerdiv.innerHTML = replyer;
-            document.getElementById("reply"+reply_id).appendChild(replyerdiv);
-        
-            var replymsgdiv = document.createElement("div");
-            replymsgdiv.innerHTML = replymsg;
-            document.getElementById("reply"+reply_id).appendChild(replymsgdiv);
-
-            var timediv = document.createElement("div");
-            timediv.innerHTML = convert(replytime);
-            document.getElementById("reply"+reply_id).appendChild(timediv);
-
-            if(replyeracc == account.name){
-            var removereply = document.createElement("button");
-            removereply.innerHTML = "Delete";
-            document.getElementById("reply"+reply_id).appendChild(removereply);
-            removereply.setAttribute('onclick','replydelete('+reply_id+')');
-            }
-
-            document.getElementById("reply"+reply_id).appendChild(linebreak);
-
-
-
-   }        
-
-   
-
+        }
+           
+       
 
 function comment(tweetid){
     // var id = "#comment"+tweetid;
@@ -278,13 +251,28 @@ function comment(tweetid){
             contract.reply({accName,parentId:tweetId,replyId,reply,timestamp},options).then(function(res){
                 console.log('res', res);
                 getTable(replyId, "replytable").then(function(res){ 
-                    replymsg = res.rows[0].reply;
-                    // tweeter = res.rows[0].accName.link('http://127.0.0.1:5500/profile.html#'+res.rows[0].accName);
-                    replytime = res.rows[0].timestamp;
-                    var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
-                    replyer =  acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
-                    dynamic();
                     $("#comment").val("");
+                    var acc = userslist.find(function(x){ return x.accName === res.rows[0].accName });
+                        var eachreply = document.createElement("div");
+                        eachreply.id = "reply"+res.rows[0].replyId;   
+                        var linebreak = document.createElement("br");
+                        var replyerdiv = document.createElement("div");
+                        replyerdiv.innerHTML = acc.userName.link('http://127.0.0.1:5500/profile.html#'+ acc.accName);
+                        var replymsgdiv = document.createElement("div");
+                        replymsgdiv.innerHTML = res.rows[0].reply;
+                        var timediv = document.createElement("div");
+                        timediv.innerHTML = convert(res.rows[0].timestamp);
+                        var removereply = document.createElement("button");
+                        removereply.innerHTML = "Delete";
+                        removereply.setAttribute('onclick','replydelete('+res.rows[0].replyId+')');
+                        
+                        document.getElementById("replydiv").appendChild(eachreply);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(replyerdiv);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(replymsgdiv);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(timediv);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(removereply);
+                        document.getElementById("reply"+res.rows[0].replyId).appendChild(linebreak);
+
                 });            }).catch(function(err){
                 console.log('err', err);
             });
@@ -400,7 +388,7 @@ function rescribble(twId){
 }
 function scribbledelete(twId){
     alert ("This action will delete your Scribble and its related data permanently. Do you want to continue");
-    eos.contract('slateme12312').then(contract => {
+    eos.contract('slatemelate1').then(contract => {
         contract.deletetweet({accName:account.name,tweetId:twId},options).then(function(res){
             console.log('res', res);
         $("#full").html("Your tweet has been deleted succesfully");
@@ -412,10 +400,12 @@ function scribbledelete(twId){
 
 function replydelete(replyid){
     alert ("This action will delete your reply");
-    eos.contract('slateme12312').then(contract => {
+    eos.contract('slatemelate1').then(contract => {
         contract.deletereply({accName:account.name,replyId:replyid},options).then(function(res){
             console.log('res', res);
-            $("#"+replyid).empty();
+            var eachreply=document.getElementById("reply"+replyid);
+            document.getElementById("replydiv").removeChild(eachreply);
+            $("#reply"+replyid).empty();
         }).catch(function(err){
             console.log('err', err);
         });

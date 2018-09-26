@@ -127,7 +127,7 @@
             }
 
             });
-            getTable("slateme55555", "users").then(function(res){
+            getTable("slatemeram11", "users").then(function(res){
                 for(var i = 0;i < res.rows.length;i++) {
                 userslist.push(res.rows[i]);
                 signedacc.push(res.rows[i].accName);
@@ -141,7 +141,7 @@
 
         function follow(){
             if(signedUp){
-            eos.contract('slateme55555').then(contract => {
+            eos.contract('slatemeram11').then(contract => {
 
                 contract.follow({accName:account.name,following:parameters},options).then(function(res){
                     console.log('res', res);
@@ -159,7 +159,7 @@
     }
 
         function unfollow(){
-            eos.contract('slateme55555').then(contract => {
+            eos.contract('slatemeram11').then(contract => {
 
                 contract.unfollow({accName:account.name,unfollowing:parameters},options).then(function(res){
                     console.log('res', res);
@@ -280,7 +280,9 @@
                 length=bal.rows[0].tweetId.length;
                 var tweetCount=(bal.rows[0].tweetId.length);
                 if(tweetCount>0){
-                    tweets(bal.rows[0].tweetId);
+                    var dict=bal.rows[0].tweetId;
+                    dict.sort(function(a,b){return a-b});
+                    tweets(dict);
                 }
                 else{
                     console.log("No Tweets Yet !!!!");

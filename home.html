@@ -32,17 +32,20 @@
     <form autocomplete="off">
       <div class="autocomplete" style="width:300px;">
         <input id="searchField"  cols="30" rows="4"  type="text" placeholder="Search username">
+        <h6 id="searchnull"></h6>
         <input type="button" id="searchBtn"  value="Find" onclick="searchUser()">
+        
       </div>
     </form>
     <div>
       <br>
-      <textarea id="tweetMsg" cols="30" rows="4" placeholder="write here!!!" maxlength="320"></textarea><br>
-      <input type="button"  value="TWEET" onclick="tweet()"> 
+      <textarea id="tweetMsg" cols="30" rows="4" placeholder="scribble here!!!" maxlength="320"></textarea><br>
+      <h4 id="scribblenull"></h4>
+      <input type="button"  value="Scribble" onclick="tweet()"> 
     </div>     
   </form>
   <br><br>
-  <h1 style="text-align: center;">Recent tweets</h1>
+  <h1 style="text-align: center;">Recent Scribbles</h1>
   <div id="allTweetDiv">
     
     <div id="loader" class="spinner">
@@ -141,7 +144,10 @@ input.addEventListener("keyup", function(event) {
     });
 
     function tweet(){
-      
+
+      if(($("#tweetMsg").val()!='')){
+
+        $("#scribblenull").hide();
         eos.contract('slatemelate1').then(contract => {
           var accName = account.name;
           var msg = $("#tweetMsg").val();
@@ -215,17 +221,33 @@ input.addEventListener("keyup", function(event) {
             console.log('err', err);
           });
         });
+      }
+
+        else{
+          $("#scribblenull").html("Please type something..");
+        }
     
 }
 
 
 
     function searchUser() {
-      var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
+      
+      if(($("#searchField").val()!='')){
+        $("#searchnull").hide();
+        
+        var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
+        var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
+        window.location.href = url;
+       
+      }
 
-
-      var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
-      window.location.href = url;
+      else
+      
+      {
+        $("#searchnull").html("Please enter a valid username...");
+      }
+    
     }
     function visitProfile(){
       var url = 'http://127.0.0.1:5500/profile.html#' + account.name;

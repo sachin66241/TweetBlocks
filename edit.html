@@ -285,7 +285,7 @@
         <option id="ZW" value="+263-">Zimbabwe (+263)</option>
     </optgroup>
   <!-- </select> -->
-  <!-- <input type="text" id="phone"><br><br> --> -->
+  <!-- <input type="text" id="phone"><br><br> --> 
 
   <label>GENDER:</label>
   <select id="genSelect">
@@ -396,7 +396,7 @@
       gender=$("#genSelect").val();
       dob[0]=convertDate(dob[1]);
       eos.contract('slatemelate1').then(contract => {
-        contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
+        contract.editprofile({accName:account.name,userName:userName,phoneNo:0,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
               console.log('res', res);
               window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
         }).catch(function(err){

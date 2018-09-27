@@ -359,7 +359,7 @@
                             var dob = convertDate($("#myDate").val());
                             var ph = $("#stdCode").val()+$("#phone").val();
                             var gen = $("#genSelect").val();
-                            contract.signup({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
+                            contract.signup({accName:accName,userName:userName,phoneNo:00,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
                                 console.log('res', res);
                                 window.location.replace("http://127.0.0.1:5500/home.html")
                                 

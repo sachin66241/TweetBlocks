@@ -64,7 +64,7 @@
   <label>DOB:</label>
   <input type="date" id="myDate" ><br><br>
 
-  <label> PHONE:</label>
+  <!-- <label> PHONE:</label>
   <select id ="stdCode">
     <option id="IN" value="+91-" Selected>India (+91)</option>
     <option id="GB" value="+44-" >UK (+44)</option>
@@ -266,7 +266,7 @@
         <option id="TC" value="+1649-">Turks &amp; Caicos Islands (+1649)</option>
         <option id="TV" value="+688-">Tuvalu (+688)</option>
         <option id="UG" value="+256-">Uganda (+256)</option>
-        <!-- <option id="GB" value="44">UK (+44)</option> -->
+        <option id="GB" value="44">UK (+44)</option>
         <option id="UA" value="+380-">Ukraine (+380)</option>
         <option id="AE" value="+971-">United Arab Emirates (+971)</option>
         <option id="UY" value="+598-">Uruguay (+598)</option>
@@ -284,8 +284,8 @@
         <option id="ZM" value="+260-">Zambia (+260)</option>
         <option id="ZW" value="+263-">Zimbabwe (+263)</option>
     </optgroup>
-  </select>
-  <input type="text" id="phone"><br><br>
+  <!-- </select> -->
+  <!-- <input type="text" id="phone"><br><br> --> 
 
   <label>GENDER:</label>
   <select id="genSelect">
@@ -396,7 +396,7 @@
       gender=$("#genSelect").val();
       dob[0]=convertDate(dob[1]);
       eos.contract('slatemelate1').then(contract => {
-        contract.editprofile({accName:account.name,userName:userName,phoneNo:phoneNo,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
+        contract.editprofile({accName:account.name,userName:userName,phoneNo:0,gender:gender,dob:dob[0],profilepic:imageUrlbc,stat:status},options).then(function(res){
               console.log('res', res);
               window.location.replace("http://127.0.0.1:5500/profile.html#" +account.name);
         }).catch(function(err){

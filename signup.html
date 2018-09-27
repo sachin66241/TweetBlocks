@@ -18,9 +18,9 @@
     <input id="userName" type="text"><br><br>
 
     <label>DOB: </label>
-    <input type="date" id="myDate"  value="yyyy-MM-dd"><br><br>
+    <input type="date" id="myDate" ><br><br>
 
-    <label> PHONE:</label>    
+    <!-- <label> PHONE:</label>    
     <select id ="stdCode" style="max-width:25%;">
         <option id="IN" value="+91-" Selected>India (+91)</option>
         <option id="GB" value="+44-" >UK (+44)</option>
@@ -223,27 +223,10 @@
             <option id="TV" value="+688-">Tuvalu (+688)</option>
             <option id="UG" value="+256-">Uganda (+256)</option>
             <!-- <option id="GB" value="44">UK (+44)</option> -->
-            <option id="UA" value="+380-">Ukraine (+380)</option>
-            <option id="AE" value="+971-">United Arab Emirates (+971)</option>
-            <option id="UY" value="+598-">Uruguay (+598)</option>
-            <option id="US" value="1">USA (+1)</option>
-            <option id="UZ" value="+7-">Uzbekistan (+7)</option>
-            <option id="VU" value="+678-">Vanuatu (+678)</option>
-            <option id="VA" value="+379-">Vatican City (+379)</option>
-            <option id="VE" value="+58-">Venezuela (+58)</option>
-            <option id="VN" value="+84-">Vietnam (+84)</option>
-            <option id="VG" value="+84-">Virgin Islands - British (+1284)</option>
-            <option id="VI" value="+84-">Virgin Islands - US (+1340)</option>
-            <option id="WF" value="+681-">Wallis &amp; Futuna (+681)</option>
-            <option id="YE" value="+969-">Yemen (North)(+969)</option>
-            <option id="YE" value="+967-">Yemen (South)(+967)</option>
-            <option id="ZM" value="+260-">Zambia (+260)</option>
-            <option id="ZW" value="+263-">Zimbabwe (+263)</option>
-        </optgroup>
-    </select>
+          
 
-    <input type="text" id="phone" onkeypress="javascript:return isNumber(event)"><br><br>
-    <br><br>
+    <!-- <input type="text" id="phone"><br><br>
+    <br><br> -->
     <br>GENDER:<br>
     <select id="genSelect">
         <option value="male" selected>Male</option> // Pre-selected
@@ -292,7 +275,12 @@
     <input type="button" value="Submit" onclick="signUp()"><br>
 
     <script>
-
+        var myDate= Date.now();
+        var dob1= converttime(myDate);
+        var dob2=dob1.split(",");
+        var dob3=dob2[0].split("/");
+        var dob4=dob3[2]+"-"+dob3[1]+"-"+dob3[0];
+        $('#myDate').attr("value", dob4);
         var modal = document.getElementById('myModal');
 
         // Get the button that opens the modal
@@ -379,7 +367,7 @@
                             var dob = convertDate($("#myDate").val());
                             var ph = $("#stdCode").val()+$("#phone").val();
                             var gen = $("#genSelect").val();
-                            contract.signup({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
+                            contract.signup({accName:accName,userName:userName,phoneNo:00,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
                                 console.log('res', res);
                                 window.location.replace("http://127.0.0.1:5500/home.html")
                                 
@@ -405,7 +393,6 @@
                         var dob = convertDate($("#myDate").val());
                         var ph = $("#stdCode").val()+$("#phone").val();
                         var gen = $("#genSelect").val();
-                        var imageUrl = $("#img").attr("id");
 
                         contract.signup({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
                             window.location.replace("http://127.0.0.1:5500/home.html")

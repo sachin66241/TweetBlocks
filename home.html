@@ -141,6 +141,7 @@ input.addEventListener("keyup", function(event) {
     });
 
     function tweet(){
+      
         eos.contract('slatemelate1').then(contract => {
           var accName = account.name;
           var msg = $("#tweetMsg").val();
@@ -209,7 +210,7 @@ input.addEventListener("keyup", function(event) {
             indivTweetDiv.style.paddingBottom = "40px";
             allTweetDiv.prepend(indivTweetDiv);
             });
-            
+            $("#nofeed").hide();
           }).catch(function(err){
             console.log('err', err);
           });

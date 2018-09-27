@@ -20,6 +20,7 @@
   
   <label> USERNAME:</label>
   <input type="text" id="userName"><br><br>
+  <h6 id="searchnull"></h6>
 
   <label> STATUS:</label>
   <input type="text" id="status"><br><br>
@@ -294,7 +295,7 @@
     <option value="transgender">Others</option>
   </select><br><br>
     
-  <input type="button" value="Submit" onclick="editPro()"><br>
+  <input type="button" value="Submit" onclick="checkLength()"><br>
 
   <script>
     var modal = document.getElementById('myModal');
@@ -428,6 +429,14 @@
       } 
       else window.location.reload();
     }
+    function checkLength(){
+            if($("#userName").val().length >= 4){
+                $("#searchnull").hide();
+                editPro();
+            }
+            else $("#searchnull").html("Enter username more than 4 charecters...");
+        }
+
   </script>
 </body>
 </html>

@@ -18,7 +18,7 @@
     <input id="userName" type="text"><br><br>
 
     <label>DOB: </label>
-    <input type="date" id="myDate"  value="2018-12-22"><br><br>
+    <input type="date" id="myDate"  value="yyyy-MM-dd"><br><br>
 
     <label> PHONE:</label>    
     <select id ="stdCode" style="max-width:25%;">
@@ -242,7 +242,7 @@
         </optgroup>
     </select>
 
-    <input type="text" id="phone"><br><br>
+    <input type="text" id="phone" onkeypress="javascript:return isNumber(event)"><br><br>
     <br><br>
     <br>GENDER:<br>
     <select id="genSelect">
@@ -344,6 +344,14 @@
             $("#img").attr("class","avatar");
         }
 
+        function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+
+        return true;
+        }    
+
         function signUp(){
             if($("#userName").val()==''){
                 alert("Enter User Name");
@@ -376,8 +384,9 @@
                                 window.location.replace("http://127.0.0.1:5500/home.html")
                                 
                             }).catch(function(err){
-                                console.log('err', err);
+                                if(err.type!="signature_rejected")
                                 alert("Account is already signed up with Scatter");
+                               
                             });
                         });
                     })
@@ -402,8 +411,9 @@
                             window.location.replace("http://127.0.0.1:5500/home.html")
                             console.log('res', res);
                         }).catch(function(err){
-                            console.log('err', err);
-                            alert("Account is already signup with Scatter");
+                                if(err.type!="signature_rejected")
+                                alert("Account is already signed up with Scatter");
+                                
                         });
                     });
                 })

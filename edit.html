@@ -387,7 +387,12 @@
     }
 
     function editPro(){
-
+      if($("#userName").val()==''){
+                alert("Enter User Name");
+                console.log("usename needed");
+                return;
+      }
+      else{
       if($("#userName").val()!= "") userName=$("#userName").val();
       if($("#status").val()!= "") status=$("#status").val();
       if($("#myDate").val()!= "") dob[1]=$("#myDate").val();
@@ -404,6 +409,7 @@
         });
       });
     }
+  }
 
     function deleteAcc(){
       var txt;

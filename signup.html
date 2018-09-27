@@ -272,7 +272,7 @@
     </div>
          
     <br><br>
-    <input type="button" value="Submit" onclick="signUp()"><br>
+    <input type="button" value="Submit" onclick="checkLength()"><br>
 
     <script>
         var myDate= Date.now();
@@ -338,7 +338,18 @@
             return false;
 
         return true;
-        }    
+        }   
+        
+            function checkLength(){
+            if($("#userName").val().length <= 10 && $("#userName").val().length >= 4){
+                signUp();
+            }
+            else{
+
+                alert("make sure the input is between 4-10 characters long")
+            }
+        }
+
 
         function signUp(){
             if($("#userName").val()==''){
@@ -367,7 +378,7 @@
                             var dob = convertDate($("#myDate").val());
                             var ph = $("#stdCode").val()+$("#phone").val();
                             var gen = $("#genSelect").val();
-                            contract.signup({accName:accName,userName:userName,phoneNo:00,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
+                            contract.signup({accName:accName,userName:userName,phoneNo:"0000",gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
                                 console.log('res', res);
                                 window.location.replace("http://127.0.0.1:5500/home.html")
                                 
@@ -394,7 +405,7 @@
                         var ph = $("#stdCode").val()+$("#phone").val();
                         var gen = $("#genSelect").val();
 
-                        contract.signup({accName:accName,userName:userName,phoneNo:ph,gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
+                        contract.signup({accName:accName,userName:userName,phoneNo:"0000",gender:gen,dob:dob,profilepic:imageUrl},options).then(function(res){
                             window.location.replace("http://127.0.0.1:5500/home.html")
                             console.log('res', res);
                         }).catch(function(err){

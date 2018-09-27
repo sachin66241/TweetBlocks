@@ -237,8 +237,15 @@ input.addEventListener("keyup", function(event) {
         $("#searchnull").hide();
         
         var acc = userslist.find(function(x){ return x.userName === $("#searchField").val() });
+        if(acc!=undefined){
         var url = 'http://127.0.0.1:5500/profile.html#' + acc.accName;
         window.location.href = url;
+        }
+        else {
+
+          $("#searchnull").show();
+          $("#searchnull").html("No such user...");
+        }
        
       }
 

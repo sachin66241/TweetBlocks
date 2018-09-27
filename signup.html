@@ -16,6 +16,7 @@
 <body>
     <label>USER NAME: </label>
     <input id="userName" type="text"><br><br>
+    <h6 id="searchnull"></h6>
 
     <label>DOB: </label>
     <input type="date" id="myDate" ><br><br>
@@ -341,13 +342,11 @@
         }   
         
             function checkLength(){
-            if($("#userName").val().length <= 10 && $("#userName").val().length >= 4){
+            if($("#userName").val().length >= 4){
+                $("#searchnull").hide();
                 signUp();
             }
-            else{
-
-                alert("make sure the input is between 4-10 characters long")
-            }
+            else $("#searchnull").html("Enter username more than 4 charecters...");
         }
 
 
